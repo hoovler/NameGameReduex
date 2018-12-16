@@ -1,0 +1,112 @@
+/* 
+ * Copyright (c) ${author} 2018 
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
+ * this software and associated documentation files (the "Software"), to deal in the 
+ * Software without restriction, including without limitation the rights to use, copy, 
+ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
+ * and to permit persons to whom the Software is furnished to do so, subject to the 
+ * following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all 
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+package com.hoovler.dao;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.hoovler.dao.models.Player;
+
+public class DefaultPlayerDao implements PlayerDao {
+	private static Logger log = LogManager.getLogger(DefaultPlayerDao.class.getName());
+
+	private HashMap<String, Player> playerMap = new HashMap<String, Player>();
+
+	public DefaultPlayerDao() {
+		// start off with a dummy player...
+		addPlayer(randomPlayer());
+	}
+
+	@Override
+	public Player getPlayer(String email) {
+		return playerMap.get(email);
+	}
+
+	@Override
+	public Player addPlayer(Player player) {
+		if (player.getEmail() == null || StringUtils.isBlank(player.getEmail())) {
+			log.warn("No email found...");
+		} else {
+			playerMap.put(player.getEmail(), player);
+		}
+		return player;
+	}
+
+	@Override
+	public Player updatePlayer(String email, Player player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean deletePlayer(String email) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ArrayList<Player> playerList() {
+		// TODO Auto-generated method stub
+		return new ArrayList<>(playerMap.values());
+	}
+
+	/**
+	 * Random player.
+	 *
+	 * @return the player
+	 */
+	private static Player randomPlayer() {
+		log.info("randomPlayer() ...");
+		return randomPlayer(null);
+	}
+
+	/**
+	 * Random player.
+	 *
+	 * @param email the email
+	 * @return the player
+	 */
+	private static Player randomPlayer(String email) {
+		log.info("Generating random player...");
+		
+		log.info("randomPlayer(String email)");
+		
+		Player player = new Player();
+		player.setEmail(StringUtils.defaultIfBlank(email, PlayerDaoHelper.getRandomEmail()));
+		
+		log.info("email = " + player.getEmail());
+		Long numGuesses = new Random().nextLong();
+		
+		// make sure it's a positive number...
+		if (numGuesses < 0) numGuesses *= -1;
+		
+		player.setNumberGuesses(numGuesses);		
+		player.setNumberCorrect(numGuesses / 2);
+
+		return player;
+	}
+
+}
