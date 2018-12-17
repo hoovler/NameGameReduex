@@ -28,54 +28,44 @@ import org.apache.logging.log4j.Logger;
 
 public class Question {
 	private static Logger log = LogManager.getLogger(Question.class.getName());
-	
-	private String questionId;
-	
-	private ArrayList<String> selectionIds;
-	
-	private String answerId;
-	
-	private Date timeAsked;
-	
-	private Date timeAnswered;
-	
-	private String playerEmail;
+		private String questionId;
+		private ArrayList<String> optionIds;
+		private String answerId;
+		private Date timeAsked;
+		private Date timeAnswered;
+		private String playerEmail;
 
 	public String getQuestionId() {
 		return questionId;
 	}
 
 	public ArrayList<String> getSelectionIds() {
-		return selectionIds;
+		return optionIds;
 	}
-
 
 	public String getAnswerId() {
 		return answerId;
 	}
 
-
 	public Date getTimeAsked() {
 		return timeAsked;
 	}
-
 
 	public Date getTimeAnswered() {
 		return timeAnswered;
 	}
 
-
 	public String getPlayerEmail() {
 		return playerEmail;
 	}
 
-
 	public void setQuestionId(String questionId) {
+		
 		this.questionId = questionId;
 	}
 
 	public void setSelectionIds(ArrayList<String> selectionIds) {
-		this.selectionIds = selectionIds;
+		this.optionIds = selectionIds;
 	}
 
 	public void setAnswerId(String answerId) {
@@ -93,8 +83,58 @@ public class Question {
 	public void setPlayerEmail(String playerEmail) {
 		this.playerEmail = playerEmail;
 	}
+	// ******************** OBJECT OVERRIDES ********************
+	
+	// ******************** OBJECT OVERRIDES ********************
 
-	public Question() {
-		
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((playerEmail == null) ? 0 : playerEmail.hashCode());
+		result = prime * result + ((questionId == null) ? 0 : questionId.hashCode());
+		result = prime * result + ((optionIds == null) ? 0 : optionIds.hashCode());
+		result = prime * result + ((timeAnswered == null) ? 0 : timeAnswered.hashCode());
+		result = prime * result + ((timeAsked == null) ? 0 : timeAsked.hashCode());
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Question other = (Question) obj;
+		if (playerEmail == null) {
+			if (other.playerEmail != null)
+				return false;
+		} else if (!playerEmail.equals(other.playerEmail))
+			return false;
+		if (questionId == null) {
+			if (other.questionId != null)
+				return false;
+		} else if (!questionId.equals(other.questionId))
+			return false;
+		if (optionIds == null) {
+			if (other.optionIds != null)
+				return false;
+		} else if (!optionIds.equals(other.optionIds))
+			return false;
+		if (timeAnswered == null) {
+			if (other.timeAnswered != null)
+				return false;
+		} else if (!timeAnswered.equals(other.timeAnswered))
+			return false;
+		if (timeAsked == null) {
+			if (other.timeAsked != null)
+				return false;
+		} else if (!timeAsked.equals(other.timeAsked))
+			return false;
+		return true;
+	}
+	
+	
 }

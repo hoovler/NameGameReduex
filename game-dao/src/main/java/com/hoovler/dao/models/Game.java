@@ -20,27 +20,53 @@
  */
 package com.hoovler.dao.models;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.hoovler.dao.DefaultPlayerDao;
+import com.hoovler.dao.PlayerDao;
+
 public class Game {
 	private static Logger log = LogManager.getLogger(Game.class.getName());
+
+	private PlayerDao playerDao;
 	
-	private Question question;
+	private boolean gameStarted = false;
 	
-	public Game(String playerEmail) {
-		// check if player exists, add if not
+	public Game(String playerEmail, int gameMode) {
+		if(!gameStarted) {
+			startGame();
+		}
 		
-		// set up new question object
-		
-		// 
+		//return new Ask(playerEmail, gameMode, this.playerDao);
 	}
 	
+	protected void startGame() {
+		this.playerDao = new DefaultPlayerDao();
+	}
+
+
 	public class Ask {
+		
 		private Question question;
+		private int mode;
+		
+		public Ask(String playerEmail, int gameMode, PlayerDao playerDao) {
+			if(StringUtils.isNotBlank(playerDao.getPlayer(playerEmail).getEmail())) {
+				
+			} else {
+				// add new player
+			}
+		}
 	}
-	
+
 	public class Answer {
 		private boolean correct;
+		private String answerId;
+		
+		public Answer(String answerId) {
+			this.answerId = answerId;
+		}
 	}
 }

@@ -27,6 +27,5 @@ import org.apache.logging.log4j.Logger;
 
 public class Leaderboard {
 	private static Logger log = LogManager.getLogger(Leaderboard.class.getName());
-	
-	private ArrayList<Player> leaders;
+		private ArrayList<Player> leaders;
 }

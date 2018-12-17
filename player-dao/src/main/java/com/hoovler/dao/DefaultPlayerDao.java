@@ -22,7 +22,6 @@ package com.hoovler.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -98,13 +97,6 @@ public class DefaultPlayerDao implements PlayerDao {
 		player.setEmail(StringUtils.defaultIfBlank(email, PlayerDaoHelper.getRandomEmail()));
 		
 		log.info("email = " + player.getEmail());
-		Long numGuesses = new Random().nextLong();
-		
-		// make sure it's a positive number...
-		if (numGuesses < 0) numGuesses *= -1;
-		
-		player.setNumberGuesses(numGuesses);		
-		player.setNumberCorrect(numGuesses / 2);
 
 		return player;
 	}

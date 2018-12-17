@@ -20,6 +20,8 @@
  */
 package com.hoovler.dao.models;
 
+import java.util.ArrayList;
+
 /**
  * <p><h3>Player</h3>
  * <p><b><u>Purpose</u></b></p>
@@ -37,13 +39,14 @@ public class Player {
 	/** <p><i>email</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
 	private String email;
 	
-	/** <p><i>numberGuesses</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
-	private Long numberGuesses;
+	/** <p><i>questions</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
+	private ArrayList<Object> questions;
 	
-	/** <p><i>numberCorrect</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
-	private Long numberCorrect;
+	/** <p><i>stats</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
+	private ArrayList<Stat> stats;
 
-
+	// ******************** GETTERS ********************
+	
 	/**
 	 * Gets the <p><i>email</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>.
 	 *
@@ -52,6 +55,26 @@ public class Player {
 	public String getEmail() {
 		return email;
 	}
+
+	/**
+	 * Gets the <p><i>questions</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>.
+	 *
+	 * @return the <p><i>questions</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>
+	 */
+	public ArrayList<Object> getQuestions() {
+		return questions;
+	}
+
+	/**
+	 * Gets the stats.
+	 *
+	 * @return the stats
+	 */
+	public ArrayList<Stat> getStats() {
+		return stats;
+	}
+	
+	// ******************** SETTERS ********************
 
 	/**
 	 * Sets the <p><i>email</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>.
@@ -63,61 +86,48 @@ public class Player {
 	}
 
 	/**
-	 * Gets the <p><i>numberGuesses</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>.
+	 * Sets the <p><i>questions</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>.
 	 *
-	 * @return the <p><i>numberGuesses</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>
+	 * @param questions the new <p><i>questions</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>
 	 */
-	public Long getNumberGuesses() {
-		return numberGuesses;
+	public void setQuestions(ArrayList<Object> questions) {
+		this.questions = questions;
 	}
 
 	/**
-	 * Sets the <p><i>numberGuesses</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>.
+	 * Sets the stats.
 	 *
-	 * @param numberGuesses the new <p><i>numberGuesses</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>
+	 * @param stats the new stats
 	 */
-	public void setNumberGuesses(Long numberGuesses) {
-		this.numberGuesses = numberGuesses;
+	public void setStats(ArrayList<Stat> stats) {
+		this.stats = stats;
 	}
-
-	/**
-	 * Gets the <p><i>numberCorrect</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>.
-	 *
-	 * @return the <p><i>numberCorrect</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>
-	 */
-	public Long getNumberCorrect() {
-		return numberCorrect;
-	}
-
-	/**
-	 * Sets the <p><i>numberCorrect</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>.
-	 *
-	 * @param numberCorrect the new <p><i>numberCorrect</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>
-	 */
-	public void setNumberCorrect(Long numberCorrect) {
-		this.numberCorrect = numberCorrect;
-	}
-
+	
+	// ******************** CONSTRUCTORS ********************
+	
 	/**
 	 * Instantiates a new player.
 	 */
 	public Player() {
-		
+	
 	}
 
 	/**
 	 * Instantiates a new player.
 	 *
-	 * @param id the id
 	 * @param email the email
-	 * @param numberGuesses the number guesses
-	 * @param numberCorrect the number correct
+	 * @param questions the questions
+	 * @param stats the stats
 	 */
-	public Player(String email, Long numberGuesses, Long numberCorrect) {
+	public Player(String email, ArrayList<Object> questions, ArrayList<Stat> stats) {
 		this.email = email;
-		this.numberGuesses = numberGuesses;
-		this.numberCorrect = numberCorrect;
+		this.questions = questions;
+		this.stats = stats;
 	}
+
+
+
+
 	
 	
 }

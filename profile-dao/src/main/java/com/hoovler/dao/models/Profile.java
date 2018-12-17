@@ -331,6 +331,10 @@ public class Profile {
 		this.social = social;
 	}
 
+	public Profile() {
+		
+	}
+	
 	/**
 	 * Instantiates a new profile.  Not bothering with an internal Builder() class 
 	 * for this application -- but would normally use one.

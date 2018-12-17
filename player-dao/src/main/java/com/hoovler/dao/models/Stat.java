@@ -20,27 +20,18 @@
  */
 package com.hoovler.dao.models;
 
-import org.apache.commons.lang3.StringUtils;
+import java.time.Duration;
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class QuestionsHelper {
-	private static Logger log = LogManager.getLogger(QuestionsHelper.class.getName());
-	
-	/**
-	 * Ready for id.
-	 *
-	 * @param q the q
-	 * @return true, if successful
-	 */
-	protected static boolean readyForId(Question q) {
-		boolean isReady = false;
-		if (StringUtils.isNotBlank(q.getPlayerEmail()) &&
-				StringUtils.isNotBlank(q.getPlayerEmail()) &&
-				StringUtils.isNotBlank(q.getPlayerEmail()) &&
-				StringUtils.isNotBlank(q.getPlayerEmail())) {
-			
-		}
-		return isReady;
-	}
+public class Stat {
+	private static Logger log = LogManager.getLogger(Stat.class.getName());
+
+	//private 
+	private Duration averageTime;
+	private Date lastQuestionTime;
+	private Date lastAnswerTime;
+
 }

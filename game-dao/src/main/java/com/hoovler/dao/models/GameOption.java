@@ -20,27 +20,19 @@
  */
 package com.hoovler.dao.models;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.ArrayList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class QuestionsHelper {
-	private static Logger log = LogManager.getLogger(QuestionsHelper.class.getName());
+public class GameOption extends Profile {
 	
-	/**
-	 * Ready for id.
-	 *
-	 * @param q the q
-	 * @return true, if successful
-	 */
-	protected static boolean readyForId(Question q) {
-		boolean isReady = false;
-		if (StringUtils.isNotBlank(q.getPlayerEmail()) &&
-				StringUtils.isNotBlank(q.getPlayerEmail()) &&
-				StringUtils.isNotBlank(q.getPlayerEmail()) &&
-				StringUtils.isNotBlank(q.getPlayerEmail())) {
-			
-		}
-		return isReady;
+	public GameOption(String id, String type, String slug, String jobTitle, String firstName, String lastName,
+			String bio, Headshot headshot, ArrayList<Social> social) {
+		super(id, type, slug, jobTitle, firstName, lastName, bio, headshot, social);
+		// TODO Auto-generated constructor stub
 	}
+
+	private static Logger log = LogManager.getLogger(GameOption.class.getName());
+	
 }

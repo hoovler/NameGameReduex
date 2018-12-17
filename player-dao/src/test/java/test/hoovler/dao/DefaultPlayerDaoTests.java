@@ -61,13 +61,8 @@ class DefaultPlayerDaoTests {
 		// now to add and test
 		Player nuPlayer = new Player();
 		
-		String email = "testemail@email.com";
-		Long numGuesses = new Long(100);
-		Long numCorrect = numGuesses / 2;
-		
+		String email = "testemail@email.com";		
 		nuPlayer.setEmail(email);
-		nuPlayer.setNumberGuesses(numGuesses);
-		nuPlayer.setNumberCorrect(numCorrect);
 		
 		// add
 		playerDao.addPlayer(nuPlayer);
