@@ -3,60 +3,56 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.hoovler.dao</groupId>
-	<artifactId>profile-dao</artifactId>
-	<version>1.0.0</version>
-	<name>ProfileDao</name>
-	<description>Data access object for Profile entity</description>
-
-	<properties>
-		<log4j.ver>2.11.1</log4j.ver>
-		<commonsLang3.ver>3.8.1</commonsLang3.ver>
-		<gson.ver>2.8.5</gson.ver>
-		<junit.ver>5.3.2</junit.ver>
-		<generalDao.ver>1.0.0</generalDao.ver>
-	</properties>
+	<artifactId>game-dao</artifactId>
+	<name>GameDao</name>
+	<description>GameDao</description>
 	
+	<parent>
+		<groupId>com.hoovler</groupId>
+		<artifactId>name-game-dao</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
 	<dependencies>
-		
-		<!-- Utilities -->
+		<!-- Related local projects -->
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>${commonsLang3.ver}</version>
+			<groupId>com.hoovler.dao</groupId>
+			<artifactId>profile-dao</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>${gson.ver}</version><!--$NO-MVN-MAN-VER$ -->
+			<groupId>com.hoovler.dao</groupId>
+			<artifactId>player-dao</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
-			<version>${log4j.ver}</version>
+			<version>${v.org.apache.logging.log4j}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>${log4j.ver}</version>
+			<version>${v.org.apache.logging.log4j}</version>
 		</dependency>
 		<!-- JUnit Testing -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${junit.ver}</version>
+			<version>${v.org.junit.jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>${junit.ver}</version>
+			<version>${v.org.junit.jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
-			<version>${junit.ver}</version>
+			<version>${v.org.junit.jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

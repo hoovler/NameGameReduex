@@ -2,51 +2,66 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.hoovler.dao</groupId>
-	<artifactId>game-dao</artifactId>
-	<version>1.0.0</version>
-	<name>GameDao</name>
-	<description>GameDao</description>
+	<groupId>com.hoovler.api</groupId>
+	<artifactId>name-game-api</artifactId>
+	<version>2.0.0</version>
+	<name>NameGameApi</name>
+	<description>NameGameApi</description>
+
+	<properties>
+		<!-- default value overrides -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		
+		<!-- external library versions -->
+		<v.org.apache.logging.log4j>2.11.1</v.org.apache.logging.log4j>
+		<v.org.apache.commons>3.8.1</v.org.apache.commons>
+		<v.commons.validator>1.6</v.commons.validator>
+		<v.com.google.code.gson>2.8.5</v.com.google.code.gson>
+		<v.org.junit.jupiter>5.3.2</v.org.junit.jupiter>
+		
+		<!-- Local DAO versions -->
+		<v.com.hoovler.dao>1.0.0</v.com.hoovler.dao>
+	</properties>
+	
+	
 	<dependencies>
 		<!-- Related local projects -->
 		<dependency>
 			<groupId>com.hoovler.dao</groupId>
-			<artifactId>profile-dao</artifactId>
-			<version>1.0.0</version>
+			<artifactId>game-dao</artifactId>
+			<version>${v.com.hoovler.dao}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.hoovler.dao</groupId>
-			<artifactId>player-dao</artifactId>
-			<version>1.0.0</version>
-		</dependency>
+		
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
-			<version>2.11.1</version>
+			<version>${v.org.apache.logging.log4j}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.11.1</version>
+			<version>${v.org.apache.logging.log4j}</version>
 		</dependency>
+		
 		<!-- JUnit Testing -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.3.2</version>
+			<version>${v.org.junit.jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.3.2</version>
+			<version>${v.org.junit.jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.3.2</version>
+			<version>${v.org.junit.jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

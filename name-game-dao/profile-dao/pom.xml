@@ -2,52 +2,58 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.hoovler.api</groupId>
-	<artifactId>name-game-api</artifactId>
-	<version>2.0.0</version>
-	<name>NameGameApi</name>
-	<description>NameGameApi</description>
+	<groupId>com.hoovler.dao</groupId>
+	<artifactId>profile-dao</artifactId>
+	<name>ProfileDao</name>
+	<description>Data access object for Profile entity</description>
 
-	<properties>
-		<dao.ver>1.0.0</dao.ver>
-	</properties>
-	
-	
+	<parent>
+		<groupId>com.hoovler</groupId>
+		<artifactId>name-game-dao</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
 	<dependencies>
-		<!-- Related local projects -->
+
+		<!-- Utilities -->
 		<dependency>
-			<groupId>com.hoovler.dao</groupId>
-			<artifactId>game-dao</artifactId>
-			<version>${dao.ver}</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${v.org.apache.commons}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${v.com.google.code.gson}</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
-			<version>2.11.1</version>
+			<version>${v.org.apache.logging.log4j}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.11.1</version>
+			<version>${v.org.apache.logging.log4j}</version>
 		</dependency>
 		<!-- JUnit Testing -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.3.2</version>
+			<version>${v.org.junit.jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.3.2</version>
+			<version>${v.org.junit.jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.3.2</version>
+			<version>${v.org.junit.jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
