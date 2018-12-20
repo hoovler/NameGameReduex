@@ -22,24 +22,22 @@ package com.hoovler.api;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
-import com.hoovler.api.data.Data;
-import com.hoovler.api.data.Meta;
+import com.hoovler.api.data.DataService;
 
 @SpringBootApplication
 public class NameGame {
 	private static Logger log = LogManager.getLogger(NameGame.class.getName());
 	
-	private Data data;
-	private Meta meta;
+	@Bean
+	protected DataService persistence() {
+		return new DataService();
+	}
 	
-	public NameGame() {
-		this.data = new Data();
-		
-		// ask
-		
-		
-		// answer
+	public static void main(String[] args) {
+		SpringApplication.run(NameGame.class, args);
 	}
 }

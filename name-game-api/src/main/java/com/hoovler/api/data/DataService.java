@@ -22,6 +22,9 @@ package com.hoovler.api.data;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.hoovler.api.models.Subject;
 import com.hoovler.dao.DefaultPlayerDao;
 import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.DefaultQuestionDao;
@@ -30,11 +33,13 @@ import com.hoovler.dao.models.Profile;
 import com.hoovler.dao.models.Question;
 import com.hoovler.dao.models.Stat;
 
-public class Data {
+public class DataService {
 
 	// static members
 
 	public static final int numOptions = 6;
+	
+	public static final String apiVersion = "2.0.0";
 
 	// standard class members and methods...
 
@@ -56,7 +61,7 @@ public class Data {
 		return this.questionDao;
 	}
 
-	public Data() {
+	public DataService() {
 		this.playerDao = new DefaultPlayerDao();
 		this.profileDao = new DefaultProfileDao();
 		this.questionDao = new DefaultQuestionDao();
@@ -129,5 +134,35 @@ public class Data {
 			
 			return this.playerDao.addPlayer(player);
 		}
+	}
+	
+	// question specials
+	
+	/**
+	 * Adds the question.
+	 *
+	 * @param q the q
+	 * @return the question
+	 */
+	public Question addQuestion(Question q) {
+		return this.questionDao.addQuestion(q);
+	}
+	
+	public Question getQuestion(long qId) {
+		return this.questionDao.getQuestion(qId);
+	}
+	
+	/**
+	 * Checks if is correct id.
+	 *
+	 * @param questionId the question id
+	 * @param answerId the id value of the selected option
+	 * @return true, if <code>answerId == Question(questionId).getTarget().getId()</code>
+	 */
+	public boolean isCorrectAnswer(Long questionId, String answerId) {
+		Question q = this.questionDao.getQuestion(questionId);
+		Subject target = Subject.class.cast(q.getTarget());
+		
+		return StringUtils.equalsIgnoreCase(answerId, target.getId());
 	}
 }

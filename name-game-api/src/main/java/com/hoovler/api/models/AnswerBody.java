@@ -18,35 +18,35 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api;
+package com.hoovler.api.models;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.hoovler.api.data.Data;
-import com.hoovler.api.data.Meta;
-import com.hoovler.api.models.Mode;
-import com.hoovler.dao.models.Question;
-
-public class Ask {
-	private static Logger log = LogManager.getLogger(Ask.class.getName());
+public class AnswerBody {
 	
-	private Meta meta;
-	private Data data;
+	private String answerId;
+	private String playerEmail;
 	
-	public Ask(String playerEmail, Mode mode, Data data) {
-		this.meta = new Meta();
-		meta.setGameMode(mode.ordinal());
-		meta.setPlayerEmail(playerEmail);
-		
-		Question question = formulateQuestion(this.meta.getGameMode()); 
+	public String getAnswerId() {
+		return this.answerId;
 	}
 	
-	private Question formulateQuestion(Mode mode) {
-		switch(mode) {
-		case Mode.NORMAL:
-			log.info("NORMAL");
-			
-		}
+	public String getPlayerEmail() {
+		return this.playerEmail;
+	}
+	
+	public void setAnswerId(String answerId) {
+		this.answerId = answerId;
+	}
+	
+	public void setPlayerEmail(String playerEmail) {
+		this.playerEmail = playerEmail;
+	}
+	
+	public AnswerBody() {
+		
+	}
+	
+	public AnswerBody(String answerId, String playerEmail) {
+		this.answerId = answerId;
+		this.playerEmail = playerEmail;
 	}
 }

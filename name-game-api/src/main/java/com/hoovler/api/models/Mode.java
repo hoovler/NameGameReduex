@@ -20,7 +20,19 @@
  */
 package com.hoovler.api.models;
 
+/**
+ * <p><h3>Mode</h3>
+ * <p><b><u>Purpose</u></b></p>
+ * This Enum ...</p>
+ * <p><b><u>Information</u></b><br />
+ * The <code>Mode</code> object is...</p>
+ * <p><b><u>Examples</u></b></p>
+ * An example:
+ * <pre>some code</pre>
+ * Another example:
+ * <pre>some more code;</pre>
+ */
 public enum Mode {
 	NORMAL,
-	REVERSE
+	MATT
 }

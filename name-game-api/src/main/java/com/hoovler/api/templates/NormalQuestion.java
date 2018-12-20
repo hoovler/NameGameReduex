@@ -18,18 +18,10 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api;
+package com.hoovler.api.templates;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.hoovler.api.data.Data;
-import com.hoovler.dao.models.Question;
-
-public class Answer {
-	private static Logger log = LogManager.getLogger(Answer.class.getName());
+public class NormalQuestion {
 	
-	public Answer(long questionId) {
-		Question q = Data.questionHistory;
-	}
+	
+	
 }

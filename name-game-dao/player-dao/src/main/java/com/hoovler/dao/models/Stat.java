@@ -37,7 +37,7 @@ import java.util.Date;
 public class Stat {
 	
 	/** <p><i>questionId</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
-	private int questionId;
+	private long questionId;
 	
 	/** <p><i>askedTime</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
 	private Date askedTime;
@@ -53,7 +53,7 @@ public class Stat {
 	 *
 	 * @return the question id
 	 */
-	public int getQuestionId() {
+	public long getQuestionId() {
 		return questionId;
 	}
 	
@@ -89,7 +89,7 @@ public class Stat {
 	 *
 	 * @param questionId the new question id
 	 */
-	public void setQuestionId(int questionId) {
+	public void setQuestionId(long questionId) {
 		this.questionId = questionId;
 	}
 	
@@ -135,7 +135,7 @@ public class Stat {
 	 * @param answerTime the answer time
 	 * @param isCorrect the is correct
 	 */
-	public Stat(int questionId, Date askedTime, Date answerTime, boolean isCorrect) {
+	public Stat(long questionId, Date askedTime, Date answerTime, boolean isCorrect) {
 		this.questionId = questionId;
 		this.askedTime = askedTime;
 		this.answerTime = answerTime;
