@@ -15,6 +15,9 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		
+		<!-- internal lib versions -->
+		<v.dao>1.0.0</v.dao>
+		
 		<!-- external library versions -->
 		<v.org.apache.logging.log4j>2.11.1</v.org.apache.logging.log4j>
 		<v.org.apache.commons>3.8.1</v.org.apache.commons>
@@ -27,7 +30,7 @@
 	<modules>
 		<module>profile-dao</module>
 		<module>player-dao</module>
-		<module>game-dao</module>
+		<module>question-dao</module>
 	</modules>
 
 

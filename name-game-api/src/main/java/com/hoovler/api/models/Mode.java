@@ -18,31 +18,9 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.dao.models;
+package com.hoovler.api.models;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.hoovler.dao.DefaultQuestionDao;
-import com.hoovler.dao.QuestionDao;
-
-public class PlayGame {
-	private static Logger log = LogManager.getLogger(PlayGame.class.getName());
-
-	private static QuestionDao questionDao;
-	private static int mode;
-	
-	public static void main(String[] args) {
-		log.info("play game!!");
-		
-		mode = 1;
-		doQuestions();
-	}
-	
-	public static void doQuestions() {
-		questionDao = new DefaultQuestionDao();
-		
-	}
-	
-	
+public enum Mode {
+	NORMAL,
+	REVERSE
 }

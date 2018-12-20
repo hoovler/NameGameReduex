@@ -18,49 +18,35 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.dao.models;
+package com.hoovler.api;
 
-import java.util.ArrayList;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.hoovler.dao.DefaultPlayerDao;
-import com.hoovler.dao.PlayerDao;
+import com.hoovler.api.data.Data;
+import com.hoovler.api.data.Meta;
+import com.hoovler.api.models.Mode;
+import com.hoovler.dao.models.Question;
 
-public class Game {
-	private static Logger log = LogManager.getLogger(Game.class.getName());
-
-	private PlayerDao playerDao;
-	private ArrayList<Profile> profiles;
-	private int mode;
+public class Ask {
+	private static Logger log = LogManager.getLogger(Ask.class.getName());
 	
-	public PlayerDao getPlayerDao() {
-		return playerDao;
-	}
-	public ArrayList<Profile> getProfiles() {
-		return profiles;
-	}
-	public void setPlayerDao(PlayerDao playerDao) {
-		this.playerDao = playerDao;
-	}
-	public void setProfiles(ArrayList<Profile> profiles) {
-		this.profiles = profiles;
-	}
+	private Meta meta;
+	private Data data;
 	
-	public Game() {
+	public Ask(String playerEmail, Mode mode, Data data) {
+		this.meta = new Meta();
+		meta.setGameMode(mode.ordinal());
+		meta.setPlayerEmail(playerEmail);
 		
+		Question question = formulateQuestion(this.meta.getGameMode()); 
 	}
 	
-	public Game(String email, int mode) {
-		this.playerDao = new DefaultPlayerDao();
-		if (StringUtils.isNotBlank(email)) {
+	private Question formulateQuestion(Mode mode) {
+		switch(mode) {
+		case Mode.NORMAL:
+			log.info("NORMAL");
 			
-		} else {
-			log.error("'email' must not be blank!");
 		}
 	}
-	
-	
 }

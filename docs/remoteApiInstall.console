@@ -1,0 +1,45 @@
+root@MASTER-CONTROL:~# ssh databuil@50.87.249.32
+		databuil@50.87.249.32's password:
+		Last login: Wed Dec 19 16:49:32 2018 from 71.219.100.44
+
+databuil@databuildr.com [~]# mkdir downloads
+
+databuil@databuildr.com [~]# cd downloads/
+
+databuil@databuildr.com [~/downloads]# wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "https://download.oracle.com/otn-pub/java/jdk/8u192-b12/750e1c8617c5452694857ad95c3ee230/jdk-8u192-linux-x64.rpm"
+		--2018-12-19 17:11:44--  https://download.oracle.com/otn-pub/java/jdk/8u192-b12/750e1c8617c5452694857ad95c3ee230/jdk-8u192-linux-x64.rpm
+		Resolving download.oracle.com... 23.7.132.25
+		Connecting to download.oracle.com|23.7.132.25|:443... connected.
+		HTTP request sent, awaiting response... 302 Moved Temporarily
+		Location: https://edelivery.oracle.com/otn-pub/java/jdk/8u192-b12/750e1c8617c5452694857ad95c3ee230/jdk-8u192-linux-x64.rpm [following]
+		--2018-12-19 17:11:44--  https://edelivery.oracle.com/otn-pub/java/jdk/8u192-b12/750e1c8617c5452694857ad95c3ee230/jdk-8u192-linux-x64.rpm
+		Resolving edelivery.oracle.com... 184.84.6.138, 2001:428:3805:18f::2d3e, 2001:428:3805:190::2d3e
+		Connecting to edelivery.oracle.com|184.84.6.138|:443... connected.
+		HTTP request sent, awaiting response... 302 Moved Temporarily
+		Location: http://download.oracle.com/otn-pub/java/jdk/8u192-b12/750e1c8617c5452694857ad95c3ee230/jdk-8u192-linux-x64.rpm?AuthParam=1545264825_598e4a302f7bda55af37e4da598b912f [following]
+		--2018-12-19 17:11:45--  http://download.oracle.com/otn-pub/java/jdk/8u192-b12/750e1c8617c5452694857ad95c3ee230/jdk-8u192-linux-x64.rpm?AuthParam=1545264825_598e4a302f7bda55af37e4da598b912f
+		Connecting to download.oracle.com|23.7.132.25|:80... connected.
+		HTTP request sent, awaiting response... 301 Moved Permanently
+		Location: https://download.oracle.com/otn-pub/java/jdk/8u192-b12/750e1c8617c5452694857ad95c3ee230/jdk-8u192-linux-x64.rpm?AuthParam=1545264825_598e4a302f7bda55af37e4da598b912f [following]
+		--2018-12-19 17:11:45--  https://download.oracle.com/otn-pub/java/jdk/8u192-b12/750e1c8617c5452694857ad95c3ee230/jdk-8u192-linux-x64.rpm?AuthParam=1545264825_598e4a302f7bda55af37e4da598b912f
+		Connecting to download.oracle.com|23.7.132.25|:443... connected.
+		HTTP request sent, awaiting response... 200 OK
+		Length: 176154290 (168M) [application/x-redhat-package-manager]
+		Saving to: `jdk-8u192-linux-x64.rpm'
+		100%[======================================================================================================================================================================================================>] 176,154,290 6.44M/s   in 17s
+		2018-12-19 17:12:02 (9.66 MB/s) - `jdk-8u192-linux-x64.rpm' saved [176154290/176154290]
+
+databuil@databuildr.com [~/downloads]# ls -la
+		total 359304
+		drwxr-xr-x  3 databuil databuil      4096 Dec 19 17:11 ./
+		drwx--x--x 21 databuil databuil      4096 Dec 19 17:18 ../
+		-rw-r--r--  1 databuil databuil 176154290 Oct  9 00:52 jdk-8u192-linux-x64.rpm
+		-rw-r--r--  1 databuil databuil 191757099 Oct  9 00:53 jdk-8u192-linux-x64.tar.gz
+		drwxr-xr-x  7 databuil databuil      4096 Oct  6 07:58 jdk1.8.0_192/
+		
+databuil@databuildr.com [~/downloads]# rpm -ivh jdk-8u192-linux-x64.rpm
+		warning: jdk-8u192-linux-x64.rpm: Header V3 RSA/SHA256 Signature, key ID ec551f03: NOKEY
+		error: can't create transaction lock on /var/lib/rpm/.rpm.lock (Permission denied)
+		
+databuil@databuildr.com [~/downloads]# sudo rpm -ivh jdk-8u192-linux-x64.rpm
+		sudo: effective uid is not 0, is sudo installed setuid root?

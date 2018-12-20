@@ -18,25 +18,16 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.game;
+package com.hoovler.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
 
-public class GameMeta {
-	
-	public enum OrderMode {
-		NORMAL, REVERSE
-	}
-	public enum SpecialMode {
-		NONE, MATT
-	}
-	
-	private int mode = SpecialMode.MATT.ordinal();
-	
-	private static Logger log = LogManager.getLogger(GameMeta.class.getName());
-	
-	protected static final String[] modeNames = {"", "", "", ""};
+import com.hoovler.dao.models.Question;
 
-	protected static final int[] modeValues = {1, 2, 3, 4};
+public interface QuestionDao {
+	Question getQuestion(Long qId);
+	Question addQuestion(Question q);
+	Question updateQuestion(Long id, Question updatedQ);
+	boolean deleteQuestion(Long qId);
+	ArrayList<Question> questionList();
 }

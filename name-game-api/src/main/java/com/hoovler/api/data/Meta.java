@@ -18,25 +18,41 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.dao.models;
+package com.hoovler.api.data;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.hoovler.api.models.Mode;
 
-public class QuestionsHelper {
-	private static Logger log = LogManager.getLogger(QuestionsHelper.class.getName());
+public class Meta {
+	private String playerEmail;
+
+	private Mode gameMode;
+
+	public String getPlayerEmail() {
+		return playerEmail;
+	}
 	
-	/**
-	 * Ready for id.
-	 *
-	 * @param q the q
-	 * @return true, if successful
-	 */
-	protected static boolean readyForId(Question q) {
-		boolean isReady = false;
-		if (true) {
-			isReady = true;
-		}
-		return isReady;
+	public Mode getGameMode() {
+		return gameMode;
+	}
+
+	public void setPlayerEmail(String playerEmail) {
+		this.playerEmail = playerEmail;
+	}
+
+	public void setGameMode(int gameMode) {
+		this.gameMode = Mode.values()[gameMode];
+	}
+	
+	public void setGameMode(Mode mode) {
+		this.gameMode = mode;
+	}
+
+	public Meta() {
+		
+	}
+	
+	public Meta(String playerEmail, int gameMode) {
+		this.playerEmail = playerEmail;
+		this.gameMode = Mode.values()[gameMode];
 	}
 }

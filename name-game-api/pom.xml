@@ -12,27 +12,45 @@
 		<!-- default value overrides -->
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		
+
 		<!-- external library versions -->
 		<v.org.apache.logging.log4j>2.11.1</v.org.apache.logging.log4j>
 		<v.org.apache.commons>3.8.1</v.org.apache.commons>
 		<v.commons.validator>1.6</v.commons.validator>
 		<v.com.google.code.gson>2.8.5</v.com.google.code.gson>
 		<v.org.junit.jupiter>5.3.2</v.org.junit.jupiter>
-		
+		<v.org.springframework.boot>2.1.1.RELEASE</v.org.springframework.boot>
+
 		<!-- Local DAO versions -->
-		<v.com.hoovler.dao>1.0.0</v.com.hoovler.dao>
+		<v.dao>1.0.0</v.dao>
 	</properties>
-	
-	
+
+
 	<dependencies>
 		<!-- Related local projects -->
 		<dependency>
 			<groupId>com.hoovler.dao</groupId>
-			<artifactId>game-dao</artifactId>
-			<version>${v.com.hoovler.dao}</version>
+			<artifactId>profile-dao</artifactId>
+			<version>${v.dao}</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.hoovler.dao</groupId>
+			<artifactId>player-dao</artifactId>
+			<version>${v.dao}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.hoovler.dao</groupId>
+			<artifactId>question-dao</artifactId>
+			<version>${v.dao}</version>
+		</dependency>
+
+		<!-- Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<version>${v.org.springframework.boot}</version>
+		</dependency>
+
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -44,7 +62,7 @@
 			<artifactId>log4j-core</artifactId>
 			<version>${v.org.apache.logging.log4j}</version>
 		</dependency>
-		
+
 		<!-- JUnit Testing -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

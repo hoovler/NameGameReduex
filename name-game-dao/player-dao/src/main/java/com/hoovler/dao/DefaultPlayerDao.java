@@ -28,6 +28,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.hoovler.dao.models.Player;
+import com.hoovler.dao.models.Stat;
+import com.hoovler.dao.resources.PlayerDaoHelper;
 
 public class DefaultPlayerDao implements PlayerDao {
 	private static Logger log = LogManager.getLogger(DefaultPlayerDao.class.getName());
@@ -47,11 +49,20 @@ public class DefaultPlayerDao implements PlayerDao {
 	@Override
 	public Player addPlayer(Player player) {
 		if (player.getEmail() == null || StringUtils.isBlank(player.getEmail())) {
-			log.warn("No email found...");
+			log.warn("ID required: player object must have an email.");
 		} else {
 			playerMap.put(player.getEmail(), player);
 		}
 		return player;
+	}
+	
+	public Player addPlayer(String email) {
+		if (StringUtils.isBlank(email)) {
+			log.warn("ID required: player object must have an email.");
+		} else {
+			playerMap.put(email, new Player(email, new ArrayList<Stat>()));
+		}
+		return playerMap.get(email);
 	}
 
 	/* (non-Javadoc)

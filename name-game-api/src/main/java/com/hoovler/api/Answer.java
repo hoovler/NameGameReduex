@@ -18,16 +18,18 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.dao;
+package com.hoovler.api;
 
-import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import com.hoovler.api.data.Data;
 import com.hoovler.dao.models.Question;
 
-public interface QuestionDao {
-	Question getQuestion(Integer qId);
-	Question addQuestion(Question q);
-	Question updateQuestion(Integer id, Question updatedQ);
-	boolean deleteQuestion(Integer qId);
-	List<Question> questionList();
+public class Answer {
+	private static Logger log = LogManager.getLogger(Answer.class.getName());
+	
+	public Answer(long questionId) {
+		Question q = Data.questionHistory;
+	}
 }
