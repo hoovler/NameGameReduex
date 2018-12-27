@@ -18,13 +18,17 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.models;
+package com.hoovler.api.models.ask;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.Date;
 
-import com.hoovler.api.data.DataService;
+import com.hoovler.api.persistence.PlayerService;
+import com.hoovler.api.persistence.QuestionService;
+import com.hoovler.api.resources.GameUtils;
+import com.hoovler.api.resources.Mode;
 import com.hoovler.api.resources.QuestionsHelper;
+import com.hoovler.dao.DefaultProfileDao;
+import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Question;
 
 /**
@@ -37,14 +41,17 @@ import com.hoovler.dao.models.Question;
  * <pre>GET: http://localhost/namegame/v2.0.0/ask?email=foo@bar.com&mode=2</pre>
  */
 public class Ask {
-	private static Logger log = LogManager.getLogger(Ask.class.getName());
-
+	//private static Logger log = LogManager.getLogger(Ask.class.getName());
 	
-	// members in return JSON
-	private Question question;
+	private AskResponse askResponse;
 	
-	public Question getQuestion() {
-		return this.question;
+	/**
+	 * Gets the response.
+	 *
+	 * @return the response
+	 */
+	public AskResponse getAskResponse() {
+		return this.askResponse;
 	}
 	
 	/**
@@ -58,7 +65,7 @@ public class Ask {
 	 * 		<td>The default value when no <em>mode</em> is supplied; the question will contain a random selection of options from the entire pool of profiles.</td>
 	 * </tr>
 	 * <tr>
-	 * 		<td><code>1; Mode.MATT</code></td>
+	 * 		<td><code>1; Mode.REVERSE</code></td>
 	 * 		<td>The question will contain a random selection of profiles wherein the value of Profile.getFirstName() matches the regex <code>[m|M][a|A][t|T][t|T]+.*</code></td>
 	 * </tr>
 	 * </table>
@@ -67,16 +74,44 @@ public class Ask {
 	 * the inflexibility of having such an option built into the back-end design.</p>
 	 * @param data - the Data persistence object;
 	 */
-	public Ask(String playerEmail, Mode mode, DataService data) {
-		String namePrefix;
-		switch(mode) {
-		case MATT:
-			namePrefix = "matt";
-		case NORMAL: default:
-			namePrefix = "";
-		}
+	public Ask(AskArgs values, DefaultProfileDao profileService, PlayerService playerService, QuestionService questionService) {
 		
-		this.question = QuestionsHelper.generateQuestion(data, namePrefix); 
+		this.askResponse = new AskResponse();
+		setAskResponse(values, profileService, playerService, questionService);
+	}
+	
+	/**
+	 * Sets the ask response.
+	 *
+	 * @param values the values
+	 * @param profileService the profile service
+	 * @param playerService the player service
+	 * @param questionService the question service
+	 */
+	public void setAskResponse(
+			AskArgs values, 
+			DefaultProfileDao profileService, 
+			PlayerService playerService, 
+			QuestionService questionService) {
+		// determine question format from arguments passed in to the API
+		Mode mode = values.properMode();
+		String namePrefix = "";
+		if (values.properMattsOnly()) namePrefix = "matt";
+		
+		// generate a new question based on arguments
+		Question q = QuestionsHelper.generateQuestion(profileService, namePrefix);
+		this.askResponse = QuestionsHelper.formatQuestion(mode, q);
+		
+		// set the ID to a value from which the QuestionId can be derived for the purposes of checking an answer in the future
+		this.askResponse.setQuestionId(GameUtils.encodeQuestionPlayerConnection(q.getId(), values.getPlayerEmail()));
+		
+		// update player history
+		Player player = playerService.getOrAddPlayer(values.getPlayerEmail());
+		player.updateStats(new Date(), true);
+		playerService.updatePlayer(player.getEmail(), player);
+		
+		// update question history
+		questionService.addQuestion(q);
 	}
 	
 }

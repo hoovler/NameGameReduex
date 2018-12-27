@@ -181,9 +181,6 @@ public class DefaultQuestionDao implements QuestionDao {
 		ArrayList<Question> all = questionList();
 		
 		switch (method) {
-		case ASKED:
-			all.sort(Comparator.comparing(Question::getAsked));
-			return all;
 		case ID:
 			all.sort(Comparator.comparing(Question::getId));
 			return all;

@@ -28,7 +28,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.hoovler.dao.models.Player;
-import com.hoovler.dao.models.Stat;
+import com.hoovler.dao.models.Stats;
 import com.hoovler.dao.resources.PlayerDaoHelper;
 
 public class DefaultPlayerDao implements PlayerDao {
@@ -60,7 +60,7 @@ public class DefaultPlayerDao implements PlayerDao {
 		if (StringUtils.isBlank(email)) {
 			log.warn("ID required: player object must have an email.");
 		} else {
-			playerMap.put(email, new Player(email, new ArrayList<Stat>()));
+			playerMap.put(email, new Player(email, new Stats()));
 		}
 		return playerMap.get(email);
 	}
@@ -107,14 +107,10 @@ public class DefaultPlayerDao implements PlayerDao {
 	 */
 	private static Player randomPlayer(String email) {
 		log.info("Generating random player...");
-		
-		log.info("randomPlayer(String email)");
-		
 		Player player = new Player();
 		player.setEmail(StringUtils.defaultIfBlank(email, PlayerDaoHelper.getRandomEmail()));
 		
 		log.info("email = " + player.getEmail());
-
 		return player;
 	}
 

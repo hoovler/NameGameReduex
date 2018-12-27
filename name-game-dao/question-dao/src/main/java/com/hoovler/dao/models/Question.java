@@ -60,9 +60,6 @@ public class Question {
 	 *  */
 	private Date timeCreated;
 
-	/** <p><i>timeAsked</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
-	private Date timeAsked;
-
 	public long getId() {
 		return this.qId;
 	}
@@ -75,28 +72,23 @@ public class Question {
 		return options;
 	}
 
-	public Date getAsked() {
-		return timeAsked;
-	}
-
 	public Date getCreated() {
 		return timeCreated;
 	}
 
 	protected void setId(long id) {
 		this.qId = id;
+		this.qId = generateId();
 	}
 
 	public void setTarget(Object target) {
 		this.target = target;
+		this.qId = generateId();
 	}
 
 	public void setOptions(ArrayList<Object> options) {
 		this.options = options;
-	}
-
-	public void setAsked(Date timeAsked) {
-		this.timeAsked = timeAsked;
+		this.qId = generateId();
 	}
 
 	public Question() {
@@ -107,13 +99,9 @@ public class Question {
 	public Question(Object target, ArrayList<Object> options) {
 		this.target = target;
 		this.options = options;
+		this.qId = generateId();
 	}
 
-	public Question(Object target, ArrayList<Object> options, Date timeAsked) {
-		this.target = target;
-		this.options = options;
-		this.timeAsked = timeAsked;
-	}
 
 	/**
 	 * Generate the <code>Question.questionId</code> in a manner similar to Object.hashCode(), but without relying
@@ -152,19 +140,8 @@ public class Question {
 	 * method a mechanism to test success.</p> 
 	 */
 	protected long generateId() {
-		final int prime = 31;
-		final int itr = 16;
-		long result = this.getCreated().getTime();
-		
-		for (int i = 0; i < itr; i++) {
-			result = prime * result + new Random().nextInt(i * prime);
-		}
-
-		// add current time (ms since origin) to help prevent collision
-		result = Long.valueOf(String.valueOf(new Date().getTime()) + String.valueOf(result));
-
-		// ensure result is positive
-		return Math.abs(result);
+		// TODO: update documentation
+		return Math.abs((new Random().nextLong() << 31) + new Date().getTime());
 	}
 
 }

@@ -18,21 +18,40 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.models;
+package com.hoovler.api.models.answer;
 
-/**
- * <p><h3>Mode</h3>
- * <p><b><u>Purpose</u></b></p>
- * This Enum ...</p>
- * <p><b><u>Information</u></b><br />
- * The <code>Mode</code> object is...</p>
- * <p><b><u>Examples</u></b></p>
- * An example:
- * <pre>some code</pre>
- * Another example:
- * <pre>some more code;</pre>
- */
-public enum Mode {
-	NORMAL,
-	MATT
+import com.hoovler.dao.models.Player;
+
+public class AnswerResponse {
+	private boolean result;
+	private Player player;
+
+	public boolean getResult() {
+		return this.result;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setResult(boolean result) {
+		this.result = result;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public AnswerResponse() {
+		
+	}
+	
+	public AnswerResponse(boolean result) {
+		this.result = result;
+	}
+	
+	public AnswerResponse(boolean result, Player player) {
+		this.result = result;
+		this.player = player;
+	}
 }

@@ -27,13 +27,105 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.hoovler.api.data.DataService;
 import com.hoovler.api.models.Subject;
+import com.hoovler.api.models.ask.AskOption;
+import com.hoovler.api.models.ask.AskResponse;
+import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.models.Profile;
 import com.hoovler.dao.models.Question;
 
 public class QuestionsHelper {
 	private static Logger log = LogManager.getLogger(QuestionsHelper.class.getName());
+
+	/**
+	 * Ask response.
+	 *
+	 * @param mode the mode
+	 * @param q the q
+	 * @return the ask response
+	 */
+	public static AskResponse formatQuestion(Mode mode, Question q) {
+		// object to return
+		AskResponse response = new AskResponse();
+		ArrayList<AskOption> options = new ArrayList<>();
+
+		switch (mode) {
+		case REVERSE:
+			// reverse
+			options.addAll(getReverseOptions(q.getOptions()));
+			response.setOptions(options);
+			response.setTarget(getReverseOption(q.getTarget()).getOptionValue());
+			break;
+		case NORMAL:
+		default:
+			// normal
+			options.addAll(getNormalOptions(q.getOptions()));
+			response.setOptions(options);
+			response.setTarget(getNormalOption(q.getTarget()).getOptionValue());
+			break;
+		}
+		return response;
+	}
+
+	/**
+	 * Gets a normal option (or target), where question.options = List<imageUrl> 
+	 *
+	 * @param object the object
+	 * @return the normal option
+	 */
+	public static AskOption getNormalOption(Object object) {
+		Subject subject = Subject.class.cast(object);
+		return new AskOption(subject.getId(), subject.getName());
+	}
+
+	/**
+	 * Gets a list of normal options, where question.options = List<imageUrl>
+	 *
+	 * @param subjects the subjects
+	 * @return the normal options
+	 */
+	public static ArrayList<AskOption> getNormalOptions(ArrayList<Object> subjects) {
+		ArrayList<AskOption> formattedOptions = new ArrayList<>();
+		log.info("getNormalOptions(ArrayList<Object> subjects)");
+		for (Object object : subjects) {
+			Subject subject = Subject.class.cast(object);
+			AskOption option = new AskOption(subject.getId(), subject.getName());
+			log.info("    Adding new AskOption: optionId = " + option.getOptionId() + 
+					", optionValue" + option.getOptionValue());
+			formattedOptions.add(option);
+		}
+		return formattedOptions;
+	}
+
+	/**
+	 * Gets a reverse option (or target), where question.options = List<name>
+	 *
+	 * @param object the object
+	 * @return the reverse option
+	 */
+	public static AskOption getReverseOption(Object object) {
+		Subject subject = Subject.class.cast(object);
+		return new AskOption(subject.getId(), subject.getImageUrl());
+	}
+
+	/**
+	 * Gets a list of reverse options, where question.options = List<name>
+	 *
+	 * @param subjects the subjects
+	 * @return the reverse options
+	 */
+	public static ArrayList<AskOption> getReverseOptions(ArrayList<Object> subjects) {
+		ArrayList<AskOption> formattedOptions = new ArrayList<>();
+		log.info("getReverseOptions(ArrayList<Object> subjects)");
+		for (Object object : subjects) {
+			Subject subject = Subject.class.cast(object);
+			AskOption option = new AskOption(subject.getId(), subject.getImageUrl());
+			log.info("    Adding new AskOption: optionId = " + option.getOptionId() + 
+					", optionValue" + option.getOptionValue());
+			formattedOptions.add(option);
+		}
+		return formattedOptions;
+	}
 
 	/**
 	 * Generates a valid Question object.
@@ -50,22 +142,24 @@ public class QuestionsHelper {
 	 * 			method to be immediately added to a QuestionDao persistence instance.</p>
 	 * @see com.hoovler.dao.models.Question#generateId() Question.generateId()
 	 */
-	public static Question generateQuestion(DataService data, String namePrefix) {
-		ArrayList<Profile> questionObjects = data.profilePool();
+	public static Question generateQuestion(DefaultProfileDao profileService, String namePrefix) {
+		ArrayList<Profile> questionObjects = profileService.profileList();
 		Question q = new Question();
-		
-		// use a random index (0 : Data.numOptions-1) to select the 'target' from the list of 'options'
-		int index = new Random().nextInt(DataService.numOptions);
+
+		// use a random index (0 : Data.numOptions-1) to select the 'target' from the
+		// list of 'options'
+		int index = new Random().nextInt(GameUtils.NUM_OPTIONS);
 		ArrayList<Object> optionObjects = new ArrayList<>();
-		
-		// since Question.options is a list of Object types, rather than Subject types, we must
+
+		// since Question.options is a list of Object types, rather than Subject types,
+		// we must
 		// loop through the list of Subjects and convert them to Objects
 		int itr = 0;
-		for (Subject option : getSubjects(questionObjects, DataService.numOptions, namePrefix)) {
+		for (Subject option : getSubjects(questionObjects, GameUtils.NUM_OPTIONS, namePrefix)) {
 			optionObjects.add(option);
 
 			// set random option as the matching target
-			if(itr==index) {
+			if (itr == index) {
 				q.setTarget(new Subject(option.getId(), option.getName(), option.getImageUrl()));
 			}
 			itr++;
@@ -73,7 +167,7 @@ public class QuestionsHelper {
 		q.setOptions(optionObjects);
 		return q;
 	}
-	
+
 	private QuestionsHelper() {
 		// hiding implicit constructor
 	}
@@ -81,28 +175,33 @@ public class QuestionsHelper {
 	protected static ArrayList<Subject> getSubjects(ArrayList<Profile> from, int numSubjects) {
 		return getSubjects(from, numSubjects, null);
 	}
+
+
 	/**
-	 * Gets the options.
+	 * Gets the subjects.
 	 *
-	 * @param profileDao the profile dao
+	 * @param from the from
 	 * @param numSubjects the num subjects
-	 * @return the options
+	 * @param namePrefix the name prefix
+	 * @return the subjects
 	 */
 	protected static ArrayList<Subject> getSubjects(ArrayList<Profile> from, int numSubjects, String namePrefix) {
 
 		ArrayList<Subject> subjects = new ArrayList<>();
-		
+
 		for (int i = 0; i < numSubjects; i++) {
 
 			int index = -1;
 			Profile candidate = null;
 
+			// continue to loop through origin profiles list until one matches our criteria
 			while (!isViable(candidate, namePrefix)) {
+				// randomly choose a profile from the origin list
 				index = new Random().nextInt(from.size());
 				candidate = from.get(index);
 			}
 
-			// set subject
+			// determined to match criteria, profile will be added as a subject
 			subjects.add(new Subject(candidate.getId(), candidate.getFirstName() + " " + candidate.getLastName(),
 					candidate.getHeadshot().getUrl()));
 
@@ -122,15 +221,12 @@ public class QuestionsHelper {
 	protected static Subject getTarget(ArrayList<Subject> from) {
 		if (!from.isEmpty()) {
 			int index = new Random().nextInt(from.size());
-			return new Subject(
-					from.get(index).getId(), 
-					from.get(index).getName(), 
-					from.get(index).getImageUrl());	
+			return new Subject(from.get(index).getId(), from.get(index).getName(), from.get(index).getImageUrl());
 		} else {
 			log.error("Unable to extract target from an empty list of subjects.");
 			return null;
 		}
-		
+
 	}
 
 	/**
@@ -143,7 +239,7 @@ public class QuestionsHelper {
 		if (candidate == null)
 			return false;
 		return StringUtils.isNoneBlank(
-				new String[] { candidate.getFirstName(), candidate.getLastName(), candidate.getHeadshot().getUrl() }) 
+				new String[] { candidate.getFirstName(), candidate.getLastName(), candidate.getHeadshot().getUrl() })
 				&& StringUtils.startsWithIgnoreCase(candidate.getFirstName(), namePrefix);
 	}
 

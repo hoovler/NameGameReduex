@@ -18,35 +18,60 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.models;
+package com.hoovler.api.models.ask;
 
-public class AnswerBody {
+import java.util.ArrayList;
+
+public class AskResponse {
 	
-	private String answerId;
-	private String playerEmail;
+	private long questionId;
 	
-	public String getAnswerId() {
-		return this.answerId;
+	private String target;
+	
+	private ArrayList<AskOption> options;
+
+	public long getQuestionId() {
+		return questionId;
 	}
-	
-	public String getPlayerEmail() {
-		return this.playerEmail;
+
+	public String getTarget() {
+		return target;
 	}
-	
-	public void setAnswerId(String answerId) {
-		this.answerId = answerId;
+
+	public ArrayList<AskOption> getOptions() {
+		return options;
 	}
-	
-	public void setPlayerEmail(String playerEmail) {
-		this.playerEmail = playerEmail;
+
+	public void setQuestionId(long questionId) {
+		this.questionId = questionId;
 	}
-	
-	public AnswerBody() {
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public void setOptions(ArrayList<AskOption> options) {
+		this.options = options;
+	}
+
+	public AskResponse() {
 		
 	}
-	
-	public AnswerBody(String answerId, String playerEmail) {
-		this.answerId = answerId;
-		this.playerEmail = playerEmail;
+
+	public AskResponse(long questionId) {
+		this.questionId = questionId;
 	}
+
+	public AskResponse(long questionId, String target) {
+		this.questionId = questionId;
+		this.target = target;
+	}
+
+	public AskResponse(long questionId, String target, ArrayList<AskOption> options) {
+		this.questionId = questionId;
+		this.target = target;
+		this.options = options;
+	}
+	
+	
 }

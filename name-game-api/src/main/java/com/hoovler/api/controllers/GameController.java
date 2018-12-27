@@ -20,7 +20,6 @@
  */
 package com.hoovler.api.controllers;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,51 +32,71 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hoovler.api.data.DataService;
-import com.hoovler.api.models.Answer;
-import com.hoovler.api.models.AnswerBody;
-import com.hoovler.api.models.Ask;
-import com.hoovler.api.models.Mode;
+import com.hoovler.api.models.answer.Answer;
+import com.hoovler.api.models.answer.AnswerArgs;
+import com.hoovler.api.models.ask.Ask;
+import com.hoovler.api.models.ask.AskArgs;
+import com.hoovler.api.persistence.PlayerService;
+import com.hoovler.api.persistence.QuestionService;
+import com.hoovler.api.resources.GameUtils;
+import com.hoovler.dao.DefaultProfileDao;
 
 @RestController
-@RequestMapping("/namegame/v" + DataService.apiVersion)
+@RequestMapping("/namegame/v" + GameUtils.API_VERSION)
 public class GameController {
 	private static Logger log = LogManager.getLogger(GameController.class.getName());
+
 	
-	private DataService persist;
-	
+	private final DefaultProfileDao profileService;
+	private final PlayerService playerService;
+	private final QuestionService questionService;
+
+
 	@Autowired
-	public GameController(DataService persist) {
-		this.persist = persist;
+	public GameController(
+			DefaultProfileDao profileService,
+			PlayerService playerService,
+			QuestionService questionService) {
+		this.profileService = profileService;
+		this.playerService = playerService;
+		this.questionService = questionService;
 	}
-	
+
 	// GET: question posed to API consumer
-	@RequestMapping(path = "/ask", method = RequestMethod.GET)
-	public Ask Ask(
-			@RequestParam(value="email") String playerEmail,
-			@RequestParam(value="mode") String mode) {
+	@RequestMapping(path = GameUtils.Path.GET, method = RequestMethod.GET)
+	public Ask ask(
+			@RequestParam(value = GameUtils.Param.EMAIL, defaultValue = GameUtils.DefaultStr.EMAIL) String playerEmail, 
+			@RequestParam(value = GameUtils.Param.MODE, defaultValue = GameUtils.DefaultStr.MODE) int mode,
+			@RequestParam(value = GameUtils.Param.MATTS, defaultValue = GameUtils.DefaultStr.MATTS) String mattsOnly) {
+		AskArgs askParams = new AskArgs(playerEmail, mode, mattsOnly);
 		
-		if(this.persist == null) this.persist = new DataService();
+		log.info("playerEmail = " + playerEmail);
+		log.info("mode = " + mode);
+		log.info("mattsOnly = " + mattsOnly);
 		
-		// currently, only 2 modes available: 0, 1
-		if (Integer.valueOf(mode) > 1) mode = "0";
-		
-		// convert string to enum
-		Mode gameMode = Mode.values()[Integer.valueOf(mode)];
-		
-		return new Ask(playerEmail, gameMode, this.persist);
+		log.info("Receiving GET params as request for a new Question object: ");
+		log.info(GameUtils.Param.EMAIL + " = " + askParams.getPlayerEmail());
+		log.info(GameUtils.Param.MODE + " = " + askParams.getMode());
+		log.info(GameUtils.Param.MATTS + " = " + askParams.getMattsOnly());
+
+		// init a new Ask Response
+		return new Ask(askParams, this.profileService, this.playerService, this.questionService);
 	}
-	
+
 	// POST: API consumer's answer to persistence model
-	@PostMapping(path = "/{questionId}")
+	@PostMapping(path = GameUtils.Path.POST)
 	@ResponseBody
-	public Answer getAnswer(
-			@PathVariable("questionId") long questionId,
-			@RequestParam(value="email") String playerEmail,
-			@RequestBody AnswerBody answerBody){
+	public Answer answer(
+			@PathVariable(GameUtils.Param.QUESTION_ID) long questionId,
+			@RequestBody AnswerArgs answerBody) {
+		answerBody.setQuestionId(questionId);
 		
-		if(this.persist == null) this.persist = new DataService();
+		// log POST values
+		log.info("Receiving POST values in answer to a question: ");
+		log.info(GameUtils.Param.ANSWER_ID + " = " + answerBody.getAnswerId());
+		log.info(GameUtils.Param.EMAIL + " = " + answerBody.getPlayerEmail());
+		log.info(GameUtils.Param.QUESTION_ID + " = " + answerBody.getQuestionId());
 		
-		return new Answer(this.persist, answerBody.getPlayerEmail(), questionId, answerBody.getAnswerId());
+		return new Answer(answerBody, this.playerService, this.questionService);
 	}
 }

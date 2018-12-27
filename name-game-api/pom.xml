@@ -61,6 +61,11 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${v.org.springframework}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${v.org.springframework.boot}</version>
+		</dependency>
 
 		<!-- Logging -->
 		<dependency>
@@ -93,8 +98,15 @@
 			<version>${v.org.junit.jupiter}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Other -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${v.org.apache.commons}</version>
+		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<defaultGoal>clean package install</defaultGoal>
 		<directory>${basedir}/target</directory>

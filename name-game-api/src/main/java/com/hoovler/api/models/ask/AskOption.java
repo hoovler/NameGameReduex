@@ -18,10 +18,36 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.templates;
+package com.hoovler.api.models.ask;
 
-public class NormalQuestion {
+public class AskOption {
+	private String optionId;
+	private String optionValue;
 	
+	public String getOptionId() {
+		return optionId;
+	}
+	public String getOptionValue() {
+		return optionValue;
+	}
+	public void setOptionId(String optionId) {
+		this.optionId = optionId;
+	}
+	public void setOptionValue(String optionValue) {
+		this.optionValue = optionValue;
+	}
 	
+	public AskOption() {
+		
+	}
+	
+	public AskOption(String optionId) {
+		this.optionId = optionId;
+	}
+	
+	public AskOption(String optionId, String optionValue) {
+		this.optionId = optionId;
+		this.optionValue = optionValue;
+	}	
 	
 }

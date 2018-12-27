@@ -20,7 +20,9 @@
  */
 package com.hoovler.dao.models;
 
-import java.util.ArrayList;
+import java.util.Date;
+
+import com.hoovler.dao.resources.ScoreBy;
 
 /**
  * <p><h3>Player</h3>
@@ -36,12 +38,11 @@ import java.util.ArrayList;
  */
 public class Player {
 	
+
 	/** <p><i>email</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
 	private String email;
-	
-	/** <p><i>stats</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
-	private ArrayList<Stat> stats;
 
+	private Stats stats;
 	// ******************** GETTERS ********************
 	
 	/**
@@ -58,7 +59,7 @@ public class Player {
 	 *
 	 * @return the stats
 	 */
-	public ArrayList<Stat> getStats() {
+	public Stats getStats() {
 		return stats;
 	}
 	
@@ -78,10 +79,59 @@ public class Player {
 	 *
 	 * @param stats the new stats
 	 */
-	public void setStats(ArrayList<Stat> stats) {
+	public void setStats(Stats stats) {
 		this.stats = stats;
 	}
 	
+	/**
+	 * <p>Update all player statistics with a minimal set of arguments.</p>
+	 * 
+	 * This method will indirectly update the following:
+	 * <ul>
+	 * <li>increment <code>this.stats.numberAnswered</code></li>
+	 * <li>increment <code>this.stats.numberCorrect</code> (if required)</li>
+	 * <li>recalculate <code>this.stats.percentCorrect</code> (if required)</li>
+	 * <li>set <code>this.stats.lastAskedTime</code></li>
+	 * <li>set <code>this.stats.lastAnswerTime</code></li>
+	 * <li>add duration (in seconds) to <code>this.stats.answerTimes</code></li>
+	 * <li>recalculate <code>this.stats.averageResponseTime</code></li>
+	 * </ul>
+	 *
+	 * @param askedTime the asked time
+	 * @param answerTime the answer time
+	 * @param withCorrectAnswer the with correct answer
+	 * 
+	 * @see
+	 * {@link com.hoovler.dao.models.Stats}
+	 */
+	public void updateStats(Date askedTime, Date answerTime, boolean withCorrectAnswer) {
+		this.stats.incrementAnswered();
+		if(withCorrectAnswer) this.stats.incrementCorrect();
+		this.stats.updateTimes(askedTime, answerTime);
+	}
+	
+	/**
+	 * Update score.
+	 *
+	 * @param scoreBy the score by
+	 * @param multiplier the multiplier
+	 * @return the double
+	 * 
+	 * @see com.hoovler.dao.models.Stats#setScore(ScoreBy, int)
+	 * 
+	 */
+	public Double updateScore(ScoreBy scoreBy, int multiplier) {
+		return this.stats.setScore(scoreBy, multiplier);
+	}
+	
+	public void updateScore(Double score) {
+		this.stats.setScore(score);
+	}
+	
+	public void updateStats(Date askedTime, boolean incrementAskCount) {
+		this.stats.setLastAskedTime(askedTime);
+		if (incrementAskCount) this.stats.incrementAsked();
+	}
 	// ******************** CONSTRUCTORS ********************
 	
 	/**
@@ -98,7 +148,7 @@ public class Player {
 	 * @param questions the questions
 	 * @param stats the stats
 	 */
-	public Player(String email, ArrayList<Stat> stats) {
+	public Player(String email, Stats stats) {
 		this.email = email;
 		this.stats = stats;
 	}
