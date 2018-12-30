@@ -18,13 +18,19 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.persistence;
+package com.hoovler.api.resources;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.hoovler.dao.DefaultPlayerDao;
 import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Stats;
 
-public class PlayerService extends DefaultPlayerDao {
+public class Players extends DefaultPlayerDao {
+	
+	private static Logger log = LogManager.getLogger(Players.class.getName());
+	
 	// TODO: Use hibernate to store persistence objects; javax.persistence.EntityManager
 	/**
 	 * Player exists.
@@ -58,8 +64,10 @@ public class PlayerService extends DefaultPlayerDao {
 	 */
 	public Player getOrAddPlayer(String email) {
 		if (!playerExists(email)) {
+			log.info("Player not found; Returning a new player object initilized with 'email' set to " + email);
 			return super.addPlayer(new Player(email, new Stats()));
 		}
+		log.info("Player with 'email'=" + email + " found!");
 		return super.getPlayer(email);
 	}
 }

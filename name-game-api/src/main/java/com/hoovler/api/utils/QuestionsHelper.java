@@ -18,7 +18,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.resources;
+package com.hoovler.api.utils;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,6 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.hoovler.api.controllers.GameGlobals;
 import com.hoovler.api.models.Subject;
 import com.hoovler.api.models.ask.AskOption;
 import com.hoovler.api.models.ask.AskResponse;
@@ -148,14 +149,14 @@ public class QuestionsHelper {
 
 		// use a random index (0 : Data.numOptions-1) to select the 'target' from the
 		// list of 'options'
-		int index = new Random().nextInt(GameUtils.NUM_OPTIONS);
+		int index = new Random().nextInt(GameGlobals.NUM_OPTIONS);
 		ArrayList<Object> optionObjects = new ArrayList<>();
 
 		// since Question.options is a list of Object types, rather than Subject types,
 		// we must
 		// loop through the list of Subjects and convert them to Objects
 		int itr = 0;
-		for (Subject option : getSubjects(questionObjects, GameUtils.NUM_OPTIONS, namePrefix)) {
+		for (Subject option : getSubjects(questionObjects, GameGlobals.NUM_OPTIONS, namePrefix)) {
 			optionObjects.add(option);
 
 			// set random option as the matching target

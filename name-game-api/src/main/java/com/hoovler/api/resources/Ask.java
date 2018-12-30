@@ -18,15 +18,15 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.models.ask;
+package com.hoovler.api.resources;
 
 import java.util.Date;
 
-import com.hoovler.api.persistence.PlayerService;
-import com.hoovler.api.persistence.QuestionService;
-import com.hoovler.api.resources.GameUtils;
-import com.hoovler.api.resources.Mode;
-import com.hoovler.api.resources.QuestionsHelper;
+import com.hoovler.api.controllers.GameGlobals;
+import com.hoovler.api.models.ask.AskArgs;
+import com.hoovler.api.models.ask.AskResponse;
+import com.hoovler.api.utils.Mode;
+import com.hoovler.api.utils.QuestionsHelper;
 import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Question;
@@ -74,7 +74,7 @@ public class Ask {
 	 * the inflexibility of having such an option built into the back-end design.</p>
 	 * @param data - the Data persistence object;
 	 */
-	public Ask(AskArgs values, DefaultProfileDao profileService, PlayerService playerService, QuestionService questionService) {
+	public Ask(AskArgs values, DefaultProfileDao profileService, Players playerService, Questions questionService) {
 		
 		this.askResponse = new AskResponse();
 		setAskResponse(values, profileService, playerService, questionService);
@@ -91,19 +91,19 @@ public class Ask {
 	public void setAskResponse(
 			AskArgs values, 
 			DefaultProfileDao profileService, 
-			PlayerService playerService, 
-			QuestionService questionService) {
+			Players playerService, 
+			Questions questionService) {
 		// determine question format from arguments passed in to the API
-		Mode mode = values.properMode();
+		Mode mode = values.modeEnum();
 		String namePrefix = "";
-		if (values.properMattsOnly()) namePrefix = "matt";
+		if (values.mattsOnlyEnum()) namePrefix = "matt";
 		
 		// generate a new question based on arguments
 		Question q = QuestionsHelper.generateQuestion(profileService, namePrefix);
 		this.askResponse = QuestionsHelper.formatQuestion(mode, q);
 		
 		// set the ID to a value from which the QuestionId can be derived for the purposes of checking an answer in the future
-		this.askResponse.setQuestionId(GameUtils.encodeQuestionPlayerConnection(q.getId(), values.getPlayerEmail()));
+		this.askResponse.setQuestionId(GameGlobals.encodeQuestionPlayerConnection(q.getId(), values.getPlayerEmail()));
 		
 		// update player history
 		Player player = playerService.getOrAddPlayer(values.getPlayerEmail());

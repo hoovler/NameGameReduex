@@ -18,39 +18,38 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api;
+package com.hoovler.api.models;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import com.hoovler.api.resources.Players;
-import com.hoovler.api.resources.Questions;
-import com.hoovler.dao.DefaultProfileDao;
-
-@SpringBootApplication
-public class NameGame {
-	private static Logger log = LogManager.getLogger(NameGame.class.getName());
+public class RestParam {
 	
-	@Bean
-	protected DefaultProfileDao profileService() {
-		return new DefaultProfileDao();
+	private String name;
+	private String defaultValue;
+	
+	public String getName() {
+		return this.name;
 	}
 	
-	@Bean
-	protected Players playerService() {
-		return new Players();
+	public String getDefaultValue() {
+		return this.defaultValue;
 	}
 	
-	@Bean
-	protected Questions questionService() {
-		return new Questions();
+	public void setName(String name) {
+		this.name = name;
 	}
 	
-	public static void main(String[] args) {
-		log.info("========== APPLICATION INITIALIZED ============");
-		SpringApplication.run(NameGame.class, args);
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+	
+	public RestParam() {
+		
+	}
+	
+	public RestParam(String name) {
+		this.name = name;
+	}
+	public RestParam(String name, String defaultValue) {
+		this.name = name;
+		this.defaultValue = defaultValue;
 	}
 }

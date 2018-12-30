@@ -20,83 +20,141 @@
  */
 package com.hoovler.api.controllers;
 
+import java.util.ArrayList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hoovler.api.models.answer.Answer;
 import com.hoovler.api.models.answer.AnswerArgs;
-import com.hoovler.api.models.ask.Ask;
 import com.hoovler.api.models.ask.AskArgs;
-import com.hoovler.api.persistence.PlayerService;
-import com.hoovler.api.persistence.QuestionService;
-import com.hoovler.api.resources.GameUtils;
+import com.hoovler.api.resources.Answer;
+import com.hoovler.api.resources.Ask;
+import com.hoovler.api.resources.Players;
+import com.hoovler.api.resources.Questions;
 import com.hoovler.dao.DefaultProfileDao;
+import com.hoovler.dao.models.Player;
+import com.hoovler.dao.models.Question;
 
 @RestController
-@RequestMapping("/namegame/v" + GameUtils.API_VERSION)
+@RequestMapping("/namegame/v" + GameGlobals.API_VERSION)
 public class GameController {
+
 	private static Logger log = LogManager.getLogger(GameController.class.getName());
+	// protected member path character constants
+	protected static final String pathSep = "/";
+	protected static final String pathVarOpen = "{";
+	protected static final String pathVarClose = "}";
 
+	// protected member default param values
+	protected static final String defaultAlpha = "";
+	protected static final String defaultNumeric = "0";
+
+	// protected member parameter default name/value pair constants
+	protected static final String emailParam = "email";
+	protected static final String modeParam = "mode";
+	protected static final String mattsParam = "matts";
+	protected static final String questionIdParam = "question_id";
+	protected static final String answerIdParam = "answer_id";
+
+	// protected member resources available
+	protected static final String askResource = "ask";
+	protected static final String answerResource = "answer";
+	protected static final String questionsResource = "questions";
+	protected static final String playersResource = "players";
+
+	// static endpoints
+	protected static final String askPath = pathSep + askResource;
+	protected static final String questionsPath = pathSep + questionsResource;
+	protected static final String playersPath = pathSep + playersResource;
 	
-	private final DefaultProfileDao profileService;
-	private final PlayerService playerService;
-	private final QuestionService questionService;
+	// variable endpoints
+	protected static final String answerPath = pathSep + answerResource 
+			+ pathSep + pathVarOpen + questionIdParam + pathVarClose;
+	protected static final String questionPath = pathSep + questionsResource 
+			+ pathSep + pathVarOpen + questionIdParam + pathVarClose;
+	protected static final String playerPath = pathSep + playersResource 
+			+ pathSep + pathVarOpen + emailParam + pathVarClose;
+	
 
+	// private member variables
+	private final DefaultProfileDao profileService;
+	private final Players playerService;
+	private final Questions questionService;
 
 	@Autowired
-	public GameController(
-			DefaultProfileDao profileService,
-			PlayerService playerService,
-			QuestionService questionService) {
+	public GameController(DefaultProfileDao profileService, Players playerService, Questions questionService) {
 		this.profileService = profileService;
 		this.playerService = playerService;
 		this.questionService = questionService;
 	}
 
 	// GET: question posed to API consumer
-	@RequestMapping(path = GameUtils.Path.GET, method = RequestMethod.GET)
-	public Ask ask(
-			@RequestParam(value = GameUtils.Param.EMAIL, defaultValue = GameUtils.DefaultStr.EMAIL) String playerEmail, 
-			@RequestParam(value = GameUtils.Param.MODE, defaultValue = GameUtils.DefaultStr.MODE) int mode,
-			@RequestParam(value = GameUtils.Param.MATTS, defaultValue = GameUtils.DefaultStr.MATTS) String mattsOnly) {
+	@GetMapping(path = askPath)
+	public Ask ask(@RequestParam(value = emailParam, defaultValue = defaultAlpha) String playerEmail,
+			@RequestParam(value = modeParam, defaultValue = defaultNumeric) int mode,
+			@RequestParam(value = mattsParam, defaultValue = defaultNumeric) String mattsOnly) {
 		AskArgs askParams = new AskArgs(playerEmail, mode, mattsOnly);
-		
-		log.info("playerEmail = " + playerEmail);
-		log.info("mode = " + mode);
-		log.info("mattsOnly = " + mattsOnly);
-		
+
 		log.info("Receiving GET params as request for a new Question object: ");
-		log.info(GameUtils.Param.EMAIL + " = " + askParams.getPlayerEmail());
-		log.info(GameUtils.Param.MODE + " = " + askParams.getMode());
-		log.info(GameUtils.Param.MATTS + " = " + askParams.getMattsOnly());
+		log.info(emailParam + " = " + askParams.getPlayerEmail());
+		log.info(modeParam + " = " + askParams.getMode());
+		log.info(mattsParam + " = " + askParams.getMattsOnly());
 
 		// init a new Ask Response
 		return new Ask(askParams, this.profileService, this.playerService, this.questionService);
 	}
 
 	// POST: API consumer's answer to persistence model
-	@PostMapping(path = GameUtils.Path.POST)
-	@ResponseBody
-	public Answer answer(
-			@PathVariable(GameUtils.Param.QUESTION_ID) long questionId,
+	@PostMapping(path = answerPath)
+	public Answer answer(@PathVariable(questionIdParam) long questionId,
 			@RequestBody AnswerArgs answerBody) {
 		answerBody.setQuestionId(questionId);
-		
+
 		// log POST values
 		log.info("Receiving POST values in answer to a question: ");
-		log.info(GameUtils.Param.ANSWER_ID + " = " + answerBody.getAnswerId());
-		log.info(GameUtils.Param.EMAIL + " = " + answerBody.getPlayerEmail());
-		log.info(GameUtils.Param.QUESTION_ID + " = " + answerBody.getQuestionId());
-		
+		log.info(answerIdParam + " = " + answerBody.getAnswerId());
+		log.info(emailParam + " = " + answerBody.getPlayerEmail());
+		log.info(questionIdParam + " = " + answerBody.getQuestionId());
+
 		return new Answer(answerBody, this.playerService, this.questionService);
+	}
+
+	// diagnostic endpoints
+	@RequestMapping(path = questionsPath)
+	public ArrayList<Question> questions() {
+		return questionService.questionList();
+	}
+
+	@RequestMapping(path = questionsPath)
+	public ArrayList<Question> questions(int length) {
+		return questionService.questionList();
+	}
+
+	@RequestMapping(path = questionsPath)
+	public ArrayList<Question> questions(int length, int skip) {
+		return questionService.questionList();
+	}
+
+	@RequestMapping(path = questionsPath)
+	public ArrayList<Question> questions(int length, int skip, int reverse) {
+		return questionService.questionList();
+	}
+	
+	@RequestMapping(path = questionPath)
+	public Question question(@PathVariable(questionIdParam) long qId) {
+		return questionService.getQuestion(qId);
+	}	
+
+	@RequestMapping(path = playersPath)
+	public ArrayList<Player> players() {
+		return playerService.playerList();
 	}
 }

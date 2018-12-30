@@ -18,13 +18,13 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.models.answer;
+package com.hoovler.api.resources;
 
 import java.util.Date;
 
-import com.hoovler.api.persistence.PlayerService;
-import com.hoovler.api.persistence.QuestionService;
-import com.hoovler.api.resources.GameUtils;
+import com.hoovler.api.controllers.GameGlobals;
+import com.hoovler.api.models.answer.AnswerArgs;
+import com.hoovler.api.models.answer.AnswerResponse;
 import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Question;
 import com.hoovler.dao.models.Stats;
@@ -59,7 +59,7 @@ public class Answer {
 	 * @param playerService the player service
 	 * @param questionService the question service
 	 */
-	public Answer(AnswerArgs args, PlayerService playerService, QuestionService questionService) {
+	public Answer(AnswerArgs args, Players playerService, Questions questionService) {
 		this.answerResponse = new AnswerResponse();
 		setAnswerResponse(args, playerService, questionService);
 	}
@@ -71,7 +71,7 @@ public class Answer {
 	 * @param pService the service
 	 * @param qService the q service
 	 */
-	public void setAnswerResponse(AnswerArgs args, PlayerService pService, QuestionService qService) {
+	public void setAnswerResponse(AnswerArgs args, Players pService, Questions qService) {
 		// if player doesn't exist, answer shouldn't be calculated because the question wasn't given to the player
 		if (!checkPlayer(args, pService)) {
 			// set dummy player with a message, and set the answer response
@@ -79,7 +79,7 @@ public class Answer {
 			this.answerResponse.setResult(false);
 		} else {
 			// derive questionId from the hashed ID passed in from the player
-			Long qId = GameUtils.decodeQuestionPlayerConnection(args.getQuestionId(), args.getPlayerEmail());
+			Long qId = GameGlobals.decodeQuestionPlayerConnection(args.getQuestionId(), args.getPlayerEmail());
 			
 			// check to see if the question with the ID given actually exists
 			if (qService.questionExists(qId)) {
@@ -114,7 +114,7 @@ public class Answer {
 	 * @param pService the service
 	 * @return true, if successful
 	 */
-	public boolean checkPlayer(AnswerArgs args, PlayerService pService) {
+	public boolean checkPlayer(AnswerArgs args, Players pService) {
 		if (pService.getPlayer(args.getPlayerEmail()) == null) return false;
 		return true;
 	}

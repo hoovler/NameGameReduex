@@ -18,22 +18,13 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.resources;
+package com.hoovler.security.models;
 
-/**
- * <p><h3>Mode</h3>
- * <p><b><u>Purpose</u></b></p>
- * This Enum ...</p>
- * <p><b><u>Information</u></b><br />
- * The <code>Mode</code> object is...</p>
- * <p><b><u>Examples</u></b></p>
- * An example:
- * <pre>some code</pre>
- * Another example:
- * <pre>some more code;</pre>
- */
-public enum Mode {
-	NORMAL,
-	REVERSE,
-	FULL
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+public class SecurityConfig {
+	private static Logger log = LogManager.getLogger(SecurityConfig.class.getName());
+	
+	//private ArrayList<>
 }
