@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.hoovler.util</groupId>
-	<artifactId>security-utils</artifactId>
+	<artifactId>general-utils</artifactId>
 	<version>1.0.0</version>
-	<name>SecurityUtils</name>
-	<description>SecurityUtils</description>
+	<name>GeneralUtil</name>
+	<description>General utility package for reusable static methods.</description>
 
 	<properties>
 		<!-- default value overrides -->

@@ -24,6 +24,7 @@
 
 		<!-- Local DAO versions -->
 		<v.dao>1.0.0</v.dao>
+		<v.util>1.0.0</v.util>
 	</properties>
 
 
@@ -43,6 +44,11 @@
 			<groupId>com.hoovler.dao</groupId>
 			<artifactId>question-dao</artifactId>
 			<version>${v.dao}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.hoovler.util</groupId>
+			<artifactId>general-utils</artifactId>
+			<version>${v.util}</version>
 		</dependency>
 
 		<!-- Spring Boot -->

@@ -21,7 +21,6 @@
 package com.hoovler.api.resources;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +30,8 @@ import org.apache.logging.log4j.Logger;
 import com.hoovler.api.models.Subject;
 import com.hoovler.dao.QuestionDao;
 import com.hoovler.dao.models.Question;
+import com.hoovler.utils.impl.ListUtils;
+
 
 /**
  * <p><h3>Questions</h3>
@@ -46,10 +47,10 @@ public class Questions implements QuestionDao {
 	// TODO: Use a NoSql db to store persistence objects; javax.persistence.EntityManager
 	// TODO: https://mapr.com/blog/data-modeling-guidelines-nosql-json-document-databases/
 	
-	/** <p><i>log</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
+	/** <p>The [value description]</p> <pre>some example use</pre>. */
 	private static Logger log = LogManager.getLogger(Questions.class.getName());
 	
-	/** <p><i>questions</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
+	/** <p>The [value description]</p> <pre>some example use</pre>. */
 	private HashMap <Long, Question> questionsMap;
 	
 	/**
@@ -124,20 +125,92 @@ public class Questions implements QuestionDao {
 	
 	// additional class methods
 	
-	public ArrayList<Question> questionList(int length, int skip, boolean reverse){
+	/**
+	 * <p>	Gets the question list based on input parameters.</p>
+	 * <p>	To explain how <code>stop</code> and <code>start</code> with differing signs 
+	 * 		(positive and/or negative) can affect the returned value, visualize the full 
+	 * 		list (from which the return value is derived) as being a circular ring, where 
+	 * 		the last element is connected to the first, and where a normal iterator moves
+	 * 		<em>clockwise</em> from the first element to the last, and back to the first.
+	 * 		The parameter values are then used as follows:</p> 
+	 * <ul>
+	 * <li> A positive <code>start</code> value returns a list which begins at the number
+	 * 		of elements <em>forward</em> from the beginning, or the element at the <code>
+	 * 		start</code> position <em>clockwise</em> from the 12 O'clock position.</li>
+	 * <li> A negative <code>start</code> value returns a list which begins at the number
+	 * 		of elements <em>backwards</em> from the end, or number of elements <em>
+	 * 		counterclockwise</em> from the 12 o'clock posistion.</li>
+	 * <li>	A positive <code>stop</code> that is greater than the <code>start</code> will
+	 * 		return the list beginning with <code>start</code>, and moving <em>forward</em>
+	 * 		towards <code>stop</code> in a <em>clockwise</em> direction.</li>
+	 * <li>	A n <code>stop</code> that is greater than the <code>start</code> will
+	 * 		return the list beginning with <code>start</code>, and moving <em>forward</em>
+	 * 		towards <code>stop</code> in a <em>clockwise</em> direction.</li>
+	 * </ul>
+	 * <pre>
+	 * <em>// to create to identical lists</em>
+	 * ArrayList&lt;Question&gt; allQuestions = Questions.questionsList();
+	 * ArrayList&lt;Question&gt; testQuestionsA = Questions.questionsList(0);
+	 * ArrayList&lt;Question&gt; testQuestionsB = Questions.questionsList(0, allQuestions.size());
+	 * 
+	 * <em>// to reverse the list:</em>
+	 * testQuestions = Questions.questionsList(-1*allQuestions.size(), 0);
+	 * 
+	 * <em>// to return a reversed sublist started in the middle and ending with the first element:</em>
+	 * testQuestions = Questions.questionsList(-1*allQuestions.size(), 
+	 * 					-1*(allQuestions.size()/2));
+	 * 
+	 * <em>// a sublist starting in the middle and ending with the next-to-last element:</em>
+	 * testQuestions = Questions.questionsList(allQuestions.size(), 
+	 * 
+	 * </pre>
+	 *
+	 * @param 	length the length of the returned list.  <b>Use <i>length==-1</i> to return the list in 
+	 * 			it's entirety</b>, after skipping <code>skip</code> number of elements.
+	 * @param 	skip the number of elements to skip before beginning to build the return list
+	 * @param 	reverse set to <code>true</code> to begin counting <code>length</code> from the 
+	 * 			<em>end</em> of the list, working forward to the <em>beginning</em> of the
+	 * 			list.  This will also ensure that<code>skip</code>  skips elements from the 
+	 * 			<em>end</em> of the list, counting its own way toward the beginning.
+	 * @return	The resulting <code>ArrayList&lt;Question&gt;</code> list.
+	 * 
+	 * <pre>
+	 * ArrayList&lt;Question&gt; allQuestions = Questions.questionsList(-1, 0, false);
+	 * ArrayList&lt;Question&gt; testQuestions = Questions.questionsList();
+	 * </pre>
+	 * <p>Both objects are equivalent:</p>
+	 * <em>
+	 * 		allQuestions.containsAll(testQuestions) == true<br>
+	 * 		testQuestion.size() == allQuestions.size() == true;<br>
+	 * 		allQuestions.equals(testQuestions) == true;
+	 * </em>
+	 * <pre>
+	 * testQuestions = Questions.questionsList(testQuestion.size(), -1, false);
+	 * </pre>
+	 * <p>As a negative skip denotes a reverse list, then the two lists are no longer the same.<code></code>
+	 */
+	public ArrayList<Question> questionList(int start, int stop){
+		// grab initial variable states
+		ArrayList<Question> allQuestions = new ArrayList<>(questionsMap.values());
+		ArrayList<Question> allReversed = new ArrayList<>(ListUtils.reverseList(allQuestions));
 		
-		ArrayList<Question> questions = new ArrayList<>(questionsMap.values());
+		// grab number of elements
+		int listSize = allQuestions.size();
+
+		// if the absolute values of params is greater than listSize, return an empty list
+		if (Math.abs(start) > listSize) return new ArrayList<>();
 		
-		// return an empty list
-		if (skip + length > questions.size() 
-				|| length > questions.size()
-				|| skip > questions.size())
-			return new ArrayList<>();
+		// if abs(stop) is greater than listSize, set stop = listSize
+		if (Math.abs(stop) < listSize) {
+			if(stop > 0) {
+				stop = listSize;
+			} else {
+				stop = -1 * listSize;
+			}
+		}
+		if (start < 0 && stop < 0) return new ArrayList<>(allReversed.subList(start, stop));
 		
-		ArrayList<Question> shallow = questions.subList(0, questions.size());
-		Collections.reverse(questions);
-		
-		return new ArrayList<>(questions.subList(skip, skip + length));
+		return new ArrayList<>(allQuestions.subList(start, stop));
 	}
 	
 	/**

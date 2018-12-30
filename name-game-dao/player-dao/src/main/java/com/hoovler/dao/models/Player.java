@@ -1,21 +1,21 @@
-/* 
- * Copyright (c) ${author} 2018 
+/*
+ * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
  * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of 
- * this software and associated documentation files (the "Software"), to deal in the 
- * Software without restriction, including without limitation the rights to use, copy, 
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
- * and to permit persons to whom the Software is furnished to do so, subject to the 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in the
+ * Software without restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the
  * following conditions:
  * 
- * The above copyright notice and this permission notice shall be included in all 
+ * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.hoovler.dao.models;
@@ -24,67 +24,68 @@ import java.util.Date;
 
 import com.hoovler.dao.resources.ScoreBy;
 
+// TODO: Auto-generated Javadoc
 /**
- * <p><h3>Player</h3>
- * <p><b><u>Purpose</u></b></p>
- * This Class ...</p>
- * <p><b><u>Information</u></b><br />
- * The <code>Player</code> object is...</p>
- * <p><b><u>Examples</u></b></p>
- * An example:
- * <pre>some code</pre>
- * Another example:
- * <pre>some more code;</pre>
+ * <p>
+ * <h3>Player</h3>
+ * </p>
+ * <p>
+ * <b><u>Purpose:</u></b> TODO: add purpose...
+ * </p>
+ * <p>
+ * <b><u>Information:</u></b> TODO: add info...
+ * </p>
  */
 public class Player {
-	
 
-	/** <p><i>email</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
+	/**
+	 * <p>
+	 * TODO: add desc
+	 * </p>
+	 * . */
 	private String email;
 
-	private Stats stats;
-	// ******************** GETTERS ********************
-	
 	/**
-	 * Gets the <p><i>email</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>.
+	 * <p>
+	 * TODO: add desc
+	 * </p>
+	 * . */
+	private Stats stats;
+
+	/** Gets the email.
 	 *
-	 * @return the <p><i>email</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>
-	 */
+	 * @return the email */
 	public String getEmail() {
 		return email;
 	}
 
-	/**
-	 * Gets the stats.
+	/** Gets the stats.
 	 *
-	 * @return the stats
-	 */
+	 * @return the stats */
 	public Stats getStats() {
 		return stats;
 	}
-	
+
 	// ******************** SETTERS ********************
 
-	/**
-	 * Sets the <p><i>email</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>.
+	/** Sets the email.
 	 *
-	 * @param email the new <p><i>email</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>
-	 */
+	 * @param email the new email */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	/**
-	 * Sets the stats.
+	/** Sets the stats.
 	 *
-	 * @param stats the new stats
-	 */
+	 * @param stats the new stats */
 	public void setStats(Stats stats) {
 		this.stats = stats;
 	}
-	
+
 	/**
-	 * <p>Update all player statistics with a minimal set of arguments.</p>
+	 * <p>
+	 * Update all player statistics with a minimal set of arguments.
+	 * </p>
 	 * 
 	 * This method will indirectly update the following:
 	 * <ul>
@@ -97,65 +98,61 @@ public class Player {
 	 * <li>recalculate <code>this.stats.averageResponseTime</code></li>
 	 * </ul>
 	 *
-	 * @param askedTime the asked time
-	 * @param answerTime the answer time
+	 * @param askedTime         the asked time
+	 * @param answerTime        the answer time
 	 * @param withCorrectAnswer the with correct answer
 	 * 
 	 * @see
-	 * {@link com.hoovler.dao.models.Stats}
-	 */
+	 * 							com.hoovler.dao.models.Stats */
 	public void updateStats(Date askedTime, Date answerTime, boolean withCorrectAnswer) {
 		this.stats.incrementAnswered();
-		if(withCorrectAnswer) this.stats.incrementCorrect();
+		if (withCorrectAnswer)
+			this.stats.incrementCorrect();
 		this.stats.updateTimes(askedTime, answerTime);
 	}
-	
-	/**
-	 * Update score.
+
+	/** Update score.
 	 *
-	 * @param scoreBy the score by
-	 * @param multiplier the multiplier
-	 * @return the double
+	 * @param  scoreBy    the score by
+	 * @param  multiplier the multiplier
+	 * @return            the double
 	 * 
-	 * @see com.hoovler.dao.models.Stats#setScore(ScoreBy, int)
-	 * 
-	 */
+	 * @see
+	 * 					com.hoovler.dao.models.Stats#setScore(ScoreBy, int) */
 	public Double updateScore(ScoreBy scoreBy, int multiplier) {
 		return this.stats.setScore(scoreBy, multiplier);
 	}
-	
+
+	/** Update score.
+	 *
+	 * @param score the score */
 	public void updateScore(Double score) {
 		this.stats.setScore(score);
 	}
-	
+
+	/** Update stats.
+	 *
+	 * @param askedTime         the asked time
+	 * @param incrementAskCount the increment ask count */
 	public void updateStats(Date askedTime, boolean incrementAskCount) {
 		this.stats.setLastAskedTime(askedTime);
-		if (incrementAskCount) this.stats.incrementAsked();
+		if (incrementAskCount)
+			this.stats.incrementAsked();
 	}
 	// ******************** CONSTRUCTORS ********************
-	
-	/**
-	 * Instantiates a new player.
-	 */
+
+	/** Instantiates a new player. */
 	public Player() {
-	
+
 	}
 
-	/**
-	 * Instantiates a new player.
+	/** Instantiates a new player.
 	 *
 	 * @param email the email
-	 * @param questions the questions
-	 * @param stats the stats
-	 */
+	 * @param stats the stats */
 	public Player(String email, Stats stats) {
 		this.email = email;
 		this.stats = stats;
 	}
 
-
-
-
-	
-	
 }

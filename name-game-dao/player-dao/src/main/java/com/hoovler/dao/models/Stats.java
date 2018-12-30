@@ -88,8 +88,7 @@ public class Stats {
 	 * @param answerTime the answer time in seconds
 	 * 
 	 * @see
-	 *  {@link Stats#updateTimes(Date, Date)} <br/>
-	 *  {@link Stats#sumAverageAnswerTimes()}
+	 *  Stats#updateTimes(Date, Date)
 	 */
 	public void addAnswerTime(long answerTime) {
 		this.responseTimes.add(answerTime);

@@ -36,10 +36,10 @@ import com.hoovler.api.models.RestParam;
  */
 public abstract class GameGlobals {
 	
-	/** <p><i>numOptions</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
+	/** <p>The [value description]</p> <pre>some example use</pre>. */
 	public static final int NUM_OPTIONS = 6;
 
-	/** <p><i>apiVersion</i> = <u>{@value}</u></p> <p>The [value description]</p> <pre>some example use</pre>. */
+	/** <p>The [value description]</p> <pre>some example use</pre>. */
 	public static final String API_VERSION = "2.0.0";
 	
 	public static final Integer PRIME = 31;
