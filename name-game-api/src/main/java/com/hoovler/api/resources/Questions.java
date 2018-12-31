@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.hoovler.api.models.Subject;
+import com.hoovler.api.models.SubjectFromQuestionObject;
 import com.hoovler.dao.QuestionDao;
 import com.hoovler.dao.models.Question;
 import com.hoovler.utils.impl.ListUtils;
@@ -231,8 +231,8 @@ public class Questions implements QuestionDao {
 	 * @return 	a <code>Subject</code> object, which is the class used within <code>Question</code> for the
 	 * 			purposes of this API.
 	 */
-	public Subject subjectFromObject(Object questionObject) {
-		return Subject.class.cast(questionObject);
+	public SubjectFromQuestionObject subjectFromObject(Object questionObject) {
+		return SubjectFromQuestionObject.class.cast(questionObject);
 	}
 
 	/**
@@ -256,7 +256,7 @@ public class Questions implements QuestionDao {
 			return false;
 		}
 
-		Subject target = subjectFromObject(q.getTarget());
+		SubjectFromQuestionObject target = subjectFromObject(q.getTarget());
 
 		log.info("Question with id " + questionId + " was found!");
 		correctId = target.getId();

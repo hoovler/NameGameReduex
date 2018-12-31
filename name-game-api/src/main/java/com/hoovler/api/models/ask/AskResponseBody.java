@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) ${author} 2018 
+ * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of 
  * this software and associated documentation files (the "Software"), to deal in the 
@@ -20,34 +20,58 @@
  */
 package com.hoovler.api.models.ask;
 
-public class AskOption {
-	private String optionId;
-	private String optionValue;
+import java.util.ArrayList;
+
+public class AskResponseBody {
 	
-	public String getOptionId() {
-		return optionId;
-	}
-	public String getOptionValue() {
-		return optionValue;
-	}
-	public void setOptionId(String optionId) {
-		this.optionId = optionId;
-	}
-	public void setOptionValue(String optionValue) {
-		this.optionValue = optionValue;
-	}
+	private String questionId;
 	
-	public AskOption() {
+	private String target;
+	
+	private ArrayList<QuestionOption> options;
+
+	public String getQuestionId() {
+		return questionId;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public ArrayList<QuestionOption> getOptions() {
+		return options;
+	}
+
+	public void setQuestionId(String questionId) {
+		this.questionId = questionId;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public void setOptions(ArrayList<QuestionOption> options) {
+		this.options = options;
+	}
+
+	public AskResponseBody() {
 		
 	}
-	
-	public AskOption(String optionId) {
-		this.optionId = optionId;
+
+	public AskResponseBody(String questionId) {
+		this.questionId = questionId;
+	}
+
+	public AskResponseBody(String questionId, String target) {
+		this.questionId = questionId;
+		this.target = target;
+	}
+
+	public AskResponseBody(String questionId, String target, ArrayList<QuestionOption> options) {
+		this.questionId = questionId;
+		this.target = target;
+		this.options = options;
 	}
 	
-	public AskOption(String optionId, String optionValue) {
-		this.optionId = optionId;
-		this.optionValue = optionValue;
-	}	
 	
 }

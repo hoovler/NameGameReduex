@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) ${author} 2018 
+ * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of 
  * this software and associated documentation files (the "Software"), to deal in the 
@@ -35,42 +35,51 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hoovler.api.models.answer.AnswerArgs;
 import com.hoovler.api.models.ask.AskArgs;
-import com.hoovler.api.resources.Answer;
-import com.hoovler.api.resources.Ask;
+import com.hoovler.api.resources.AnswerQuestion;
+import com.hoovler.api.resources.AskQuestion;
 import com.hoovler.api.resources.Players;
 import com.hoovler.api.resources.Questions;
+import com.hoovler.api.utils.GameUtils;
 import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Question;
 
 @RestController
-@RequestMapping("/namegame/v" + GameGlobals.API_VERSION)
+@RequestMapping("/namegame/v" + GameUtils.API_VERSION)
 public class GameController {
 
 	private static Logger log = LogManager.getLogger(GameController.class.getName());
-	// protected member path character constants
+	
+	/*
+	 * frustratingly, all Spring annotation parameters must be a constant 
+	 * value at runtime; therefore, any derived values and their constituent 
+	 * components must be declared within the class in which they will be 
+	 * used.
+	 */
+	
+
 	protected static final String pathSep = "/";
 	protected static final String pathVarOpen = "{";
 	protected static final String pathVarClose = "}";
 
-	// protected member default param values
+
 	protected static final String defaultAlpha = "";
 	protected static final String defaultNumeric = "0";
 
-	// protected member parameter default name/value pair constants
+
 	protected static final String emailParam = "email";
 	protected static final String modeParam = "mode";
 	protected static final String mattsParam = "matts";
 	protected static final String questionIdParam = "question_id";
 	protected static final String answerIdParam = "answer_id";
 
-	// protected member resources available
+
 	protected static final String askResource = "ask";
 	protected static final String answerResource = "answer";
 	protected static final String questionsResource = "questions";
 	protected static final String playersResource = "players";
 
-	// static endpoints
+
 	protected static final String askPath = pathSep + askResource;
 	protected static final String questionsPath = pathSep + questionsResource;
 	protected static final String playersPath = pathSep + playersResource;
@@ -98,7 +107,7 @@ public class GameController {
 
 	// GET: question posed to API consumer
 	@GetMapping(path = askPath)
-	public Ask ask(@RequestParam(value = emailParam, defaultValue = defaultAlpha) String playerEmail,
+	public AskQuestion ask(@RequestParam(value = emailParam, defaultValue = defaultAlpha) String playerEmail,
 			@RequestParam(value = modeParam, defaultValue = defaultNumeric) int mode,
 			@RequestParam(value = mattsParam, defaultValue = defaultNumeric) String mattsOnly) {
 		AskArgs askParams = new AskArgs(playerEmail, mode, mattsOnly);
@@ -109,12 +118,12 @@ public class GameController {
 		log.info(mattsParam + " = " + askParams.getMattsOnly());
 
 		// init a new Ask Response
-		return new Ask(askParams, this.profileService, this.playerService, this.questionService);
+		return new AskQuestion(askParams, this.profileService, this.playerService, this.questionService);
 	}
 
 	// POST: API consumer's answer to persistence model
 	@PostMapping(path = answerPath)
-	public Answer answer(@PathVariable(questionIdParam) long questionId,
+	public AnswerQuestion answer(@PathVariable(questionIdParam) long questionId,
 			@RequestBody AnswerArgs answerBody) {
 		answerBody.setQuestionId(questionId);
 
@@ -124,7 +133,7 @@ public class GameController {
 		log.info(emailParam + " = " + answerBody.getPlayerEmail());
 		log.info(questionIdParam + " = " + answerBody.getQuestionId());
 
-		return new Answer(answerBody, this.playerService, this.questionService);
+		return new AnswerQuestion(answerBody, this.playerService, this.questionService);
 	}
 
 	// diagnostic endpoints

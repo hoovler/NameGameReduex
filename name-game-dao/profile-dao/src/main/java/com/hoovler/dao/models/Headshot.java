@@ -1,25 +1,28 @@
 /*
- * Copyright (c) Michael Hoovler 2018
+ * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
  * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
- * associated documentation files (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge, publish, distribute,
- * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in the
+ * Software without restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the
+ * following conditions:
  * 
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
- * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.hoovler.dao.models;
 
-/**
- * <p>
+import org.apache.commons.lang3.StringUtils;
+
+/** <p>
  * <h3>Headshot</h3>
  * </p>
  * <p>
@@ -32,8 +35,7 @@ package com.hoovler.dao.models;
  * <p>
  * The <code>Headshot</code> object is nested within <code>Profile</code> as a member variable, and
  * must be accessed as such.
- * </p>
- */
+ * </p> */
 public class Headshot {
 
 	/** The type. */
@@ -127,7 +129,24 @@ public class Headshot {
 		this.id = id;
 	}
 
-	/** Sets the url.
+	/** Ensures the given url begins with the given protocol.
+	 * <p>This method assumes the <code>url</code> is passed to the method in either of the following states:</p>
+	 * <ul><li>Starting with a set of double forward slashes: <code>//some.domain.com</code></li><li>Starting with the passed protocol: <code>http://some.domain.com</code></li></ul>
+	 * <p>If the former, the <code>protocol</code> is added as the prefix to the <code>url</code>, while the latter results in no change.</p>
+	 * <p><b>Note:</b><em> This method will not validate the </em><code>url</code><em>. If the <code>url</code> is already prefixed with a <b>different</b> value than either </em>"//"<em>, or the <code>protocol</code> passed in, then the result will be a malformed Headshot.url.</em></p>
+	 *
+	 * @param url      the url prefixed by "//" or the <code>protocol</code>
+	 * @param protocol the protocol */
+	public void setUrl(String url, String protocol) {
+		// ensure the url begins with the proper protocol
+		if (!StringUtils.startsWithIgnoreCase(url, protocol)) {
+			if (StringUtils.startsWith(url, "//")) url = protocol + url;
+		}
+			
+		setUrl(url);
+	}
+
+	/** Sets Headshot.url
 	 *
 	 * @param url the new url */
 	public void setUrl(String url) {

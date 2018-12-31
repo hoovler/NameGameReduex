@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) ${author} 2018 
+ * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of 
  * this software and associated documentation files (the "Software"), to deal in the 
@@ -30,25 +30,48 @@ import com.hoovler.api.resources.Players;
 import com.hoovler.api.resources.Questions;
 import com.hoovler.dao.DefaultProfileDao;
 
+/**
+ * The Class NameGame.
+ */
 @SpringBootApplication
 public class NameGame {
 	private static Logger log = LogManager.getLogger(NameGame.class.getName());
 	
+	/**
+	 * Profile service.
+	 *
+	 * @return the default profile dao
+	 */
 	@Bean
 	protected DefaultProfileDao profileService() {
 		return new DefaultProfileDao();
 	}
 	
+	/**
+	 * Player service.
+	 *
+	 * @return the players
+	 */
 	@Bean
 	protected Players playerService() {
 		return new Players();
 	}
 	
+	/**
+	 * Question service.
+	 *
+	 * @return the questions
+	 */
 	@Bean
 	protected Questions questionService() {
 		return new Questions();
 	}
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		log.info("========== APPLICATION INITIALIZED ============");
 		SpringApplication.run(NameGame.class, args);

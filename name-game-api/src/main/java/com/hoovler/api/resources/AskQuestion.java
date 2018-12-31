@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) ${author} 2018 
+ * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of 
  * this software and associated documentation files (the "Software"), to deal in the 
@@ -22,9 +22,9 @@ package com.hoovler.api.resources;
 
 import java.util.Date;
 
-import com.hoovler.api.controllers.GameGlobals;
 import com.hoovler.api.models.ask.AskArgs;
-import com.hoovler.api.models.ask.AskResponse;
+import com.hoovler.api.models.ask.AskResponseBody;
+import com.hoovler.api.utils.GameUtils;
 import com.hoovler.api.utils.Mode;
 import com.hoovler.api.utils.QuestionsHelper;
 import com.hoovler.dao.DefaultProfileDao;
@@ -40,18 +40,25 @@ import com.hoovler.dao.models.Question;
  * <p><b><u>Examples</u></b></p>
  * <pre>GET: http://localhost/namegame/v2.0.0/ask?email=foo@bar.com&mode=2</pre>
  */
-public class Ask {
+public class AskQuestion {
 	//private static Logger log = LogManager.getLogger(Ask.class.getName());
 	
-	private AskResponse askResponse;
+	private AskResponseBody askResponseBody;
 	
 	/**
 	 * Gets the response.
 	 *
 	 * @return the response
 	 */
-	public AskResponse getAskResponse() {
-		return this.askResponse;
+	public AskResponseBody getAskResponse() {
+		return this.askResponseBody;
+	}
+	
+	/**
+	 * Instantiates a new ask question.
+	 */
+	public AskQuestion() {
+		this.askResponseBody = new AskResponseBody();
 	}
 	
 	/**
@@ -74,9 +81,9 @@ public class Ask {
 	 * the inflexibility of having such an option built into the back-end design.</p>
 	 * @param data - the Data persistence object;
 	 */
-	public Ask(AskArgs values, DefaultProfileDao profileService, Players playerService, Questions questionService) {
+	public AskQuestion(AskArgs values, DefaultProfileDao profileService, Players playerService, Questions questionService) {
 		
-		this.askResponse = new AskResponse();
+		this.askResponseBody = new AskResponseBody();
 		setAskResponse(values, profileService, playerService, questionService);
 	}
 	
@@ -84,34 +91,34 @@ public class Ask {
 	 * Sets the ask response.
 	 *
 	 * @param values the values
-	 * @param profileService the profile service
-	 * @param playerService the player service
-	 * @param questionService the question service
+	 * @param profiles the profile service
+	 * @param players the player service
+	 * @param questions the question service
 	 */
 	public void setAskResponse(
 			AskArgs values, 
-			DefaultProfileDao profileService, 
-			Players playerService, 
-			Questions questionService) {
+			DefaultProfileDao profiles, 
+			Players players, 
+			Questions questions) {
 		// determine question format from arguments passed in to the API
 		Mode mode = values.modeEnum();
 		String namePrefix = "";
 		if (values.mattsOnlyEnum()) namePrefix = "matt";
 		
 		// generate a new question based on arguments
-		Question q = QuestionsHelper.generateQuestion(profileService, namePrefix);
-		this.askResponse = QuestionsHelper.formatQuestion(mode, q);
+		Question q = QuestionsHelper.generateQuestion(profiles, namePrefix);
+		this.askResponseBody = QuestionsHelper.formatQuestion(mode, q);
 		
 		// set the ID to a value from which the QuestionId can be derived for the purposes of checking an answer in the future
-		this.askResponse.setQuestionId(GameGlobals.encodeQuestionPlayerConnection(q.getId(), values.getPlayerEmail()));
+		this.askResponseBody.setQuestionId(GameUtils.encodeToHexWithSalt(q.getId(), values.getPlayerEmail()));
 		
 		// update player history
-		Player player = playerService.getOrAddPlayer(values.getPlayerEmail());
+		Player player = players.getOrAddPlayer(values.getPlayerEmail());
 		player.updateStats(new Date(), true);
-		playerService.updatePlayer(player.getEmail(), player);
+		players.updatePlayer(player.getEmail(), player);
 		
 		// update question history
-		questionService.addQuestion(q);
+		questions.addQuestion(q);
 	}
 	
 }

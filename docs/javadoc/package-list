@@ -8,10 +8,10 @@ com.hoovler.api.utils
 com.hoovler.dao
 com.hoovler.dao.models
 com.hoovler.dao.resources
-com.hoovler.resource
 com.hoovler.utils.enums
 com.hoovler.utils.impl
 com.hoovler.utils.models
 test.hoovler.api
-test.hoovler.dao
+test.hoovler.api.utils
 test.hoovler.dao.models
+test.hoovler.util.impl
