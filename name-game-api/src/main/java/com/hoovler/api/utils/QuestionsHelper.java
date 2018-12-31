@@ -1,21 +1,21 @@
-/* 
+/*
  * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
  * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of 
- * this software and associated documentation files (the "Software"), to deal in the 
- * Software without restriction, including without limitation the rights to use, copy, 
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
- * and to permit persons to whom the Software is furnished to do so, subject to the 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in the
+ * Software without restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the
  * following conditions:
  * 
- * The above copyright notice and this permission notice shall be included in all 
+ * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.hoovler.api.utils;
@@ -37,13 +37,11 @@ import com.hoovler.dao.models.Question;
 public class QuestionsHelper {
 	private static Logger log = LogManager.getLogger(QuestionsHelper.class.getName());
 
-	/**
-	 * Ask response.
+	/** Ask response.
 	 *
-	 * @param mode the mode
-	 * @param q the q
-	 * @return the ask response
-	 */
+	 * @param  mode the mode
+	 * @param  q    the q
+	 * @return      the ask response */
 	public static AskResponseBody formatQuestion(Mode mode, Question q) {
 		// object to return
 		AskResponseBody response = new AskResponseBody();
@@ -67,81 +65,71 @@ public class QuestionsHelper {
 		return response;
 	}
 
-	/**
-	 * Gets a normal option (or target), where question.options = List<imageUrl> 
+	/** Gets a normal option (or target), where question.options = List<imageUrl>
 	 *
-	 * @param object the object
-	 * @return the normal option
-	 */
+	 * @param  object the object
+	 * @return        the normal option */
 	public static QuestionOption getNormalTarget(Object object) {
 		SubjectFromQuestionObject subject = SubjectFromQuestionObject.class.cast(object);
 		return new QuestionOption(subject.getId(), subject.getImageUrl());
 	}
 
-	/**
-	 * Gets a list of normal options, where question.options = List<imageUrl>
+	/** Gets a list of normal options, where question.options = List<imageUrl>
 	 *
-	 * @param subjects the subjects
-	 * @return the normal options
-	 */
+	 * @param  subjects the subjects
+	 * @return          the normal options */
 	public static ArrayList<QuestionOption> getNormalOptions(ArrayList<Object> subjects) {
 		ArrayList<QuestionOption> formattedOptions = new ArrayList<>();
 		log.debug("getNormalOptions(ArrayList<Object> subjects)");
 		for (Object object : subjects) {
 			SubjectFromQuestionObject subject = SubjectFromQuestionObject.class.cast(object);
 			QuestionOption option = new QuestionOption(subject.getId(), subject.getName());
-			log.debug("    Adding new AskOption: optionId = " + option.getOptionId() + 
-					", optionValue" + option.getOptionValue());
+			log.debug("    Adding new AskOption: optionId = " + option.getOptionId() + ", optionValue"
+					+ option.getOptionValue());
 			formattedOptions.add(option);
 		}
 		return formattedOptions;
 	}
 
-	/**
-	 * Gets a reverse option (or target), where question.options = List<name>
+	/** Gets a reverse option (or target), where question.options = List<name>
 	 *
-	 * @param object the object
-	 * @return the reverse option
-	 */
+	 * @param  object the object
+	 * @return        the reverse option */
 	public static QuestionOption getReverseTarget(Object object) {
 		SubjectFromQuestionObject subject = SubjectFromQuestionObject.class.cast(object);
 		return new QuestionOption(subject.getId(), subject.getName());
 	}
 
-	/**
-	 * Gets a list of reverse options, where question.options = List<name>
+	/** Gets a list of reverse options, where question.options = List<name>
 	 *
-	 * @param optionsFromQ the subjects
-	 * @return the reverse options
-	 */
+	 * @param  optionsFromQ the subjects
+	 * @return              the reverse options */
 	public static ArrayList<QuestionOption> getReverseOptions(ArrayList<Object> optionsFromQ) {
 		ArrayList<QuestionOption> formattedOptions = new ArrayList<>();
 		log.debug("getReverseOptions(ArrayList<Object> subjects)");
 		for (Object object : optionsFromQ) {
 			SubjectFromQuestionObject subject = SubjectFromQuestionObject.class.cast(object);
 			QuestionOption option = new QuestionOption(subject.getId(), subject.getImageUrl());
-			log.debug("    Adding new AskOption: optionId = " + option.getOptionId() + 
-					", optionValue" + option.getOptionValue());
+			log.debug("    Adding new AskOption: optionId = " + option.getOptionId() + ", optionValue"
+					+ option.getOptionValue());
 			formattedOptions.add(option);
 		}
 		return formattedOptions;
 	}
 
-	/**
-	 * Generates a valid Question object.
+	/** Generates a valid Question object.
 	 * 
-	 * @author 	Michael Hoovler
-	 * @param 	data - the <code>Data</code> persistence object, containing the session states (and wrapper methods) of each included DAO 
-	 * @param 	namePrefix - a case-insensitive string with which each Subject's name must begin.
-	 * @return 	<code>Question</code> q; contains options, a target, a dateCreated, and an id.  Also contains timeAsked, if: 
-	 * 			<code>setTimeAsked == true;</code>
-	 * 			<p>Since the class type for Question.target (and those of the list Question.options) is Object (for generic reuse
-	 * 			of the Question class and its QuestionDao persistence handler), this method iterates through a generated list
-	 * 			of <code>Subject</code> objects, converting each to an <code>Object</code> object before being set as the Question.options attribute.</p>
-	 * 			<p>The Question.qId value is set immediately upon the initialization of the Question object, allowing any return from this
-	 * 			method to be immediately added to a QuestionDao persistence instance.</p>
-	 * @see com.hoovler.dao.models.Question#generateId() Question.generateId()
-	 */
+	 * @author            Michael Hoovler
+	 * @param  data       - the <code>Data</code> persistence object, containing the session states (and wrapper methods) of each included DAO
+	 * @param  namePrefix - a case-insensitive string with which each Subject's name must begin.
+	 * @return            <code>Question</code> q; contains options, a target, a dateCreated, and an id. Also contains timeAsked, if:
+	 *                    <code>setTimeAsked == true;</code>
+	 *                    <p>Since the class type for Question.target (and those of the list Question.options) is Object (for generic reuse
+	 *                    of the Question class and its QuestionDao persistence handler), this method iterates through a generated list
+	 *                    of <code>Subject</code> objects, converting each to an <code>Object</code> object before being set as the Question.options attribute.</p>
+	 *                    <p>The Question.qId value is set immediately upon the initialization of the Question object, allowing any return from this
+	 *                    method to be immediately added to a QuestionDao persistence instance.</p>
+	 * @see               com.hoovler.dao.models.Question#generateId() Question.generateId() */
 	public static Question generateQuestion(DefaultProfileDao profileService, String namePrefix) {
 		ArrayList<Profile> questionObjects = profileService.profileList();
 		Question q = new Question();
@@ -176,16 +164,14 @@ public class QuestionsHelper {
 		return getSubjects(from, numSubjects, null);
 	}
 
-
-	/**
-	 * Gets the subjects.
+	/** Gets the subjects.
 	 *
-	 * @param from the from
-	 * @param numSubjects the num subjects
-	 * @param namePrefix the name prefix
-	 * @return the subjects
-	 */
-	protected static ArrayList<SubjectFromQuestionObject> getSubjects(ArrayList<Profile> from, int numSubjects, String namePrefix) {
+	 * @param  from        the from
+	 * @param  numSubjects the num subjects
+	 * @param  namePrefix  the name prefix
+	 * @return             the subjects */
+	protected static ArrayList<SubjectFromQuestionObject> getSubjects(ArrayList<Profile> from, int numSubjects,
+			String namePrefix) {
 
 		ArrayList<SubjectFromQuestionObject> subjects = new ArrayList<>();
 
@@ -202,8 +188,8 @@ public class QuestionsHelper {
 			}
 
 			// determined to match criteria, profile will be added as a subject
-			subjects.add(new SubjectFromQuestionObject(candidate.getId(), candidate.getFirstName() + " " + candidate.getLastName(),
-					candidate.getHeadshot().getUrl()));
+			subjects.add(new SubjectFromQuestionObject(candidate.getId(),
+					candidate.getFirstName() + " " + candidate.getLastName(), candidate.getHeadshot().getUrl()));
 
 			// remove candidate to eliminate duplicates
 			from.remove(index);
@@ -212,16 +198,15 @@ public class QuestionsHelper {
 		return subjects;
 	}
 
-	/**
-	 * Gets the target.
+	/** Gets the target.
 	 *
-	 * @param from the from
-	 * @return the target
-	 */
+	 * @param  from the from
+	 * @return      the target */
 	protected static SubjectFromQuestionObject getTarget(ArrayList<SubjectFromQuestionObject> from) {
 		if (!from.isEmpty()) {
 			int index = new Random().nextInt(from.size());
-			return new SubjectFromQuestionObject(from.get(index).getId(), from.get(index).getName(), from.get(index).getImageUrl());
+			return new SubjectFromQuestionObject(from.get(index).getId(), from.get(index).getName(),
+					from.get(index).getImageUrl());
 		} else {
 			log.error("Unable to extract target from an empty list of subjects.");
 			return null;
@@ -229,12 +214,10 @@ public class QuestionsHelper {
 
 	}
 
-	/**
-	 * Checks if a given profile should be used as a Subject within a Question.
+	/** Checks if a given profile should be used as a Subject within a Question.
 	 *
-	 * @param profile the <code>Profile</code> object to test.
-	 * @return true, if the <code>profile</code> has a valid first name, last name, and Headshot.Url.
-	 */
+	 * @param  profile the <code>Profile</code> object to test.
+	 * @return         true, if the <code>profile</code> has a valid first name, last name, and Headshot.Url. */
 	private static boolean isViable(Profile candidate, String namePrefix) {
 		if (candidate == null)
 			return false;

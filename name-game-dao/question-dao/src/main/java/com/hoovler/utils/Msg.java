@@ -18,58 +18,49 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.utils;
+package com.hoovler.utils;
 
 import java.util.HashMap;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-
 // TODO: Auto-generated Javadoc
-/**
- * The Class NameGameProperties.
- */
-public class NameGameProperties {
-
-	/** The Constant paramNames. */
-	protected static final String[] paramNames = new String[] { "param.email.name", "param.mode.name",
-			"param.matts.name" };
-
-	/** Gets NameGameProperties.paramNames
-	 *
-	 * @return the param names */
-	public String[] getParamNames() {
-		return paramNames;
-	}
-
-	/** The Constant paramDefaults. */
-	protected static final String[] paramDefaults = new String[] { "param.email.default", "param.mode.default",
-			"param.matts.default" };
-
-	/** Gets NameGameProperties.paramDefaults
-	 *
-	 * @return the param defaults */
-	public String[] getParamDefaults() {
-		return paramDefaults;
-	}
-
-	/** <p>The case-sensitive name of the project's configuration file.</p>
-	 * <p><u><b>Requirements</b></u></p>
-	 * <ul>
-	 * <li>The file <em>must</em> be within the folder <em>/${projectRoot}/resources</em></li>
-	 * <li>The file <em>must</em> have the filetype suffix of <em>.properties</em></li>
-	 * <li>The file <em>must not</em> have the same name as the Spring Boot configuration file, <em>application.properties</em>, unless that is the file to which access is required.</li><ul> */
-	private static final String BUNDLE_NAME = "namegame"; //$NON-NLS-1$
-
-	/** <p>
-	 * The resource bundle object, derived from <em>BundleName</em>.properties
-	 * </p> **/
+/** The Class Messages. */
+public class Msg {
+	private static final String BUNDLE_NAME = "messages"; // $NON-NLS-1$
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
-	/** Gets the string.
+	// ********************** CONFIRMATIONS
+
+	public static final String MSG_ADD_QUESTION = "info.add.question";
+
+	// ********************** WARNINGS
+
+	/** The Constant MSG_INVALID_ID. */
+	public static final String MSG_ID_NOT_FOUND = "warn.id.not.found";
+
+	public static final String MSG_ID_BLANK = "warn.id.blank";
+
+	/** The Constant MSG_NONMATCHING_ID. */
+	public static final String MSG_IDS_NON_MATCHING = "warn.id.matching.prefix";
+
+	/** The Constant MSG_NOT_UPDATING. */
+	public static final String MSG_NOT_UPDATING = "warn.update.suffix";
+
+	// ********************** METHODS
+
+	/** A simplified method for calling Messages.getString(String key)
 	 *
-	 * @param  key the key
-	 * @return     the string */
+	 * @param  key a key within the message bundle properties file for which the value is desired
+	 * @return     the property value denoted by the key */
+	public static String get(String key) {
+		return getString(key);
+	}
+
+	/** Gets the string value of the given key from the properties bundle.
+	 *
+	 * @param  key a key within the message bundle properties file for which the value is desired
+	 * @return     the property value denoted by the key */
 	public static String getString(String key) {
 		try {
 			return RESOURCE_BUNDLE.getString(key);
@@ -91,8 +82,8 @@ public class NameGameProperties {
 		return properties;
 	}
 
-	/** Instantiates a new name game properties. */
-	private NameGameProperties() {
+	private Msg() {
 		// no-op
 	}
+
 }

@@ -133,16 +133,14 @@ public class Headshot {
 	 * <p>This method assumes the <code>url</code> is passed to the method in either of the following states:</p>
 	 * <ul><li>Starting with a set of double forward slashes: <code>//some.domain.com</code></li><li>Starting with the passed protocol: <code>http://some.domain.com</code></li></ul>
 	 * <p>If the former, the <code>protocol</code> is added as the prefix to the <code>url</code>, while the latter results in no change.</p>
-	 * <p><b>Note:</b><em> This method will not validate the </em><code>url</code><em>. If the <code>url</code> is already prefixed with a <b>different</b> value than either </em>"//"<em>, or the <code>protocol</code> passed in, then the result will be a malformed Headshot.url.</em></p>
+	 * <p><b>Note:</b><em> This method will not validate the </em><code>url</code>.</p>
+	 * <p>If the <code>url</code> is already prefixed a value <b>other than</b> "//" <b>or</b> the <code>protocol</code> passed in, then the result will be a malformed Headshot.url</p>
 	 *
 	 * @param url      the url prefixed by "//" or the <code>protocol</code>
 	 * @param protocol the protocol */
 	public void setUrl(String url, String protocol) {
 		// ensure the url begins with the proper protocol
-		if (!StringUtils.startsWithIgnoreCase(url, protocol)) {
-			if (StringUtils.startsWith(url, "//")) url = protocol + url;
-		}
-			
+		if (!StringUtils.startsWithIgnoreCase(url, protocol)) url = protocol + url;
 		setUrl(url);
 	}
 

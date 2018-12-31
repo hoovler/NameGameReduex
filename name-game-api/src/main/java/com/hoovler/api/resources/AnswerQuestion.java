@@ -130,8 +130,6 @@ public class AnswerQuestion {
 	 * @param  pService the service
 	 * @return          true, if successful */
 	public boolean checkPlayer(AnswerArgs args, Players pService) {
-		if (pService.getPlayer(args.getPlayerEmail()) == null)
-			return false;
-		return true;
+		return pService.getPlayer(args.getPlayerEmail()) == null;
 	}
 }

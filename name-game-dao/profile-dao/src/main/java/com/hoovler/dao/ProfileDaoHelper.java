@@ -70,7 +70,7 @@ public class ProfileDaoHelper {
 	public static HashMap<String, Profile> getProfilesMap(String sourceUrl) {
 		// make sure URL isn't null; first check sourceUrl param, then properties file, then hard-wired global
 		String url = checkUrl(sourceUrl);
-		log.info("url=" + url);
+		log.debug("url=" + url);
 
 		// set profile array
 		HashMap<String, Profile> profiles = new HashMap<>();
@@ -198,6 +198,10 @@ public class ProfileDaoHelper {
 
 		// convert to an array of objects...
 		return root.getAsJsonArray();
+	}
+	
+	private ProfileDaoHelper() {
+		// no-op
 	}
 
 }
