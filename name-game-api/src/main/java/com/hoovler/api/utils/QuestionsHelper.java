@@ -27,13 +27,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.hoovler.api.models.QuestionOption;
 import com.hoovler.api.models.Subject;
-import com.hoovler.api.models.ask.QuestionOption;
 import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.models.Profile;
 import com.hoovler.dao.models.Question;
 
-public class QuestionsHelper {
+public class QuestionsHelper extends NameGameHelper {
 	private static Logger log = LogManager.getLogger(QuestionsHelper.class.getName());
 
 	/** Ask response.
@@ -126,14 +126,14 @@ public class QuestionsHelper {
 
 		// use a random index (0 : Data.numOptions-1) to select the 'target' from the
 		// list of 'options'
-		int index = new Random().nextInt(GameUtils.NUM_OPTIONS);
+		int index = new Random().nextInt(NameGameHelper.NUM_OPTIONS);
 		ArrayList<Object> optionObjects = new ArrayList<>();
 
 		// since Question.options is a list of Object types, rather than Subject types,
 		// we must
 		// loop through the list of Subjects and convert them to Objects
 		int itr = 0;
-		for (Subject option : getSubjects(questionObjects, GameUtils.NUM_OPTIONS, namePrefix)) {
+		for (Subject option : getSubjects(questionObjects, NameGameHelper.NUM_OPTIONS, namePrefix)) {
 			optionObjects.add(option);
 
 			// set random option as the matching target
@@ -144,10 +144,6 @@ public class QuestionsHelper {
 		}
 		q.setOptions(optionObjects);
 		return q;
-	}
-
-	private QuestionsHelper() {
-		// hiding implicit constructor
 	}
 
 	protected static ArrayList<Subject> getSubjects(ArrayList<Profile> from, int numSubjects) {
@@ -162,11 +158,9 @@ public class QuestionsHelper {
 	 * @return             the subjects */
 	protected static ArrayList<Subject> getSubjects(ArrayList<Profile> from, int numSubjects,
 			String namePrefix) {
-
 		ArrayList<Subject> subjects = new ArrayList<>();
 
 		for (int i = 0; i < numSubjects; i++) {
-
 			int index = -1;
 			Profile candidate = null;
 
@@ -201,7 +195,6 @@ public class QuestionsHelper {
 			log.error("Unable to extract target from an empty list of subjects.");
 			return null;
 		}
-
 	}
 
 	/** Checks if a given profile should be used as a Subject within a Question.
@@ -209,11 +202,8 @@ public class QuestionsHelper {
 	 * @param  profile the <code>Profile</code> object to test.
 	 * @return         true, if the <code>profile</code> has a valid first name, last name, and Headshot.Url. */
 	private static boolean isViable(Profile candidate, String namePrefix) {
-		if (candidate == null)
-			return false;
-		return StringUtils.isNoneBlank(
+		return candidate != null && StringUtils.isNoneBlank(
 				new String[] { candidate.getFirstName(), candidate.getLastName(), candidate.getHeadshot().getUrl() })
 				&& StringUtils.startsWithIgnoreCase(candidate.getFirstName(), namePrefix);
 	}
-
 }

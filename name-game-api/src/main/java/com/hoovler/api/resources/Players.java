@@ -28,10 +28,8 @@ import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Stats;
 
 public class Players extends DefaultPlayerDao {
-	
-	private static Logger log = LogManager.getLogger(Players.class.getName());
-	
-	// TODO: Use hibernate to store persistence objects; javax.persistence.EntityManager
+		private static Logger log = LogManager.getLogger(Players.class.getName());
+		// TODO: Use hibernate to store persistence objects; javax.persistence.EntityManager
 	/**
 	 * Player exists.
 	 *

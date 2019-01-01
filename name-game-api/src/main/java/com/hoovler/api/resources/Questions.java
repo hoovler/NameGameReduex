@@ -1,21 +1,21 @@
-/*
- * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
+/* 
+ * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2019
  * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in the
- * Software without restriction, including without limitation the rights to use, copy,
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
+ * this software and associated documentation files (the "Software"), to deal in the 
+ * Software without restriction, including without limitation the rights to use, copy, 
+ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
+ * and to permit persons to whom the Software is furnished to do so, subject to the 
  * following conditions:
  * 
- * The above copyright notice and this permission notice shall be included in all
+ * The above copyright notice and this permission notice shall be included in all 
  * copies or substantial portions of the Software.
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.hoovler.api.resources;
@@ -33,34 +33,15 @@ import com.hoovler.dao.models.Question;
 import com.hoovler.utils.Msg;
 import com.hoovler.utils.impl.ListUtils;
 
-/** <p><h3>Questions</h3>
- * <p><b><u>Purpose</u></b></p>
- * <p>This class provides an implementation of the <code>QuestionDao</code> interface.</p>
- * <p><b><u>Information</u></b></p>
- * <p>Though this class could simply be one which extends <code>DefaultQuestionDao</code>,
- * the state of the object's data isn't persistent when making calls to the <code>super</code>
- * class, as that class hasn't been autowired by the Spring Framework.</p> */
+/** <p><h3>Questions</h3> <p><b><u>Purpose</u></b></p> <p>This class provides an implementation of the <code>QuestionDao</code> interface.</p> <p><b><u>Information</u></b></p> <p>Though this class could simply be one which extends <code>DefaultQuestionDao</code>, the state of the object's data isn't persistent when making calls to the <code>super</code> class, as that class hasn't been autowired by the Spring Framework.</p> */
 public class Questions implements QuestionDao {
-
 	// TODO: Use a NoSql db to store persistence objects; javax.persistence.EntityManager
 	// TODO: https://mapr.com/blog/data-modeling-guidelines-nosql-json-document-databases/
 
-	/** <p>The [value description]</p>
-	 * 
-	 * <pre>
-	 * some example use
-	 * </pre>
-	 * 
-	 * . */
+	/** <p>The [value description]</p> <pre> some example use </pre> . */
 	private static Logger log = LogManager.getLogger(Questions.class.getName());
 
-	/** <p>The [value description]</p>
-	 * 
-	 * <pre>
-	 * some example use
-	 * </pre>
-	 * 
-	 * . */
+	/** <p>The [value description]</p> <pre> some example use </pre> . */
 	private HashMap<Long, Question> questionsMap;
 
 	/** Instantiates a new questions. */
@@ -70,20 +51,17 @@ public class Questions implements QuestionDao {
 
 	// instantiated interface methods
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see com.hoovler.dao.QuestionDao#getQuestion(java.lang.Long)
 	 */
 	@Override
 	public Question getQuestion(Long qId) {
-		Question q = questionsMap.get(qId);
-		if (q == null)
-			return null;
-		return q;
+		return questionsMap.get(qId);
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see com.hoovler.dao.QuestionDao#addQuestion(com.hoovler.dao.models.Question)
@@ -99,7 +77,7 @@ public class Questions implements QuestionDao {
 		return q;
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see com.hoovler.dao.QuestionDao#updateQuestion(java.lang.Long, com.hoovler.dao.models.Question)
@@ -117,7 +95,7 @@ public class Questions implements QuestionDao {
 		}
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see com.hoovler.dao.QuestionDao#deleteQuestion(java.lang.Long)
@@ -128,7 +106,7 @@ public class Questions implements QuestionDao {
 		return removedQ != null;
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see com.hoovler.dao.QuestionDao#questionList()
@@ -215,8 +193,9 @@ public class Questions implements QuestionDao {
 		int listSize = allQuestions.size();
 
 		// if the absolute values of params is greater than listSize, return an empty list
-		if (Math.abs(start) > listSize)
+		if (Math.abs(start) > listSize) {
 			return new ArrayList<>();
+		}
 
 		// if abs(stop) is greater than listSize, set stop = listSize
 		if (Math.abs(stop) < listSize) {
@@ -226,8 +205,9 @@ public class Questions implements QuestionDao {
 				stop = -1 * listSize;
 			}
 		}
-		if (start < 0 && stop < 0)
+		if (start < 0 && stop < 0) {
 			return new ArrayList<>(allReversed.subList(start, stop));
+		}
 
 		return new ArrayList<>(allQuestions.subList(start, stop));
 	}
@@ -259,7 +239,7 @@ public class Questions implements QuestionDao {
 		log.info("questionId = " + questionId);
 		log.info("answerId = " + answerId);
 
-		String correctId = "";
+		String correctId;
 
 		Question q = getQuestion(questionId);
 
@@ -276,5 +256,4 @@ public class Questions implements QuestionDao {
 		return StringUtils.equalsIgnoreCase(StringUtils.deleteWhitespace(answerId),
 				StringUtils.deleteWhitespace(correctId));
 	}
-
 }

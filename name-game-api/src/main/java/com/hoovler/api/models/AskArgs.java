@@ -18,7 +18,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.models.ask;
+package com.hoovler.api.models;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,7 +27,7 @@ public class AskArgs {
 	private String reverse;
 	private String mattsOnly;
 
-	// getters
+	/** Getters. */
 	public String getPlayerEmail() {
 		return playerEmail;
 	}
@@ -75,25 +75,20 @@ public class AskArgs {
 		this.reverse = mode;
 		this.mattsOnly = mattsOnly;
 	}
-	
-	/**
-	 * Converts mode from an integer into a proper Mode value
+		/**
+	 * Converts mode from an integer into a proper Mode value.
 	 *
 	 * @return the mode
 	 */
 	public boolean reverseBool() {
-		if (StringUtils.isBlank(this.reverse)) return false;
-		return Boolean.parseBoolean(this.reverse);
+		return !StringUtils.isBlank(this.reverse) && Boolean.parseBoolean(this.reverse);
 	}
-	
-	/**
-	 * Converts mattsOnly from a String into a boolean
+		/**
+	 * Converts mattsOnly from a String into a boolean.
 	 *
 	 * @return true, if successful
 	 */
 	public boolean mattsOnlyBool() {
-		if (StringUtils.isBlank(this.getMattsOnly())) return false;
-		return Boolean.parseBoolean(this.getMattsOnly());
+		return !StringUtils.isBlank(getMattsOnly()) && Boolean.parseBoolean(getMattsOnly());
 	}
-
 }

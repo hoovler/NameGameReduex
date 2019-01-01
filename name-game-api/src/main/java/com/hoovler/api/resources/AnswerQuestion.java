@@ -27,7 +27,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.hoovler.api.models.AnswerArgs;
-import com.hoovler.api.utils.GameUtils;
+import com.hoovler.api.utils.NameGameHelper;
 import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Question;
 import com.hoovler.dao.models.Stats;
@@ -78,14 +78,12 @@ import com.hoovler.dao.resources.ScoreBy;
  * </pre>
  */
 public class AnswerQuestion {
-	
-	private static Logger log = LogManager.getLogger(AnswerQuestion.class.getName());
+		private static Logger log = LogManager.getLogger(AnswerQuestion.class.getName());
 
 	private boolean result;
 
 	private Player player;
-	
-	private String message;
+		private String message;
 
 	public boolean getResult() {
 		return result;
@@ -94,8 +92,7 @@ public class AnswerQuestion {
 	public Player getPlayer() {
 		return player;
 	}
-	
-	public String getMessage() {
+		public String getMessage() {
 		return this.message;
 	}
 
@@ -105,45 +102,37 @@ public class AnswerQuestion {
 	 * @param playerService   the player service
 	 * @param questionService the question service */
 	public AnswerQuestion(AnswerArgs args, Players players, Questions questions) {
-		
-		// initialize values
+				// initialize values
 		this.player = new Player(StringUtils.EMPTY, new Stats());
 		this.result = false;
-		
-		// argument values
+				// argument values
 		String email = args.getPlayerEmail();
 		String answerId = args.getAnswerId();
 		String questionId = args.getQuestionId();
-		
-		log.debug("***** AnswerQuestion() *****");
+				log.debug("***** AnswerQuestion() *****");
 		// local variables
 		Player playerObj;
 		Question q;
-		
-		// ensure the player referenced by the given email exists
+				// ensure the player referenced by the given email exists
 		if (players.playerExists(email)) {
 			log.debug("Player exists: " + email);
-			long qId = Long.parseLong(GameUtils.decodeFromHexWithSalt(questionId, email));
+			long qId = Long.parseLong(NameGameHelper.decodeFromHexWithSalt(questionId, email));
 			playerObj = players.getPlayer(email);
-			
-			// ensure the question referenced in the questionId arg exists
+						// ensure the question referenced in the questionId arg exists
 			if (questions.questionExists(qId)) {
 				log.debug("Question exists: " + qId);
 				// check answer and grab question
 				this.result = questions.isCorrectAnswer(qId, answerId);
 				q = questions.getQuestion(qId);
-				
-				// update player stats
+								// update player stats
 				playerObj.updateStats(q.getCreated(), new Date(), this.result);
 				playerObj.updateScore(ScoreBy.CORRECT_WEIGHTED_TIME, 1000);
-				
-				// finalize the changes
+								// finalize the changes
 				players.updatePlayer(email, playerObj);
 				this.player = playerObj;
 			}
 		}
-		
-		log.debug("this.playerEmail = " + this.player.getEmail());
+				log.debug("this.playerEmail = " + this.player.getEmail());
 		log.debug("this.result = " + this.result);
 	}
 }

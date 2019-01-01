@@ -30,14 +30,11 @@ import com.hoovler.api.resources.Players;
 import com.hoovler.api.resources.Questions;
 import com.hoovler.dao.DefaultProfileDao;
 
-/**
- * The Class NameGame.
- */
+/** The Class NameGame. */
 @SpringBootApplication
 public class NameGame {
 	private static Logger log = LogManager.getLogger(NameGame.class.getName());
-	
-	/**
+		/**
 	 * Profile service.
 	 *
 	 * @return the default profile dao
@@ -46,8 +43,7 @@ public class NameGame {
 	protected DefaultProfileDao profileService() {
 		return new DefaultProfileDao();
 	}
-	
-	/**
+		/**
 	 * Player service.
 	 *
 	 * @return the players
@@ -56,8 +52,7 @@ public class NameGame {
 	protected Players playerService() {
 		return new Players();
 	}
-	
-	/**
+		/**
 	 * Question service.
 	 *
 	 * @return the questions
@@ -66,8 +61,7 @@ public class NameGame {
 	protected Questions questionService() {
 		return new Questions();
 	}
-	
-	/**
+		/**
 	 * The main method.
 	 *
 	 * @param args the arguments

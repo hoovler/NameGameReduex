@@ -7,19 +7,15 @@
  * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.models.ask;
+package com.hoovler.api.models;
 
 // TODO: Auto-generated Javadoc
-/** The Class AskOption.
- * <p>This class represents a single option within the list of options presented to the player</p> */
+/** The Class AskOption. <p>This class represents a single option within the list of options presented to the player</p> */
 public class QuestionOption {
-
-	/** The option id, same as the question's option IDs.
-	 * <p><code>id == Question.getOptions().getId() == Profile.getId()</code></p> */
+	/** The option id, same as the question's option IDs. <p><code>id == Question.getOptions().getId() == Profile.getId()</code></p> */
 	private String optionId;
 
-	/** The option value.
-	 * <p>Could be either a name string or an image URL string, depending on <code>Mode</code>.</p> */
+	/** The option value. <p>Could be either a name string or an image URL string, depending on <code>Mode</code>.</p> */
 	private String optionValue;
 
 	/** Gets QuestionOption.optionId
@@ -52,7 +48,6 @@ public class QuestionOption {
 
 	/** Instantiates a new ask option. */
 	public QuestionOption() {
-
 	}
 
 	/** Instantiates a new ask option.
@@ -70,5 +65,4 @@ public class QuestionOption {
 		this.optionId = optionId;
 		this.optionValue = optionValue;
 	}
-
 }

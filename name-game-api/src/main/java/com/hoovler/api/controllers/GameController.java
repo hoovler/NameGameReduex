@@ -36,12 +36,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hoovler.api.models.AnswerArgs;
-import com.hoovler.api.models.ask.AskArgs;
+import com.hoovler.api.models.AskArgs;
 import com.hoovler.api.resources.AnswerQuestion;
 import com.hoovler.api.resources.AskQuestion;
 import com.hoovler.api.resources.Players;
 import com.hoovler.api.resources.Questions;
-import com.hoovler.api.utils.GameUtils;
+import com.hoovler.api.utils.NameGameHelper;
 import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Question;
@@ -49,9 +49,8 @@ import com.hoovler.dao.models.Question;
 // TODO: Auto-generated Javadoc
 /** The Class GameController. */
 @RestController
-@RequestMapping(GameUtils.API_PREFIX + GameUtils.API_VERSION)
+@RequestMapping(NameGameHelper.API_PREFIX + NameGameHelper.API_VERSION)
 public class GameController {
-
 	private static Logger log = LogManager.getLogger(GameController.class.getName());
 
 	/** The standard URI path separator. */
@@ -110,7 +109,7 @@ public class GameController {
 	/** The Constant altAnswerPath. */
 	protected static final String altAnswerPath = pathSep + answerResource;
 
-	// ******************** private controller resources ********************
+	/** * Private controller resources. */
 
 	private final DefaultProfileDao profileService;
 	private final Players playerService;

@@ -30,7 +30,6 @@ package com.hoovler.api.models;
  * 
  * @see org.springframework.web.bind.annotation.RequestBody */
 public class AnswerArgs {
-
 	private String answer_id;
 	private String email;
 	private String question_id;
@@ -60,7 +59,6 @@ public class AnswerArgs {
 	}
 
 	public AnswerArgs() {
-
 	}
 
 	public AnswerArgs(String answerId, String playerEmail) {

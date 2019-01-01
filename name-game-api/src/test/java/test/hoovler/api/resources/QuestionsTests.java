@@ -42,27 +42,23 @@ import com.hoovler.dao.models.Question;
 // TODO: Auto-generated Javadoc
 /** The Class QuestionsTests. */
 class QuestionsTests {
-
 	private static Logger log = LogManager.getLogger(QuestionsTests.class.getName());
 
-	// declared constants for use in all tests
+	/** Declared constants for use in all tests. */
 	private static final int numQuestions = 50;
 	private static final String normalPrefix = StringUtils.EMPTY;
 	private static final String mattsOnlyPrefix = "mat";
 
-	// undeclared members initialized for all tests
+	/** Undeclared members initialized for all tests. */
 	private static Questions questions;
 	private static Questions mattsOnly;
 	private static DefaultProfileDao profiles;
-	
-	// undeclared members initialized for EACH test
+		/** Undeclared members initialized for EACH test. */
 	private static Question normalQ;
 	private static long normalId;
 	private static Question mattsQ;
 	private static long mattsId;
-	
-
-	/** Sets the up before class.
+		/** Sets the up before class.
 	 *
 	 * @throws Exception the exception */
 	@BeforeAll
@@ -78,8 +74,7 @@ class QuestionsTests {
 			mattsOnly.addQuestion(QuestionsHelper.generateQuestion(profiles, mattsOnlyPrefix));
 		}
 	}
-	
-	@BeforeEach
+		@BeforeEach
 	static void setUpBeforeTest() throws Exception {
 		normalQ = QuestionsHelper.generateQuestion(profiles, normalPrefix);
 		normalId = normalQ.getId();
@@ -88,29 +83,24 @@ class QuestionsTests {
 		log.info("Setting up test... normalId=" + normalId + "; mattsId=" + mattsId);
 	}
 
-
-
 	/** Test get question. */
 	@Test
 	void testGetQuestion() {
 		log.info("... testGetQuestion() ...");
 		int index = new Random().nextInt(numQuestions);
 		long qId = questions.questionList().get(index).getId();
-		
-		assertNotNull(questions.getQuestion(qId));
-		assertTrue(questions.getQuestion(qId).getId() == qId);
+				assertNotNull(questions.getQuestion(qId));
+		assertEquals(questions.getQuestion(qId).getId(), qId);
 	}
 
-	/** Test adding a question */
+	/** Test adding a question. */
 	@Test
 	void testAddQuestion() {
 		log.info("... testAddQuestion() ...");
-		
-		// normal
+				// normal
 		questions.addQuestion(normalQ);
 		assertNotNull(questions.getQuestion(normalId));
-		
-		// matts-only
+				// matts-only
 		mattsOnly.addQuestion(mattsQ);
 		assertNotNull(mattsOnly.getQuestion(mattsId));
 	}
@@ -120,26 +110,20 @@ class QuestionsTests {
 	void testUpdateQuestion() {
 		int index = new Random().nextInt(numQuestions);
 		log.info("... testUpdateQuestion() ... index=" + index);
-		
-		// normal
+				// normal
 		Question oldQ = questions.questionList().get(index);
 		assertEquals(questions.updateQuestion(oldQ.getId(), normalQ).getId(), oldQ.getId());
-		
-		
-		// matts
+						// matts
 	}
 
 	/** Test delete question. */
 	@Test
 	void testDeleteQuestion() {
 		log.info("... testDeleteQuestion() ...");
-		assertTrue(1 == 1);
+		assertEquals(1, 1);
 		Question q;
-		
-		// normal
-		
-		// matts
-
+				// normal
+				// matts
 	}
 
 	/** Test question list. */
@@ -147,11 +131,8 @@ class QuestionsTests {
 	void testQuestionList() {
 		log.info("... testQuestionsList() ...");
 		Question q;
-		
-		// normal
-		
-		// matts
-
+				// normal
+				// matts
 	}
 
 	/** Test question list int int. */
@@ -159,11 +140,8 @@ class QuestionsTests {
 	void testQuestionListIntInt() {
 		log.info("... testQuestionListIntInt() ...");
 		Question q;
-		
-		// normal
-		
-		// matts
-
+				// normal
+				// matts
 	}
 
 	/** Test question exists. */
@@ -171,14 +149,10 @@ class QuestionsTests {
 	void testQuestionExists() {
 		log.info("... testQuestionExists() ...");
 		Question q;
-		
-		// normal
-		
-		// matts
-
+				// normal
+				// matts
 	}
-	
-	/** Tear down after all tests.
+		/** Tear down after all tests.
 	 *
 	 * @throws Exception the exception */
 	@AfterAll

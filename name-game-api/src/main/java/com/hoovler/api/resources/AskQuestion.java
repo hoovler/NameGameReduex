@@ -25,29 +25,18 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.hoovler.api.models.ask.AskArgs;
-import com.hoovler.api.models.ask.QuestionOption;
-import com.hoovler.api.utils.GameUtils;
+import com.hoovler.api.models.AskArgs;
+import com.hoovler.api.models.QuestionOption;
+import com.hoovler.api.utils.NameGameHelper;
 import com.hoovler.api.utils.QuestionsHelper;
 import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Question;
 
 // TODO: Auto-generated Javadoc
-/** <p><h3>Ask</h3>
- * <p><b><u>Purpose</u></b></p>
- * This Class ...</p>
- * <p><b><u>Information</u></b><br />
- * The <code>Ask</code> object is...</p>
- * <p><b><u>Examples</u></b></p>
- * 
- * <pre>
- * GET: http://localhost/namegame/v2.0.0/ask?email=foo@bar.com&mode=2
- * </pre>
- */
+/** <p><h3>Ask</h3> <p><b><u>Purpose</u></b></p> This Class ...</p> <p><b><u>Information</u></b><br /> The <code>Ask</code> object is...</p> <p><b><u>Examples</u></b></p> <pre> GET: http://localhost/namegame/v2.0.0/ask?email=foo@bar.com&mode=2 </pre> */
 public class AskQuestion {
-
-	// not to be confused with 'qId'; 'questionId' is the hex value derived from the 'qId' and 'email' variables
+	/** Not to be confused with 'qId'; 'questionId' is the hex value derived from the 'qId' and 'email' variables. */
 	private String questionId;
 
 	private String target;
@@ -103,18 +92,15 @@ public class AskQuestion {
 	 * @param players   the players
 	 * @param questions the questions */
 	public AskQuestion(AskArgs values, DefaultProfileDao profiles, Players players, Questions questions) {
-
 		// this.askResponseBody = new AskResponseBody();
 		// setAskResponse(values, profileService, playerService, questionService);
 
-		String namePrefix = (values.mattsOnlyBool()) ? GameUtils.MATTS_ONLY_VALUE_PREFIX : StringUtils.EMPTY;
+		String namePrefix = values.mattsOnlyBool() ? NameGameHelper.MATTS_ONLY_VALUE_PREFIX : StringUtils.EMPTY;
 		Question q = QuestionsHelper.generateQuestion(profiles, namePrefix);
 		this.options = QuestionsHelper.getQuestionOptions(values.reverseBool(), q);
 		this.target = null;
-		this.questionId = GameUtils.encodeToHexWithSalt(q.getId(), values.getPlayerEmail());
-		
-		
-	}
+		this.questionId = NameGameHelper.encodeToHexWithSalt(q.getId(), values.getPlayerEmail());
+					}
 
 	/** Sets the ask response.
 	 *
@@ -123,7 +109,6 @@ public class AskQuestion {
 	 * @param players   the player service
 	 * @param questions the question service */
 	public void updateDaoObjs(String playerEmail, Players players, Question question, Questions questions) {
-
 		// update player history
 		Player player = players.getOrAddPlayer(playerEmail);
 		player.updateStats(new Date(), true);
@@ -132,5 +117,4 @@ public class AskQuestion {
 		// update question history
 		questions.addQuestion(question);
 	}
-
 }

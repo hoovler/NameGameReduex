@@ -20,21 +20,8 @@
  */
 package com.hoovler.api.models;
 
-/**
- * <p><h3>Subject</h3>
- * <p><b><u>Purpose</u></b></p>
- * This class can be seen as a thin wrapper around <code>com.hoovler.dao.models.Profile, 
- * taking its own attributes from a subset of the Profile and Headshot objects.</code></p>
- * <p><b><u>Information</u></b><br />
- * The <code>Subject</code> object is...</p>
- * <p><b><u>Examples</u></b></p>
- * An example:
- * <pre>some code</pre>
- * Another example:
- * <pre>some more code;</pre>
- */
+/** <p><h3>Subject</h3> <p><b><u>Purpose</u></b></p> This class can be seen as a thin wrapper around <code>com.hoovler.dao.models.Profile, taking its own attributes from a subset of the Profile and Headshot objects.</code></p> <p><b><u>Information</u></b><br /> The <code>Subject</code> object is...</p> <p><b><u>Examples</u></b></p> An example: <pre>some code</pre> Another example: <pre>some more code;</pre> */
 public class Subject {
-
 	private String id;
 	private String name;
 	private String imageUrl;
@@ -42,16 +29,14 @@ public class Subject {
 	public String getId() {
 		return id;
 	}
-	
-	public String getName() {
+		public String getName() {
 		return name;
 	}
 
 	public String getImageUrl() {
 		return imageUrl;
 	}
-	
-	public void setId(String id) {
+		public void setId(String id) {
 		this.id = id;
 	}
 
@@ -74,5 +59,4 @@ public class Subject {
 		this.name = name;
 		this.imageUrl = imageUrl;
 	}
-	
-}
+	}

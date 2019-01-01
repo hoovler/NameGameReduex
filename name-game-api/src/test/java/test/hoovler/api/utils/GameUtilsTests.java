@@ -27,15 +27,14 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.hoovler.api.utils.GameUtils;
+import com.hoovler.api.utils.NameGameHelper;
 
 class GameUtilsTests {
 	private static Logger log = LogManager.getLogger(GameUtilsTests.class.getName());
 
 	private static String playerEmail;
 	private static String questionId;
-	
-	@BeforeAll
+		@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		playerEmail = "foo@bar.com";
 		questionId = "12345678987654321";
@@ -71,13 +70,12 @@ class GameUtilsTests {
 	 * player, <em>and</em> with which the application can decompose in order to validate 
 	 * that the player providing an answer is the player to whom the question was 
 	 * asked.</b></p>
-	 * 
 	 */
 	@Test
 	void testEncodeDecode() {
-		String encoded = GameUtils.encodeToHexWithSalt(questionId, playerEmail);
+		String encoded = NameGameHelper.encodeToHexWithSalt(questionId, playerEmail);
 		log.debug("encoded = " + encoded);
-		String decoded = GameUtils.decodeFromHexWithSalt(encoded, playerEmail);
+		String decoded = NameGameHelper.decodeFromHexWithSalt(encoded, playerEmail);
 		log.debug("decoded = " + decoded);
 		assertEquals(decoded, questionId);
 	}
