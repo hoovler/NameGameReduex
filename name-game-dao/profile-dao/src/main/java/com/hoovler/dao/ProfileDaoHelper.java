@@ -40,26 +40,8 @@ import com.hoovler.dao.models.Headshot;
 import com.hoovler.dao.models.Profile;
 import com.hoovler.dao.models.Social;
 
-/** <p><h3>Profiles</h3>
- * <p><b><u>Purpose</u></b></p>
- * This Class ...</p>
- * <p><b><u>Information</u></b><br />
- * The <code>Profiles</code> object is...</p>
- * <p><b><u>Examples</u></b></p>
- * An example:
- * 
- * <pre>
- * some code
- * </pre>
- * 
- * Another example:
- * 
- * <pre>
- * some more code;
- * </pre>
- */
+/** <p><h3>Profiles</h3> <p><b><u>Purpose</u></b></p> This Class ...</p> <p><b><u>Information</u></b><br /> The <code>Profiles</code> object is...</p> <p><b><u>Examples</u></b></p> An example: <pre> some code </pre> Another example: <pre> some more code; </pre> */
 public class ProfileDaoHelper {
-
 	/** The Constant log. */
 	private static Logger log = LogManager.getLogger(ProfileDaoHelper.class.getName());
 
@@ -77,14 +59,12 @@ public class ProfileDaoHelper {
 
 		try {
 			for (JsonElement jsonProfile : getAllElements(url)) {
-
 				JsonObject profileJson = jsonProfile.getAsJsonObject();
 
 				// create Social object
 				JsonArray socialLinksJson = profileJson.get("socialLinks").getAsJsonArray();
 				ArrayList<Social> socials = new ArrayList<>();
 
-				//
 				for (JsonElement link : socialLinksJson) {
 					JsonObject social = link.getAsJsonObject().getAsJsonObject();
 					// create new Social each loop
@@ -123,9 +103,7 @@ public class ProfileDaoHelper {
 				// and add to list!
 				profiles.put(profile.getId(), profile);
 			}
-
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -199,9 +177,7 @@ public class ProfileDaoHelper {
 		// convert to an array of objects...
 		return root.getAsJsonArray();
 	}
-	
-	private ProfileDaoHelper() {
+		private ProfileDaoHelper() {
 		// no-op
 	}
-
 }

@@ -55,8 +55,7 @@ public class DefaultPlayerDao implements PlayerDao {
 		}
 		return player;
 	}
-	
-	public Player addPlayer(String email) {
+		public Player addPlayer(String email) {
 		if (StringUtils.isBlank(email)) {
 			log.warn("ID required: player object must have an email.");
 		} else {
@@ -65,9 +64,6 @@ public class DefaultPlayerDao implements PlayerDao {
 		return playerMap.get(email);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hoovler.dao.PlayerDao#updatePlayer(java.lang.String, com.hoovler.dao.models.Player)
-	 */
 	@Override
 	public Player updatePlayer(String email, Player player) {
 		if (!playerMap.containsKey(email)) {
@@ -109,9 +105,7 @@ public class DefaultPlayerDao implements PlayerDao {
 		log.info("Generating random player...");
 		Player player = new Player();
 		player.setEmail(StringUtils.defaultIfBlank(email, PlayerDaoHelper.getRandomEmail()));
-		
-		log.info("email = " + player.getEmail());
+				log.info("email = " + player.getEmail());
 		return player;
 	}
-
 }

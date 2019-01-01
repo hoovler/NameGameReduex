@@ -28,10 +28,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/** The Class ProfileDaoSingleton.
- * <p>This class provides all constant values and static methods required for populating an implementation of ProfileDao.</p> */
+/** The Class ProfileDaoSingleton. <p>This class provides all constant values and static methods required for populating an implementation of ProfileDao.</p> */
 public class ProfileDaoSingleton {
-
 	/** The log. */
 	private static Logger log = LogManager.getLogger(ProfileDaoSingleton.class.getName());
 
@@ -52,11 +50,9 @@ public class ProfileDaoSingleton {
 
 	/** The Constant PROP_LISTVAL_SEP. */
 	public static final String PROP_LISTVAL_SEP = ",";
-	
-	/** The Constant URL_PROTOCOL. */
+		/** The Constant URL_PROTOCOL. */
 	public static final String URL_PROTOCOL = "http:";
-	
-	/** The Constant URL_PREFIX. */
+		/** The Constant URL_PREFIX. */
 	public static final String URL_PREFIX = "//";
 
 	/** Reads the properties file, and gets all properties.
@@ -103,7 +99,6 @@ public class ProfileDaoSingleton {
 		} // end while()
 		return attributeProps;
 	} // end getAttributeProperties{}
-
 
 	/** Gets the prop string.
 	 *

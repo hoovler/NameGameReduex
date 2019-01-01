@@ -25,7 +25,6 @@ import org.apache.commons.lang3.StringUtils;
 // TODO: Auto-generated Javadoc
 /** The Class Social. */
 public class Social {
-
 	/** The type. */
 	private String type;
 
@@ -94,5 +93,4 @@ public class Social {
 		this.actionCall = actionCall;
 		this.url = url;
 	}
-
 }

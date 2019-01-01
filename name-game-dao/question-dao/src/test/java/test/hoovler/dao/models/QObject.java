@@ -20,21 +20,8 @@
  */
 package test.hoovler.dao.models;
 
-/**
- * <p><h3>Subject</h3>
- * <p><b><u>Purpose</u></b></p>
- * This class can be seen as a thin wrapper around <code>com.hoovler.dao.models.Profile, 
- * taking its own attributes from a subset of the Profile and Headshot objects.</code></p>
- * <p><b><u>Information</u></b><br />
- * The <code>Subject</code> object is...</p>
- * <p><b><u>Examples</u></b></p>
- * An example:
- * <pre>some code</pre>
- * Another example:
- * <pre>some more code;</pre>
- */
+/** <p><h3>Subject</h3> <p><b><u>Purpose</u></b></p> This class can be seen as a thin wrapper around <code>com.hoovler.dao.models.Profile, taking its own attributes from a subset of the Profile and Headshot objects.</code></p> <p><b><u>Information</u></b><br /> The <code>Subject</code> object is...</p> <p><b><u>Examples</u></b></p> An example: <pre>some code</pre> Another example: <pre>some more code;</pre> */
 public class QObject {
-
 	private String id;
 	private String name;
 	private String imageUrl;
@@ -42,16 +29,14 @@ public class QObject {
 	public String getId() {
 		return id;
 	}
-	
-	public String getName() {
+		public String getName() {
 		return name;
 	}
 
 	public String getImageUrl() {
 		return imageUrl;
 	}
-	
-	public void setId(String id) {
+		public void setId(String id) {
 		this.id = id;
 	}
 
@@ -80,8 +65,7 @@ public class QObject {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
+		return prime * result + ((name == null) ? 0 : name.hashCode());
 	}
 
 	@Override
@@ -89,10 +73,7 @@ public class QObject {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
 		QObject other = (QObject) obj;
@@ -112,5 +93,4 @@ public class QObject {
 		}
 		return true;
 	}
-
 }

@@ -39,37 +39,27 @@ class DefaultPlayerDaoTests {
 	@Test
 	void testDefaultPlayerDaoConstructor() {
 		log.info("testPlayerDaoList");
-		
-		ArrayList<Player> playerList = new DefaultPlayerDao().playerList();
+				ArrayList<Player> playerList = new DefaultPlayerDao().playerList();
 		assertNotNull(playerList);
-		
-		// the list should have one random player, by default...
+				// the list should have one random player, by default...
 		log.info("playerList.size() = " + playerList.size());
 		assertEquals(playerList.size(), 1);
-		
-		log.info(playerList.get(0).getEmail());
+				log.info(playerList.get(0).getEmail());
 		assertNotNull(playerList.get(0));
 	}
-	
-	@Test
+		@Test
 	void testAddPlayer() {
 		PlayerDao playerDao = new DefaultPlayerDao();
-		
-		// one object to start
+				// one object to start
 		assertEquals(playerDao.playerList().size(), 1);
-		
-		// now to add and test
+				// now to add and test
 		Player nuPlayer = new Player();
-		
-		String email = "testemail@email.com";		
+				String email = "testemail@email.com";		
 		nuPlayer.setEmail(email);
-		
-		// add
+				// add
 		playerDao.addPlayer(nuPlayer);
-		
-		// retrieve
+				// retrieve
 		Player oldPlayer = playerDao.getPlayer(email);
 		log.info("oldPlayer.getEmail() = " + oldPlayer.getEmail());
 	}
-
 }

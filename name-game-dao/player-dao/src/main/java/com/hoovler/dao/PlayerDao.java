@@ -25,22 +25,15 @@ import java.util.List;
 import com.hoovler.dao.models.Player;
 
 public interface PlayerDao {
-	
-	/**
+		/**
 	 * Gets the player.
 	 *
 	 * @param email the email
 	 * @return the player
 	 */
 	Player getPlayer(String email);
-	
-	/**
-	 * @param player
-	 * @return
-	 */
-	Player addPlayer(Player player);
-	
-	/**
+		Player addPlayer(Player player);
+		/**
 	 * @param email
 	 * @param player
 	 * @return
@@ -50,15 +43,6 @@ public interface PlayerDao {
 	 * </ul>
 	 */
 	Player updatePlayer(String email, Player player);
-	
-	/**
-	 * @param email
-	 * @return
-	 */
-	boolean deletePlayer(String email);
-	
-	/**
-	 * @return
-	 */
-	List<Player> playerList();
+		boolean deletePlayer(String email);
+		List<Player> playerList();
 }

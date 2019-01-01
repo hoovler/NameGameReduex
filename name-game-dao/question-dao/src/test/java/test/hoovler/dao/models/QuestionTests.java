@@ -33,7 +33,6 @@ import org.junit.jupiter.api.Test;
 
 import com.hoovler.dao.models.Question;
 
-
 class QuestionTests {
 	private static Logger log = LogManager.getLogger(QuestionTests.class.getName());
 
@@ -41,8 +40,7 @@ class QuestionTests {
 	private static String preId;
 	private static String preName;
 	private static String preUrl;
-	
-	@BeforeAll
+		@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		numOptions = 6;
 		preId = "SID00";
@@ -66,24 +64,17 @@ class QuestionTests {
 	@Test
 	void testOptions() {
 		log.info("void testOptions()");
-		
-		Question q = new Question();
-		log.info("" + q.getCreated().getTime());
-		
-		ArrayList<Object> options = new ArrayList<>();
-		
-		for (int i = 0; i < numOptions; i++) {
+				Question q = new Question();
+		log.info(String.valueOf(q.getCreated().getTime()));
+				ArrayList<Object> options = new ArrayList<>();
+				for (int i = 0; i < numOptions; i++) {
 			options.set(i, new QObject(preId+i, preName+i, preUrl+i));
 		}
-		
-		Object target = options.get(new Random().nextInt(options.size()));
-		
-		q.setTarget(target);
-		
-		examineQ(q);
+				Object target = options.get(new Random().nextInt(options.size()));
+				q.setTarget(target);
+				examineQ(q);
 	}
-	
-	private static void examineQ(Question q) {
+		private static void examineQ(Question q) {
 		log.info("================================");
 		log.info("Examining Question: " + q.getId());
 		log.info("================================");

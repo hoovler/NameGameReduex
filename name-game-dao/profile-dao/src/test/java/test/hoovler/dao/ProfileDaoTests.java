@@ -36,8 +36,7 @@ import com.hoovler.dao.ProfileDao;
 import com.hoovler.dao.ProfileDaoSingleton;
 import com.hoovler.dao.models.Profile;
 
-/** JUnit 5 / Jupiter Testing: <b>ProfileDaoTests</b>
- * <p>This test class tests the DefaultProfileDao use cases, and includes implied testing of all classes in <code>com.hoovler.dao</code> and <code>com.hoovler.dao.models</code> for the entire <code>profile-dao</code> maven project.</p> */
+/** JUnit 5 / Jupiter Testing: <b>ProfileDaoTests</b> <p>This test class tests the DefaultProfileDao use cases, and includes implied testing of all classes in <code>com.hoovler.dao</code> and <code>com.hoovler.dao.models</code> for the entire <code>profile-dao</code> maven project.</p> */
 class ProfileDaoTests {
 	private static Logger log = LogManager.getLogger(ProfileDaoTests.class.getName());
 

@@ -25,31 +25,12 @@ import java.util.Date;
 import com.hoovler.dao.resources.ScoreBy;
 
 // TODO: Auto-generated Javadoc
-/**
- * <p>
- * <h3>Player</h3>
- * </p>
- * <p>
- * <b><u>Purpose:</u></b> TODO: add purpose...
- * </p>
- * <p>
- * <b><u>Information:</u></b> TODO: add info...
- * </p>
- */
+/** <p> <h3>Player</h3> </p> <p> <b><u>Purpose:</u></b> TODO: add purpose... </p> <p> <b><u>Information:</u></b> TODO: add info... </p> */
 public class Player {
-
-	/**
-	 * <p>
-	 * TODO: add desc
-	 * </p>
-	 * . */
+	/** <p> TODO: add desc </p> . */
 	private String email;
 
-	/**
-	 * <p>
-	 * TODO: add desc
-	 * </p>
-	 * . */
+	/** <p> TODO: add desc </p> . */
 	private Stats stats;
 
 	/** Gets the email.
@@ -106,8 +87,9 @@ public class Player {
 	 * 							com.hoovler.dao.models.Stats */
 	public void updateStats(Date askedTime, Date answerTime, boolean withCorrectAnswer) {
 		this.stats.incrementAnswered();
-		if (withCorrectAnswer)
+		if (withCorrectAnswer) {
 			this.stats.incrementCorrect();
+		}
 		this.stats.updateTimes(askedTime, answerTime);
 	}
 
@@ -136,14 +118,14 @@ public class Player {
 	 * @param incrementAskCount the increment ask count */
 	public void updateStats(Date askedTime, boolean incrementAskCount) {
 		this.stats.setLastAskedTime(askedTime);
-		if (incrementAskCount)
+		if (incrementAskCount) {
 			this.stats.incrementAsked();
+		}
 	}
 	// ******************** CONSTRUCTORS ********************
 
 	/** Instantiates a new player. */
 	public Player() {
-
 	}
 
 	/** Instantiates a new player.
@@ -154,5 +136,4 @@ public class Player {
 		this.email = email;
 		this.stats = stats;
 	}
-
 }

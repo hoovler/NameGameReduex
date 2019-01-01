@@ -37,17 +37,14 @@ class SocialTests {
 	@Test
 	void testSocialsAttributes() {
 		log.traceEntry();
-		
-		Profile profile = ObjectsTestsHelper.makeProfileFromStaticData();
+				Profile profile = ObjectsTestsHelper.makeProfileFromStaticData();
 		String fn = profile.getFirstName();
 		String ln = profile.getLastName();
-		
-		ArrayList<Social> socials = profile.getSocial();
+				ArrayList<Social> socials = profile.getSocial();
 		String[] socTypes = ObjectsTestsHelper.socTypes;
 		String[] socCalls = ObjectsTestsHelper.makeSocCalls(socTypes, fn, ln);
 		String[] socUrls = ObjectsTestsHelper.makeSocUrls(socTypes, fn, ln);
-		
-		int itr = 0;
+				int itr = 0;
 		for (Social social : socials) {
 			assertEquals(social.getType(), socTypes[itr]);
 			assertEquals(social.getActionCall(), socCalls[itr]);

@@ -25,39 +25,16 @@ import java.util.Date;
 import java.util.Random;
 
 public class Question {
-
-	/** <p>The unique id of the <code>Question</code> object.</p> 
-	 * It is generated using <code>Question.hashCode()</code>, the overridden 
-	 * <code>Object.hashCode()</code>, by using the values of the other <code>Question</code> member variables.
-	 * To ensure a unique ID, the timestamp - as MS - is appended to the normal hash code. */
+	/** <p>The unique id of the <code>Question</code> object.</p> It is generated using <code>Question.hashCode()</code>, the overridden <code>Object.hashCode()</code>, by using the values of the other <code>Question</code> member variables. To ensure a unique ID, the timestamp - as MS - is appended to the normal hash code. */
 	private long qId;
 
-	/** 
-	 * <p>The object against which an <code>options</code> object is matched for a selection.</p>
-	 * <p><b><u>Example</u></b></p>
-	 * <table border='0'>
-	 * 	<tr><td><code>options</code></td><td>> <code>1,red|2,purple|3,orange|4,pink|5,green|6,blue</code></td></tr>
-	 * 	<tr><td><b><u><code>target</code></u></b></td><td>> <code>fruit</code></td></tr>
-	 * 	<tr><td><code>answer</code> id</td><td>> <code>3</code></td></tr>
-	 * </table>
-	 **/
+	/** <p>The object against which an <code>options</code> object is matched for a selection.</p> <p><b><u>Example</u></b></p> <table border='0'> <tr><td><code>options</code></td><td>> <code>1,red|2,purple|3,orange|4,pink|5,green|6,blue</code></td></tr> <tr><td><b><u><code>target</code></u></b></td><td>> <code>fruit</code></td></tr> <tr><td><code>answer</code> id</td><td>> <code>3</code></td></tr> </table> */
 	Object target;
 
-	/**
-	 * <p>The list of objects against which a <code>target</code> object is matched.</p>
-	 * <p><b><u>Example</u></b></p>
-	 * <table border='0'>
-	 * 	<tr><td><b><u><code>options</code></u></b></td><td>> <code>1,red|2,purple|3,orange|4,pink|5,green|6,blue</code></td></tr>
-	 * 	<tr><td><code>target</code></td><td>> <code>fruit</code></td></tr>
-	 * 	<tr><td><code>answer</code> id</td><td>> <code>3</code></td></tr>
-	 * </table>
-	 * */
+	/** <p>The list of objects against which a <code>target</code> object is matched.</p> <p><b><u>Example</u></b></p> <table border='0'> <tr><td><b><u><code>options</code></u></b></td><td>> <code>1,red|2,purple|3,orange|4,pink|5,green|6,blue</code></td></tr> <tr><td><code>target</code></td><td>> <code>fruit</code></td></tr> <tr><td><code>answer</code> id</td><td>> <code>3</code></td></tr> </table> */
 	private ArrayList<Object> options;
 
-	/** 
-	 * <p>The date and time the specific <code>Question</code> object was created, which is ostensibly 
-	 * the same as when it was posed to the user.</p>
-	 *  */
+	/** <p>The date and time the specific <code>Question</code> object was created, which is ostensibly the same as when it was posed to the user.</p> */
 	private Date timeCreated;
 
 	public long getId() {
@@ -95,13 +72,11 @@ public class Question {
 		this.timeCreated = new Date();
 		this.qId = generateId();
 	}
-	
-	public Question(Object target, ArrayList<Object> options) {
+		public Question(Object target, ArrayList<Object> options) {
 		this.target = target;
 		this.options = options;
 		this.qId = generateId();
 	}
-
 
 	/**
 	 * Generate the <code>Question.questionId</code> in a manner similar to Object.hashCode(), but without relying
@@ -143,5 +118,4 @@ public class Question {
 		// TODO: update documentation
 		return Math.abs((new Random().nextLong() << 31) + new Date().getTime());
 	}
-
 }

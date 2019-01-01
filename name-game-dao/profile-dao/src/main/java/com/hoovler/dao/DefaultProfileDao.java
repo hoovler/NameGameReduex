@@ -57,11 +57,7 @@ import com.hoovler.dao.models.Profile;
 public class DefaultProfileDao implements ProfileDao {
 	private static Logger log = LogManager.getLogger(DefaultProfileDao.class.getName());
 
-	/**
-	 * <p>
-	 * TODO: add desc...
-	 * </p>
-	 */
+	/** <p> TODO: add desc... </p> */
 	private HashMap<String, Profile> profileMap = new HashMap<>();
 
 	/** Instantiates a new <code>DefaultProfileDao</code> object. For the

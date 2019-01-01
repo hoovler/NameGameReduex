@@ -34,8 +34,7 @@ class HeadshotTests {
 	@Test
 	void testHeadshotAttributes() {
 		log.traceEntry();
-		
-		Headshot headshot = ObjectsTestsHelper.makeProfileFromStaticData().getHeadshot();
+				Headshot headshot = ObjectsTestsHelper.makeProfileFromStaticData().getHeadshot();
 		assertEquals(headshot.getId(), ObjectsTestsHelper.hsId);
 		assertEquals(headshot.getType(), ObjectsTestsHelper.hsType);
 		assertEquals(headshot.getMimeType(), ObjectsTestsHelper.hsMimeType);

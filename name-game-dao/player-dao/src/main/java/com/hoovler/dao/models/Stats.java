@@ -26,59 +26,32 @@ import java.util.Date;
 
 import com.hoovler.dao.resources.ScoreBy;
 
-/**
- * <p><h3>Stat</h3>
- * <p><b><u>Purpose</u></b></p>
- * This Class ...</p>
- * <p><b><u>Information</u></b><br />
- * The <code>Stat</code> object is...</p>
- * <p><b><u>Examples</u></b></p>
- * An example:
- * <pre>some code</pre>
- * Another example:
- * <pre>some more code;</pre>
- */
+/** <p><h3>Stat</h3> <p><b><u>Purpose</u></b></p> This Class ...</p> <p><b><u>Information</u></b><br /> The <code>Stat</code> object is...</p> <p><b><u>Examples</u></b></p> An example: <pre>some code</pre> Another example: <pre>some more code;</pre> */
 public class Stats {
-	
-	
-	private Integer numberAsked;
-	
-	private Integer numberAnswered;
-	
-	private Integer numberCorrect;
-	
-	private Double ratioCorrect;
-	
-	private ArrayList<Long> responseTimes;
-	
-	private Duration averageResponseTime;
-	
-	private Date lastAskedTime;
-	
-	private Date lastAnswerTime;
-	
-	private Double score;
-	
-	// ****************************************************** non-standard member modifiers
-	
-	public void incrementAsked() {
+			private Integer numberAsked;
+		private Integer numberAnswered;
+		private Integer numberCorrect;
+		private Double ratioCorrect;
+		private ArrayList<Long> responseTimes;
+		private Duration averageResponseTime;
+		private Date lastAskedTime;
+		private Date lastAnswerTime;
+		private Double score;
+		/** * Non-standard member modifiers. */
+		public void incrementAsked() {
 		numberAsked++;
 	}
-	
-	public void incrementAnswered() {
+		public void incrementAnswered() {
 		numberAnswered++;
 	}
-	
-	public void incrementCorrect() {
+		public void incrementCorrect() {
 		numberCorrect++;
 		updateCorrectPercent();
 	}
-	
-	public void updateCorrectPercent() {
+		public void updateCorrectPercent() {
 		this.ratioCorrect = numberAsked / (double)(numberAnswered - numberCorrect); 
 	}
-	
-	/**
+		/**
 	 * Adds a duration to the list of previous answer durations.  Can be called directly 
 	 * with any chosen unit, or called by proxy via: 
 	 * <pre>updateTimes(Date askedTime, Date answerTime)</pre>
@@ -94,10 +67,9 @@ public class Stats {
 		this.responseTimes.add(answerTime);
 		this.averageResponseTime = Duration.ofSeconds(sumAnswerTimes() / responseTimes.size());
 	}
-	
-	/**
+		/**
 	 * Update lastAskedTime, lastAnswerTime, adds a duration element (in seconds' difference) 
-	 * to answerTimes, and updates averageResponseTime
+	 * to answerTimes, and updates averageResponseTime.
 	 *
 	 * @param askedTime 
 	 * 			the time the question was asked, represented as a Date object
@@ -107,13 +79,11 @@ public class Stats {
 	public void updateTimes(Date askedTime, Date answerTime) {
 		this.lastAskedTime = askedTime;
 		this.lastAnswerTime = answerTime;
-		
-		long durationMs = answerTime.getTime() - askedTime.getTime();
+				long durationMs = answerTime.getTime() - askedTime.getTime();
 		addAnswerTime(Duration.ofMillis(durationMs).getSeconds());
 	}
-	
-	/**
-	 * Recursively calculate the average answer time (in seconds)
+		/**
+	 * Recursively calculate the average answer time (in seconds).
 	 *
 	 * @param responseTimes the answer times
 	 * @param startIndex the start index
@@ -126,8 +96,7 @@ public class Stats {
 		}
 		return result;
 	}
-	
-	/**
+		/**
 	 * Calculates, sets, and returns a score using the ScoreBy's documented algorithm. 
 	 *
 	 * @param scoreBy the ScoreBy object set as one of the enumerated values; each value has a documented algorithm.
@@ -202,7 +171,6 @@ public class Stats {
 	 * to calculate the score, and set it directly.  Unlike this method, however, the
 	 * <code>Stats.setScore(Double score)</code> does not return the value of the score.
 	 * @see com.hoovler.dao.resources.ScoreBy
-	 * 
 	 */
 	public Double setScore(ScoreBy scoreBy, int multiplier) {
 		switch (scoreBy) {
@@ -211,20 +179,18 @@ public class Stats {
 					multiplier;
 			return this.score;
 		case RESPONSE_TIME_AVERAGE:
-			this.score = (double)1 / this.averageResponseTime.getSeconds() * 
+			this.score = 1d / this.averageResponseTime.getSeconds() * 
 					multiplier;
 			return this.score;
 		case CORRECT_TO_TOTAL: default:
 			this.score = ((double)this.numberCorrect / this.numberAnswered) * 
-					((double)1 / this.averageResponseTime.getSeconds()) * 
+					(1d / this.averageResponseTime.getSeconds()) * 
 					multiplier;
 			return this.score;
 		}
 	}
-	
-	// ****************************************************** setters
-	
-	public void setLastAskedTime(Date lastAskedTime) {
+		/** * Setters. */
+		public void setLastAskedTime(Date lastAskedTime) {
 		this.lastAskedTime = new Date();
 		this.lastAskedTime = lastAskedTime;
 	}
@@ -233,12 +199,10 @@ public class Stats {
 		this.lastAnswerTime = new Date();
 		this.lastAnswerTime = lastAnswerTime;
 	}
-	
-	public void setScore(Double score) {
+		public void setScore(Double score) {
 		this.score = score;
 	}
-	
-	// ****************************************************** getters
+		/** * Getters. */
 
 	public Integer getNumberAsked() {
 		return numberAsked;
@@ -251,8 +215,7 @@ public class Stats {
 	public Integer getNumberCorrect() {
 		return numberCorrect;
 	}
-	
-	public ArrayList<Long> getAnswerTimes() {
+		public ArrayList<Long> getAnswerTimes() {
 		return this.responseTimes;
 	}
 
@@ -271,14 +234,10 @@ public class Stats {
 	public Date getLastAnswerTime() {
 		return lastAnswerTime;
 	}
-	
-	public Double getScore(Double score) {
+		public Double getScore(Double score) {
 		return this.score;
 	}
-	
-	/**
-	 * Instantiates a new stat.
-	 */
+		/** Instantiates a new stat. */
 	public Stats() {
 		this.numberAsked = 0;
 		this.numberAnswered = 0;

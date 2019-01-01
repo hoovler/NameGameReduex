@@ -34,10 +34,8 @@ class ProfileTests {
 	@Test
 	void testProfileAttributes() {
 		log.traceEntry();
-		
-		Profile profile = ObjectsTestsHelper.makeProfileFromStaticData();
-		
-		assertEquals(profile.getId(), ObjectsTestsHelper.pId);
+				Profile profile = ObjectsTestsHelper.makeProfileFromStaticData();
+				assertEquals(profile.getId(), ObjectsTestsHelper.pId);
 		assertEquals(profile.getType(), ObjectsTestsHelper.pType);
 		assertEquals(profile.getSlug(), ObjectsTestsHelper.pSlug);
 		assertEquals(profile.getJobTitle(), ObjectsTestsHelper.pJobTitle);

@@ -38,24 +38,21 @@ import com.hoovler.dao.models.Profile;
  * </pre>
  */
 public interface ProfileDao {
-	
-	/**
+		/**
 	 * Gets a <code>Profile</code> object.
 	 *
 	 * @param id the id of the <code>Profile</code> object. 
 	 * @return the corresponding <code>Profile</code> object.
 	 */
 	Profile getProfile(String id);
-	
-	/**
+		/**
 	 * Adds a <code>Profile</code> object to the <code>Profile</code> object collection.
 	 *
 	 * @param profile the <code>Profile</code> object to add to the collection.
 	 * @return the <code>Profile</code> object added.
 	 */
 	Profile addProfile(Profile profile);
-	
-	/**
+		/**
 	 * Update a <code>Profile</code> object within the <code>Profile</code> object collection.
 	 *
 	 * @param id the id of the <code>Profile</code> object to update.
@@ -67,16 +64,14 @@ public interface ProfileDao {
 	 * </ul>
 	 */
 	Profile updateProfile(String id, Profile profile);
-	
-	/**
+		/**
 	 * Delete a <code>Profile</code> object from the <code>Profile</code> object collection.
 	 *
 	 * @param id the id of the <code>Profile</code> object to remove from the <code>Profile</code> object collection.
 	 * @return true, if the <code>Profile</code> object was successfully removed from the <code>Profile</code> object collection.
 	 */
 	boolean deleteProfile(String id);
-	
-	/**
+		/**
 	 * Gets the entire <code>Profile</code> object collection.
 	 *
 	 * @return the list of <code>Profile</code> objects in the <code>Profile</code> object collection.

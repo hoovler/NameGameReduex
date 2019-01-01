@@ -21,25 +21,10 @@
 package com.hoovler.dao.resources;
 
 public enum ScoreBy {
-
-	/** <p>Used when score should be the ratio of number of correct answers to the total number of answers submitted.</p>
-	 * <pre>double_score = 1000 * (numCorrectAnswers / numQuestionsAnswered)</pre> */
+	/** <p>Used when score should be the ratio of number of correct answers to the total number of answers submitted.</p> <pre>double_score = 1000 * (numCorrectAnswers / numQuestionsAnswered)</pre> */
 	CORRECT_TO_TOTAL,
-	
-	/** <p>Used when score should be the average duration, in seconds, of the time between when a question is asked, and
-	 * when the answer is submitted (whether correct or not).  <b><em>Questions NOT answered are NOT factored in.</em></b></p>
-	 * <p>This method calculates the score as the <b><em>inverse</em></b> of that average response time, meaning that the 
-	 * shorter the average duration, the higher the score.</p> 
-	 * <pre>score = 1000 * (1 / (sum(responseTimesList) / len(responseTimesList)))</pre>*/
+		/** <p>Used when score should be the average duration, in seconds, of the time between when a question is asked, and when the answer is submitted (whether correct or not). <b><em>Questions NOT answered are NOT factored in.</em></b></p> <p>This method calculates the score as the <b><em>inverse</em></b> of that average response time, meaning that the shorter the average duration, the higher the score.</p> <pre>score = 1000 * (1 / (sum(responseTimesList) / len(responseTimesList)))</pre> */
 	RESPONSE_TIME_AVERAGE,
-	
-	/** <p>Used when score should include both the ratio of correct answers to total number of answers <b><em>[r]</em></b> 
-	 * and the inverse of the average duration (in seconds) of response times <b><em>[t]</em></b>.<p>
-	 * <p>For this scoring method, the score is calculated by multiplying <b><em>r</em></b> by <b><em>t</em></b>.</p>
-	 * <pre>score = 1000 * (
-	 *     (numCorrectAnswers / numQuestionsAnswered) * 
-	 *     (1 / (sum(responseTimesList) / len(responseTimesList))
-	 * )</pre> */
+		/** <p>Used when score should include both the ratio of correct answers to total number of answers <b><em>[r]</em></b> and the inverse of the average duration (in seconds) of response times <b><em>[t]</em></b>.<p> <p>For this scoring method, the score is calculated by multiplying <b><em>r</em></b> by <b><em>t</em></b>.</p> <pre>score = 1000 * ( (numCorrectAnswers / numQuestionsAnswered) * (1 / (sum(responseTimesList) / len(responseTimesList)) )</pre> */
 	CORRECT_WEIGHTED_TIME,
-	
-}
+	}

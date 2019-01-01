@@ -30,114 +30,33 @@ import org.apache.logging.log4j.Logger;
 
 import com.hoovler.dao.models.Question;
 
-/**
- * <p>
- * <h3>DefaultQuestionDao</h3>
- * </p>
- * <p>
- * <b><u>Purpose:</u></b> TODO: add purpose...
- * </p>
- * <p>
- * <b><u>Information:</u></b> TODO: add info...
- * </p>
- */
+/** <p> <h3>DefaultQuestionDao</h3> </p> <p> <b><u>Purpose:</u></b> TODO: add purpose... </p> <p> <b><u>Information:</u></b> TODO: add info... </p> */
 public class DefaultQuestionDao implements QuestionDao {
-
-	/**
-	 * <p>
-	 * Static member: log
-	 * </p>
-	 * <p>
-	 * TODO: add description
-	 * </p>
-	 * . */
+	/** <p> Static member: log </p> <p> TODO: add description </p> . */
 	private static Logger log = LogManager.getLogger(DefaultQuestionDao.class.getName());
 
-	/**
-	 * <p>
-	 * <h3>Temporal</h3>
-	 * </p>
-	 * <p>
-	 * <b><u>Purpose:</u></b> TODO: add purpose...
-	 * </p>
-	 * <p>
-	 * <b><u>Information:</u></b> TODO: add info...
-	 * </p>
-	 */
+	/** <p> <h3>Temporal</h3> </p> <p> <b><u>Purpose:</u></b> TODO: add purpose... </p> <p> <b><u>Information:</u></b> TODO: add info... </p> */
 	public enum Temporal {
-		/**
-		 * <p>
-		 * Member variable: BEFORE
-		 * </p>
-		 * <p>
-		 * TODO: add description
-		 * </p>
-		 * . */
+		/** <p> Member variable: BEFORE </p> <p> TODO: add description </p> . */
 		BEFORE,
 
-		/**
-		 * <p>
-		 * Member variable: AFTER
-		 * </p>
-		 * <p>
-		 * TODO: add description
-		 * </p>
-		 * . */
+		/** <p> Member variable: AFTER </p> <p> TODO: add description </p> . */
 		AFTER;
 	}
 
-	/**
-	 * <p>
-	 * <h3>SortBy</h3>
-	 * </p>
-	 * <p>
-	 * <b><u>Purpose:</u></b> TODO: add purpose...
-	 * </p>
-	 * <p>
-	 * <b><u>Information:</u></b> TODO: add info...
-	 * </p>
-	 */
+	/** <p> <h3>SortBy</h3> </p> <p> <b><u>Purpose:</u></b> TODO: add purpose... </p> <p> <b><u>Information:</u></b> TODO: add info... </p> */
 	public enum SortBy {
-
-		/**
-		 * <p>
-		 * Member variable: ID
-		 * </p>
-		 * <p>
-		 * TODO: add description
-		 * </p>
-		 */
+		/** <p> Member variable: ID </p> <p> TODO: add description </p> */
 		ID,
 
-		/**
-		 * <p>
-		 * Member variable: CREATED
-		 * </p>
-		 * <p>
-		 * TODO: add description
-		 * </p>
-		 */
+		/** <p> Member variable: CREATED </p> <p> TODO: add description </p> */
 		CREATED,
 
-		/**
-		 * <p>
-		 * Member variable: ASKED
-		 * </p>
-		 * <p>
-		 * TODO: add description
-		 * </p>
-		 * . */
+		/** <p> Member variable: ASKED </p> <p> TODO: add description </p> . */
 		ASKED
 	}
 
-	/**
-	 * <p>
-	 * Member variable: questionMap
-	 * </p>
-	 * <p>
-	 * TODO: add description
-	 * </p>
-	 */
+	/** <p> Member variable: questionMap </p> <p> TODO: add description </p> */
 	private Map<Long, Question> questionMap;
 
 	// *********************************************** Constructors
@@ -244,7 +163,5 @@ public class DefaultQuestionDao implements QuestionDao {
 			all.sort(Comparator.comparing(Question::getCreated));
 			return all;
 		}
-
 	}
-
 }

@@ -30,8 +30,7 @@ import com.hoovler.dao.models.Profile;
 import com.hoovler.dao.models.Social;
 
 public class ObjectsTestsHelper {
-
-	// static profile data
+	/** Static profile data. */
 	protected static final String pId = "123";
 	protected static final String pType = "people";
 	protected static final String pSlug = "best person ever";
@@ -40,7 +39,7 @@ public class ObjectsTestsHelper {
 	protected static final String pLastName = "Doe";
 	protected static final String pBio = "Very well, where do I begin? ...";
 
-	// static headshot data
+	/** Static headshot data. */
 	protected static final String hsId = "456";
 	protected static final String hsType = "image";
 	protected static final String hsMimeType = "image/png";
@@ -49,7 +48,7 @@ public class ObjectsTestsHelper {
 	protected static final Integer hsHeight = 50;
 	protected static final Integer hsWidth = 60;
 
-	// static social data
+	/** Static social data. */
 	protected static final String[] socTypes = { "google", "linkedin", "twitter" };
 
 	/**
@@ -99,16 +98,13 @@ public class ObjectsTestsHelper {
 
 		// now, create builder objects, and add values from the inside-out, bottom-up
 
-		ArrayList<Social> social = new ArrayList<Social>(Arrays.asList(new Social(socTypes[0], socCalls[0], socUrls[0]),
+		ArrayList<Social> social = new ArrayList<>(Arrays.asList(new Social(socTypes[0], socCalls[0], socUrls[0]),
 				new Social(socTypes[1], socCalls[1], socUrls[1]), new Social(socTypes[2], socCalls[2], socUrls[2])));
 
 		// populate and build headshot
 		Headshot headshot = new Headshot(hsId, hsMimeType, hsType, hsUrl, hsAlt, hsHeight, hsWidth);
 
-		// populate profile
-		Profile profile = new Profile(pId, pType, pSlug, pJobTitle, pFirstName, pLastName, pBio, headshot, social);
-
-		// build profile - finished!
-		return profile;
+				// build profile - finished!
+		return new Profile(pId, pType, pSlug, pJobTitle, pFirstName, pLastName, pBio, headshot, social);
 	}
 }

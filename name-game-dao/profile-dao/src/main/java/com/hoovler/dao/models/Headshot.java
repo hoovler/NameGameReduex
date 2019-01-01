@@ -22,22 +22,8 @@ package com.hoovler.dao.models;
 
 import org.apache.commons.lang3.StringUtils;
 
-/** <p>
- * <h3>Headshot</h3>
- * </p>
- * <p>
- * <b><u>Purpose</u></b>
- * </p>
- * This Class contains all portrait-related information for a Profile.
- * <p>
- * <b><u>Information</u></b>
- * </p>
- * <p>
- * The <code>Headshot</code> object is nested within <code>Profile</code> as a member variable, and
- * must be accessed as such.
- * </p> */
+/** <p> <h3>Headshot</h3> </p> <p> <b><u>Purpose</u></b> </p> This Class contains all portrait-related information for a Profile. <p> <b><u>Information</u></b> </p> <p> The <code>Headshot</code> object is nested within <code>Profile</code> as a member variable, and must be accessed as such. </p> */
 public class Headshot {
-
 	/** The type. */
 	private String type;
 
@@ -140,7 +126,9 @@ public class Headshot {
 	 * @param protocol the protocol */
 	public void setUrl(String url, String protocol) {
 		// ensure the url begins with the proper protocol
-		if (!StringUtils.startsWithIgnoreCase(url, protocol)) url = protocol + url;
+		if (!StringUtils.startsWithIgnoreCase(url, protocol)) {
+			url = protocol + url;
+		}
 		setUrl(url);
 	}
 
@@ -174,7 +162,6 @@ public class Headshot {
 
 	/** Instantiates a new headshot. */
 	public Headshot() {
-
 	}
 
 	/** Instantiates a new headshot.
@@ -202,5 +189,4 @@ public class Headshot {
 		this.height = height;
 		this.width = width;
 	}
-
 }

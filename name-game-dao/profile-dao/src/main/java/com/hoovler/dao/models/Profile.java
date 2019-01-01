@@ -22,80 +22,33 @@ package com.hoovler.dao.models;
 
 import java.util.ArrayList;
 
-/**
- * The Class Profile.
- */
+/** The Class Profile. */
 public class Profile {
-	/** The value of:
-	 * 
-	 * <pre>
-	 * rootnode.<b><i>id</i></b>
-	 * </pre>
-	 */
+	/** The value of: <pre> rootnode.<b><i>id</i></b> </pre> */
 	private String id;
 
-	/** The value of:
-	 * 
-	 * <pre>
-	 * rootnode.<b><i>type</i></b>
-	 * </pre>
-	 */
+	/** The value of: <pre> rootnode.<b><i>type</i></b> </pre> */
 	private String type;
 
-	/** The value of:
-	 * 
-	 * <pre>
-	 * rootnode.<b><i>slug</i></b>
-	 * </pre>
-	 */
+	/** The value of: <pre> rootnode.<b><i>slug</i></b> </pre> */
 	private String slug;
 
-	/** The value of:
-	 * 
-	 * <pre>
-	 * rootnode.<b><i>jobTitle</i></b>
-	 * </pre>
-	 */
+	/** The value of: <pre> rootnode.<b><i>jobTitle</i></b> </pre> */
 	private String jobTitle;
 
-	/** The value of:
-	 * 
-	 * <pre>
-	 * rootnode.<b><i>firstName</i></b>
-	 * </pre>
-	 */
+	/** The value of: <pre> rootnode.<b><i>firstName</i></b> </pre> */
 	private String firstName;
 
-	/** The value of:
-	 * 
-	 * <pre>
-	 * rootnode.<b><i>lastName</i></b>
-	 * </pre>
-	 */
+	/** The value of: <pre> rootnode.<b><i>lastName</i></b> </pre> */
 	private String lastName;
 
-	/** The value of:
-	 * 
-	 * <pre>
-	 * rootnode.<b><i>bio</i></b>
-	 * </pre>
-	 */
+	/** The value of: <pre> rootnode.<b><i>bio</i></b> </pre> */
 	private String bio;
 
-	/** The object containing portrait information, found in:
-	 * 
-	 * <pre>
-	 * rootnode.<b><i>headshot</i></b>
-	 * </pre>
-	 */
+	/** The object containing portrait information, found in: <pre> rootnode.<b><i>headshot</i></b> </pre> */
 	private Headshot headshot;
 
-	/** A list of tuples grouped by social media type, found in:
-	 * 
-	 * <pre>
-	 * rootnode.<b><i>socialLinks</i></b>
-	 * </pre>
-	 */
+	/** A list of tuples grouped by social media type, found in: <pre> rootnode.<b><i>socialLinks</i></b> </pre> */
 	private ArrayList<Social> social;
 
 	/** Gets the id attribute of the ProfileEntry object.
@@ -226,7 +179,6 @@ public class Profile {
 
 	/** Instantiates a new profile. */
 	public Profile() {
-
 	}
 
 	/** Instantiates a new profile. Not bothering with an internal Builder() class
@@ -253,5 +205,4 @@ public class Profile {
 		this.headshot = headshot;
 		this.social = social;
 	}
-
 }

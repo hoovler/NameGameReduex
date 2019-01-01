@@ -32,10 +32,7 @@ import org.apache.logging.log4j.Logger;
 
 public final class PlayerDaoHelper {
 	private static Logger log = LogManager.getLogger(PlayerDaoHelper.class.getName());
-	
-	public PlayerDaoHelper() {}
-	
-	public static String getRandomEmail() {
+		public static String getRandomEmail() {
 		log.info("PlayerDaoHelper.getRandomEmail()");
 		// build handle and domain with random alpha & alphanumeric strings
 		String lastInitial = RandomStringUtils.randomAlphabetic(1);
@@ -45,10 +42,12 @@ public final class PlayerDaoHelper {
 		String[] domainPrefixes = DomainValidator.getTLDEntries(ArrayType.GENERIC_RO);
 
 		// essentially, this removes the potentially-naughty domain names
-		final ArrayList<String> cleanPrefixes = new ArrayList<String>();
-		for (final String domain : domainPrefixes)
-			if (StringUtils.containsNone(domain, "--"))
+		final ArrayList<String> cleanPrefixes = new ArrayList<>();
+		for (final String domain : domainPrefixes) {
+			if (StringUtils.containsNone(domain, "--")) {
 				cleanPrefixes.add(domain);
+			}
+		}
 
 		// and make our random selection
 		final String domain = cleanPrefixes.get(new Random().nextInt(cleanPrefixes.size()));
@@ -56,7 +55,7 @@ public final class PlayerDaoHelper {
 		// set a few top-level domain codes and grab a random one
 		final String[] codes = { "com", "org", "gov", "us", "tech", "edu" };
 		//final String code = codes[(int) (Math.random() * codes.length)];
-		final String code = codes[(new Random().nextInt(codes.length))];
+		final String code = codes[new Random().nextInt(codes.length)];
 
 		// put it all together
 		return StringUtils.lowerCase(String.format("%s.%s@%s.%s", lastInitial, firstFive, domain, code));
