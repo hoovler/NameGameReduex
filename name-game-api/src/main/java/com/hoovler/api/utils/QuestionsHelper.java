@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
+ * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2019
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in the
@@ -27,8 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.hoovler.api.models.SubjectFromQuestionObject;
-import com.hoovler.api.models.ask.AskResponseBody;
+import com.hoovler.api.models.Subject;
 import com.hoovler.api.models.ask.QuestionOption;
 import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.models.Profile;
@@ -39,30 +38,21 @@ public class QuestionsHelper {
 
 	/** Ask response.
 	 *
-	 * @param  mode the mode
-	 * @param  q    the q
-	 * @return      the ask response */
-	public static AskResponseBody formatQuestion(Mode mode, Question q) {
-		// object to return
-		AskResponseBody response = new AskResponseBody();
-		ArrayList<QuestionOption> options = new ArrayList<>();
+	 * @param  reverse the reverse
+	 * @param  q       the q
+	 * @return         the question options */
+	public static ArrayList<QuestionOption> getQuestionOptions(boolean reverse, Question q) {
+		return reverse ? getReverseOptions(q.getOptions()) : getNormalOptions(q.getOptions());
+	}
 
-		switch (mode) {
-		case REVERSE:
-			// reverse
-			options.addAll(getReverseOptions(q.getOptions()));
-			response.setOptions(options);
-			response.setTarget(getReverseTarget(q.getTarget()).getOptionValue());
-			break;
-		case NORMAL:
-		default:
-			// normal
-			options.addAll(getNormalOptions(q.getOptions()));
-			response.setOptions(options);
-			response.setTarget(getNormalTarget(q.getTarget()).getOptionValue());
-			break;
-		}
-		return response;
+	/** Gets QuestionsHelper.questionTarget
+	 *
+	 * @param  reverse the reverse
+	 * @param  q       the q
+	 * @return         the question target */
+	public static String getQuestionTarget(boolean reverse, Question q) {
+		return reverse ? getReverseTarget(q.getTarget()).getOptionValue()
+				: getNormalTarget(q.getTarget()).getOptionValue();
 	}
 
 	/** Gets a normal option (or target), where question.options = List<imageUrl>
@@ -70,7 +60,7 @@ public class QuestionsHelper {
 	 * @param  object the object
 	 * @return        the normal option */
 	public static QuestionOption getNormalTarget(Object object) {
-		SubjectFromQuestionObject subject = SubjectFromQuestionObject.class.cast(object);
+		Subject subject = Subject.class.cast(object);
 		return new QuestionOption(subject.getId(), subject.getImageUrl());
 	}
 
@@ -82,7 +72,7 @@ public class QuestionsHelper {
 		ArrayList<QuestionOption> formattedOptions = new ArrayList<>();
 		log.debug("getNormalOptions(ArrayList<Object> subjects)");
 		for (Object object : subjects) {
-			SubjectFromQuestionObject subject = SubjectFromQuestionObject.class.cast(object);
+			Subject subject = Subject.class.cast(object);
 			QuestionOption option = new QuestionOption(subject.getId(), subject.getName());
 			log.debug("    Adding new AskOption: optionId = " + option.getOptionId() + ", optionValue"
 					+ option.getOptionValue());
@@ -96,7 +86,7 @@ public class QuestionsHelper {
 	 * @param  object the object
 	 * @return        the reverse option */
 	public static QuestionOption getReverseTarget(Object object) {
-		SubjectFromQuestionObject subject = SubjectFromQuestionObject.class.cast(object);
+		Subject subject = Subject.class.cast(object);
 		return new QuestionOption(subject.getId(), subject.getName());
 	}
 
@@ -108,7 +98,7 @@ public class QuestionsHelper {
 		ArrayList<QuestionOption> formattedOptions = new ArrayList<>();
 		log.debug("getReverseOptions(ArrayList<Object> subjects)");
 		for (Object object : optionsFromQ) {
-			SubjectFromQuestionObject subject = SubjectFromQuestionObject.class.cast(object);
+			Subject subject = Subject.class.cast(object);
 			QuestionOption option = new QuestionOption(subject.getId(), subject.getImageUrl());
 			log.debug("    Adding new AskOption: optionId = " + option.getOptionId() + ", optionValue"
 					+ option.getOptionValue());
@@ -143,12 +133,12 @@ public class QuestionsHelper {
 		// we must
 		// loop through the list of Subjects and convert them to Objects
 		int itr = 0;
-		for (SubjectFromQuestionObject option : getSubjects(questionObjects, GameUtils.NUM_OPTIONS, namePrefix)) {
+		for (Subject option : getSubjects(questionObjects, GameUtils.NUM_OPTIONS, namePrefix)) {
 			optionObjects.add(option);
 
 			// set random option as the matching target
 			if (itr == index) {
-				q.setTarget(new SubjectFromQuestionObject(option.getId(), option.getName(), option.getImageUrl()));
+				q.setTarget(new Subject(option.getId(), option.getName(), option.getImageUrl()));
 			}
 			itr++;
 		}
@@ -160,7 +150,7 @@ public class QuestionsHelper {
 		// hiding implicit constructor
 	}
 
-	protected static ArrayList<SubjectFromQuestionObject> getSubjects(ArrayList<Profile> from, int numSubjects) {
+	protected static ArrayList<Subject> getSubjects(ArrayList<Profile> from, int numSubjects) {
 		return getSubjects(from, numSubjects, null);
 	}
 
@@ -170,10 +160,10 @@ public class QuestionsHelper {
 	 * @param  numSubjects the num subjects
 	 * @param  namePrefix  the name prefix
 	 * @return             the subjects */
-	protected static ArrayList<SubjectFromQuestionObject> getSubjects(ArrayList<Profile> from, int numSubjects,
+	protected static ArrayList<Subject> getSubjects(ArrayList<Profile> from, int numSubjects,
 			String namePrefix) {
 
-		ArrayList<SubjectFromQuestionObject> subjects = new ArrayList<>();
+		ArrayList<Subject> subjects = new ArrayList<>();
 
 		for (int i = 0; i < numSubjects; i++) {
 
@@ -188,7 +178,7 @@ public class QuestionsHelper {
 			}
 
 			// determined to match criteria, profile will be added as a subject
-			subjects.add(new SubjectFromQuestionObject(candidate.getId(),
+			subjects.add(new Subject(candidate.getId(),
 					candidate.getFirstName() + " " + candidate.getLastName(), candidate.getHeadshot().getUrl()));
 
 			// remove candidate to eliminate duplicates
@@ -202,10 +192,10 @@ public class QuestionsHelper {
 	 *
 	 * @param  from the from
 	 * @return      the target */
-	protected static SubjectFromQuestionObject getTarget(ArrayList<SubjectFromQuestionObject> from) {
+	protected static Subject getTarget(ArrayList<Subject> from) {
 		if (!from.isEmpty()) {
 			int index = new Random().nextInt(from.size());
-			return new SubjectFromQuestionObject(from.get(index).getId(), from.get(index).getName(),
+			return new Subject(from.get(index).getId(), from.get(index).getName(),
 					from.get(index).getImageUrl());
 		} else {
 			log.error("Unable to extract target from an empty list of subjects.");

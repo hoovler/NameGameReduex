@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) ${author} 2018 
+ * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2019
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of 
  * this software and associated documentation files (the "Software"), to deal in the 
@@ -22,11 +22,9 @@ package com.hoovler.api.models.ask;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.hoovler.api.utils.Mode;
-
 public class AskArgs {
 	private String playerEmail;
-	private int mode;
+	private String reverse;
 	private String mattsOnly;
 
 	// getters
@@ -34,8 +32,8 @@ public class AskArgs {
 		return playerEmail;
 	}
 
-	public int getMode() {
-		return mode;
+	public String getMode() {
+		return reverse;
 	}
 
 	public String getMattsOnly() {
@@ -46,8 +44,8 @@ public class AskArgs {
 		this.playerEmail = playerEmail;
 	}
 
-	public void setMode(int mode) {
-		this.mode = mode;
+	public void setMode(String mode) {
+		this.reverse = mode;
 	}
 
 	public void setMattsOnly(String mattsOnly) {
@@ -56,25 +54,25 @@ public class AskArgs {
 
 	public AskArgs() {
 		this.playerEmail = StringUtils.EMPTY;
-		this.mode = -1;
+		this.reverse = StringUtils.EMPTY;
 		this.mattsOnly = StringUtils.EMPTY;
 	}
 
 	public AskArgs(String playerEmail) {
 		this.playerEmail = playerEmail;
-		this.mode = -1;
+		this.reverse = StringUtils.EMPTY;
 		this.mattsOnly = StringUtils.EMPTY;
 	}
 
-	public AskArgs(String playerEmail, int mode) {
+	public AskArgs(String playerEmail, String mode) {
 		this.playerEmail = playerEmail;
-		this.mode = mode;
+		this.reverse = mode;
 		this.mattsOnly = StringUtils.EMPTY;
 	}
 
-	public AskArgs(String playerEmail, int mode, String mattsOnly) {
+	public AskArgs(String playerEmail, String mode, String mattsOnly) {
 		this.playerEmail = playerEmail;
-		this.mode = mode;
+		this.reverse = mode;
 		this.mattsOnly = mattsOnly;
 	}
 	
@@ -83,8 +81,9 @@ public class AskArgs {
 	 *
 	 * @return the mode
 	 */
-	public Mode modeEnum() {
-		return Mode.values()[this.mode];
+	public boolean reverseBool() {
+		if (StringUtils.isBlank(this.reverse)) return false;
+		return Boolean.parseBoolean(this.reverse);
 	}
 	
 	/**
@@ -92,7 +91,7 @@ public class AskArgs {
 	 *
 	 * @return true, if successful
 	 */
-	public boolean mattsOnlyEnum() {
+	public boolean mattsOnlyBool() {
 		if (StringUtils.isBlank(this.getMattsOnly())) return false;
 		return Boolean.parseBoolean(this.getMattsOnly());
 	}

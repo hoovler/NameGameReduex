@@ -1,124 +1,136 @@
-/* 
- * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
+/*
+ * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2019
  * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of 
- * this software and associated documentation files (the "Software"), to deal in the 
- * Software without restriction, including without limitation the rights to use, copy, 
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
- * and to permit persons to whom the Software is furnished to do so, subject to the 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in the
+ * Software without restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the
  * following conditions:
  * 
- * The above copyright notice and this permission notice shall be included in all 
+ * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.hoovler.api.resources;
 
+import java.util.ArrayList;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.hoovler.api.models.ask.AskArgs;
-import com.hoovler.api.models.ask.AskResponseBody;
+import com.hoovler.api.models.ask.QuestionOption;
 import com.hoovler.api.utils.GameUtils;
-import com.hoovler.api.utils.Mode;
 import com.hoovler.api.utils.QuestionsHelper;
 import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Question;
 
-/**
- * <p><h3>Ask</h3>
+// TODO: Auto-generated Javadoc
+/** <p><h3>Ask</h3>
  * <p><b><u>Purpose</u></b></p>
  * This Class ...</p>
  * <p><b><u>Information</u></b><br />
  * The <code>Ask</code> object is...</p>
  * <p><b><u>Examples</u></b></p>
- * <pre>GET: http://localhost/namegame/v2.0.0/ask?email=foo@bar.com&mode=2</pre>
+ * 
+ * <pre>
+ * GET: http://localhost/namegame/v2.0.0/ask?email=foo@bar.com&mode=2
+ * </pre>
  */
 public class AskQuestion {
-	//private static Logger log = LogManager.getLogger(Ask.class.getName());
-	
-	private AskResponseBody askResponseBody;
-	
-	/**
-	 * Gets the response.
+
+	// not to be confused with 'qId'; 'questionId' is the hex value derived from the 'qId' and 'email' variables
+	private String questionId;
+
+	private String target;
+
+	private ArrayList<QuestionOption> options;
+
+	/** Gets AskQuestion.questionId
 	 *
-	 * @return the response
-	 */
-	public AskResponseBody getAskResponse() {
-		return this.askResponseBody;
+	 * @return the question id */
+	public String getQuestionId() {
+		return questionId;
 	}
-	
-	/**
-	 * Instantiates a new ask question.
-	 */
-	public AskQuestion() {
-		this.askResponseBody = new AskResponseBody();
-	}
-	
-	/**
-	 * Instantiates a new response object for the API GET verb.
+
+	/** Gets AskQuestion.target
 	 *
-	 * @param playerEmail the player email
-	 * @param mode 	- the mode as determined by the URI argument <em>mode</em>.  The mode values are restricted to 0 and 1:
-	 * <table border=1>
-	 * <tr>
-	 * 		<td><code>0; Mode.NORMAL</code></td>
-	 * 		<td>The default value when no <em>mode</em> is supplied; the question will contain a random selection of options from the entire pool of profiles.</td>
-	 * </tr>
-	 * <tr>
-	 * 		<td><code>1; Mode.REVERSE</code></td>
-	 * 		<td>The question will contain a random selection of profiles wherein the value of Profile.getFirstName() matches the regex <code>[m|M][a|A][t|T][t|T]+.*</code></td>
-	 * </tr>
-	 * </table>
-	 * <p>There is no accounting for a <em>REVERSE</em> mode because each question will contain both the <b>name</b> and <b>imageUrl</b> values for all
-	 * <code>options</code> and the <code>target</code>. This enables a front-end game designer / client developer to implement a REVERSE mode if required, without
-	 * the inflexibility of having such an option built into the back-end design.</p>
-	 * @param data - the Data persistence object;
-	 */
-	public AskQuestion(AskArgs values, DefaultProfileDao profileService, Players playerService, Questions questionService) {
-		
-		this.askResponseBody = new AskResponseBody();
-		setAskResponse(values, profileService, playerService, questionService);
+	 * @return the target */
+	public String getTarget() {
+		return target;
 	}
-	
-	/**
-	 * Sets the ask response.
+
+	/** Gets AskQuestion.options
 	 *
-	 * @param values the values
-	 * @param profiles the profile service
-	 * @param players the player service
-	 * @param questions the question service
-	 */
-	public void setAskResponse(
-			AskArgs values, 
-			DefaultProfileDao profiles, 
-			Players players, 
-			Questions questions) {
-		// determine question format from arguments passed in to the API
-		Mode mode = values.modeEnum();
-		String namePrefix = "";
-		if (values.mattsOnlyEnum()) namePrefix = "matt";
-		
-		// generate a new question based on arguments
+	 * @return the options */
+	public ArrayList<QuestionOption> getOptions() {
+		return options;
+	}
+
+	/** Sets AskQuestion.questionId
+	 *
+	 * @param questionId the new question id */
+	public void setQuestionId(String questionId) {
+		this.questionId = questionId;
+	}
+
+	/** Sets AskQuestion.target
+	 *
+	 * @param target the new target */
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	/** Sets AskQuestion.options
+	 *
+	 * @param options the new options */
+	public void setOptions(ArrayList<QuestionOption> options) {
+		this.options = options;
+	}
+
+	/** Instantiates a new response object for the API GET verb.
+	 *
+	 * @param values    the values
+	 * @param profiles  the profiles
+	 * @param players   the players
+	 * @param questions the questions */
+	public AskQuestion(AskArgs values, DefaultProfileDao profiles, Players players, Questions questions) {
+
+		// this.askResponseBody = new AskResponseBody();
+		// setAskResponse(values, profileService, playerService, questionService);
+
+		String namePrefix = (values.mattsOnlyBool()) ? GameUtils.MATTS_ONLY_VALUE_PREFIX : StringUtils.EMPTY;
 		Question q = QuestionsHelper.generateQuestion(profiles, namePrefix);
-		this.askResponseBody = QuestionsHelper.formatQuestion(mode, q);
+		this.options = QuestionsHelper.getQuestionOptions(values.reverseBool(), q);
+		this.target = null;
+		this.questionId = GameUtils.encodeToHexWithSalt(q.getId(), values.getPlayerEmail());
 		
-		// set the ID to a value from which the QuestionId can be derived for the purposes of checking an answer in the future
-		this.askResponseBody.setQuestionId(GameUtils.encodeToHexWithSalt(q.getId(), values.getPlayerEmail()));
 		
+	}
+
+	/** Sets the ask response.
+	 *
+	 * @param values    the values
+	 * @param profiles  the profile service
+	 * @param players   the player service
+	 * @param questions the question service */
+	public void updateDaoObjs(String playerEmail, Players players, Question question, Questions questions) {
+
 		// update player history
-		Player player = players.getOrAddPlayer(values.getPlayerEmail());
+		Player player = players.getOrAddPlayer(playerEmail);
 		player.updateStats(new Date(), true);
 		players.updatePlayer(player.getEmail(), player);
-		
+
 		// update question history
-		questions.addQuestion(q);
+		questions.addQuestion(question);
 	}
-	
+
 }

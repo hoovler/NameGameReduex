@@ -20,36 +20,59 @@
  */
 package com.hoovler.api.models;
 
-public class RestParam {
-	
+/**
+ * <p><h3>Subject</h3>
+ * <p><b><u>Purpose</u></b></p>
+ * This class can be seen as a thin wrapper around <code>com.hoovler.dao.models.Profile, 
+ * taking its own attributes from a subset of the Profile and Headshot objects.</code></p>
+ * <p><b><u>Information</u></b><br />
+ * The <code>Subject</code> object is...</p>
+ * <p><b><u>Examples</u></b></p>
+ * An example:
+ * <pre>some code</pre>
+ * Another example:
+ * <pre>some more code;</pre>
+ */
+public class Subject {
+
+	private String id;
 	private String name;
-	private String defaultValue;
+	private String imageUrl;
+
+	public String getId() {
+		return id;
+	}
 	
 	public String getName() {
-		return this.name;
+		return name;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
 	}
 	
-	public String getDefaultValue() {
-		return this.defaultValue;
+	public void setId(String id) {
+		this.id = id;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
-	
-	public RestParam() {
-		
+
+	public Subject() {
+		this.id = "";
+		this.name = "";
+		this.imageUrl = "";
 	}
-	
-	public RestParam(String name) {
+
+	public Subject(String id, String name, String imageUrl) {
+		this.id = id;
 		this.name = name;
+		this.imageUrl = imageUrl;
 	}
-	public RestParam(String name, String defaultValue) {
-		this.name = name;
-		this.defaultValue = defaultValue;
-	}
+	
 }

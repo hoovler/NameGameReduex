@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
+ * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2019
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in the
@@ -26,14 +26,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hoovler.api.models.answer.AnswerArgs;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.hoovler.api.models.AnswerArgs;
 import com.hoovler.api.models.ask.AskArgs;
 import com.hoovler.api.resources.AnswerQuestion;
 import com.hoovler.api.resources.AskQuestion;
@@ -50,40 +52,39 @@ import com.hoovler.dao.models.Question;
 @RequestMapping(GameUtils.API_PREFIX + GameUtils.API_VERSION)
 public class GameController {
 
-	/** The log. */
 	private static Logger log = LogManager.getLogger(GameController.class.getName());
 
 	/** The standard URI path separator. */
 	protected static final String pathSep = "/";
 
-	/**  The character denoting the start of a URI path variable. */
+	/** The character denoting the start of a URI path variable. */
 	protected static final String pathVarOpen = "{";
 
 	/** The character denoting the end of a URI path variable. */
 	protected static final String pathVarClose = "}";
 
-	/**  The default value for missing or empty String parameters. */
+	/** The default value for missing or empty String parameters. */
 	protected static final String defaultAlpha = "";
 
 	/** The default value for missing or empty numeric parameters, including boolean params. */
 	protected static final String defaultNumeric = "0";
 
-	/**  The request parameter name for the player email string value. */
+	/** The request parameter name for the player email string value. */
 	protected static final String emailParam = "email";
 
-	/**  The request parameter name for the selected mode integer value. */
-	protected static final String modeParam = "mode";
+	/** The request parameter name for the selected mode integer value. */
+	protected static final String reverseParam = "reverse";
 
-	/**  The request parameter name for the matts boolean value. */
+	/** The request parameter name for the matts boolean value. */
 	protected static final String mattsParam = "matts";
-
-	/**  The URI path variable's parameter name in an Answer POST. */
-	protected static final String qIdParam = "q_id";
 
 	// protected static final String questionIdParam = "question_id";
 
 	/** The Constant answerIdParam. */
-	protected static final String answerIdParam = "answer_id";
+	protected static final String answerIdBodyParam = "answer_id";
+
+	/** The Constant questionIdBodyParam. */
+	protected static final String questionIdBodyParam = "question_id";
 
 	/** The Constant askResource. */
 	protected static final String askResource = "ask";
@@ -103,30 +104,18 @@ public class GameController {
 	/** The Constant questionsPath. */
 	protected static final String questionsPath = pathSep + questionsResource;
 
-	/** The Constant questionPath. */
-	protected static final String questionPath = pathSep + questionsResource + pathSep + pathVarOpen + qIdParam
-			+ pathVarClose;
-
 	/** The Constant playersPath. */
 	protected static final String playersPath = pathSep + playersResource;
-	
-	/** The Constant playerPath. */
-	protected static final String playerPath = pathSep + playersResource + pathSep + pathVarOpen + emailParam
-			+ pathVarClose;
-	
-	/** The Constant answerPath. */
-	protected static final String answerPath = pathSep + answerResource + pathSep + pathVarOpen + qIdParam
-			+ pathVarClose;
 
-	
-
+	/** The Constant altAnswerPath. */
+	protected static final String altAnswerPath = pathSep + answerResource;
 
 	// ******************** private controller resources ********************
 
 	private final DefaultProfileDao profileService;
 	private final Players playerService;
 	private final Questions questionService;
-	
+
 	// ******************** constructors ********************
 
 	/** Instantiates a new game controller.
@@ -140,24 +129,24 @@ public class GameController {
 		this.playerService = playerService;
 		this.questionService = questionService;
 	}
-	
+
 	// ******************** standard game endpoints ********************
 
 	/** Ask.
 	 *
 	 * @param  playerEmail the player email
-	 * @param  mode        the mode
+	 * @param  reverse     whether or not to reverse the question
 	 * @param  mattsOnly   the matts only
 	 * @return             the ask question */
 	@GetMapping(path = askPath)
 	public AskQuestion ask(@RequestParam(value = emailParam, defaultValue = defaultAlpha) String playerEmail,
-			@RequestParam(value = modeParam, defaultValue = defaultNumeric) int mode,
+			@RequestParam(value = reverseParam, defaultValue = defaultNumeric) String reverse,
 			@RequestParam(value = mattsParam, defaultValue = defaultNumeric) String mattsOnly) {
-		AskArgs askParams = new AskArgs(playerEmail, mode, mattsOnly);
+		AskArgs askParams = new AskArgs(playerEmail, reverse, mattsOnly);
 
 		log.info("Receiving GET params as request for a new Question object: ");
 		log.info(emailParam + " = " + askParams.getPlayerEmail());
-		log.info(modeParam + " = " + askParams.getMode());
+		log.info(reverseParam + " = " + askParams.getMode());
 		log.info(mattsParam + " = " + askParams.getMattsOnly());
 
 		// init a new Ask Response
@@ -166,18 +155,24 @@ public class GameController {
 
 	/** Answer.
 	 *
-	 * @param  questionId the question id
-	 * @param  answerBody the answer body
-	 * @return            the answer question */
-	@PostMapping(path = answerPath)
-	public AnswerQuestion answer(@PathVariable(qIdParam) long questionId, @RequestBody AnswerArgs answerBody) {
-		answerBody.setQuestionId(questionId);
+	 * @param  payload the payload
+	 * @return         the answer question */
+	@PostMapping(path = altAnswerPath)
+	public AnswerQuestion answer(@RequestBody String payload) {
+		AnswerArgs answerBody = new AnswerArgs();
+
+		JsonElement jBody = new JsonParser().parse(payload);
+		JsonObject args = jBody.getAsJsonObject();
+
+		answerBody.setAnswerId(args.get(answerIdBodyParam).getAsString());
+		answerBody.setPlayerEmail(args.get(emailParam).getAsString());
+		answerBody.setQuestionId(args.get(questionIdBodyParam).getAsString());
 
 		// log POST values
 		log.info("Receiving POST values in answer to a question: ");
-		log.info(answerIdParam + " = " + answerBody.getAnswerId());
+		log.info(answerIdBodyParam + " = " + answerBody.getAnswerId());
 		log.info(emailParam + " = " + answerBody.getPlayerEmail());
-		log.info(qIdParam + " = " + answerBody.getQuestionId());
+		log.info(questionIdBodyParam + " = " + answerBody.getQuestionId());
 
 		return new AnswerQuestion(answerBody, this.playerService, this.questionService);
 	}
@@ -186,22 +181,13 @@ public class GameController {
 
 	/** Return a list of all Question objects in their full format.
 	 *
-	 * @param  start the start
+	 * @param  start the starts
 	 * @param  stop  the stop
 	 * @return       the array list */
 	@RequestMapping(path = questionsPath)
-	public ArrayList<Question> questions(@RequestParam(value = modeParam, defaultValue = defaultNumeric) int start,
-			@RequestParam(value = modeParam, defaultValue = defaultNumeric) int stop) {
+	public ArrayList<Question> questions(@RequestParam(value = reverseParam, defaultValue = defaultNumeric) int start,
+			@RequestParam(value = reverseParam, defaultValue = defaultNumeric) int stop) {
 		return questionService.questionList();
-	}
-
-	/** Given the ID, return a single Question object in it's full format. 
-	 *
-	 * @param  qId the question's id
-	 * @return     the fully-formatted Question object */
-	@RequestMapping(path = questionPath)
-	public Question question(@PathVariable(qIdParam) long qId) {
-		return questionService.getQuestion(qId);
 	}
 
 	/** Players.
@@ -210,13 +196,5 @@ public class GameController {
 	@RequestMapping(path = playersPath)
 	public ArrayList<Player> players() {
 		return playerService.playerList();
-	}
-	
-	/** Players.
-	 *
-	 * @return the array list */
-	@RequestMapping(path = playerPath)
-	public Player player(@PathVariable(emailParam) String email) {
-		return playerService.getPlayer(email);
 	}
 }
