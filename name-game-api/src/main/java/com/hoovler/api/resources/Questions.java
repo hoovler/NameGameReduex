@@ -30,7 +30,7 @@ import org.apache.logging.log4j.Logger;
 import com.hoovler.api.models.Subject;
 import com.hoovler.dao.QuestionDao;
 import com.hoovler.dao.models.Question;
-import com.hoovler.utils.Msg;
+import com.hoovler.utils.Messages;
 import com.hoovler.utils.impl.ListUtils;
 
 /** <p><h3>Questions</h3> <p><b><u>Purpose</u></b></p> <p>This class provides an implementation of the <code>QuestionDao</code> interface.</p> <p><b><u>Information</u></b></p> <p>Though this class could simply be one which extends <code>DefaultQuestionDao</code>, the state of the object's data isn't persistent when making calls to the <code>super</code> class, as that class hasn't been autowired by the Spring Framework.</p> */
@@ -69,9 +69,9 @@ public class Questions implements QuestionDao {
 	@Override
 	public Question addQuestion(Question q) {
 		if (q == null || q.getId() < 1) {
-			log.warn(Msg.get(Msg.MSG_ID_BLANK));
+			log.warn(Messages.get(Messages.MSG_ID_BLANK));
 		} else {
-			log.info(Msg.get(Msg.MSG_ADD_QUESTION) + q.getId());
+			log.info(Messages.get(Messages.MSG_ADD_QUESTION) + q.getId());
 			questionsMap.put(q.getId(), q);
 		}
 		return q;
@@ -85,10 +85,10 @@ public class Questions implements QuestionDao {
 	@Override
 	public Question updateQuestion(Long id, Question updatedQ) {
 		if (!questionsMap.containsKey(id)) {
-			log.warn(Msg.get(Msg.MSG_ID_NOT_FOUND) + id + Msg.get(Msg.MSG_NOT_UPDATING));
+			log.warn(Messages.get(Messages.MSG_ID_NOT_FOUND) + id + Messages.get(Messages.MSG_NOT_UPDATING));
 			return null;
 		} else if (updatedQ.getId() != id) {
-			log.warn(Msg.get(Msg.MSG_IDS_NON_MATCHING) + id + " != " + updatedQ.getId() + Msg.get(Msg.MSG_NOT_UPDATING));
+			log.warn(Messages.get(Messages.MSG_IDS_NON_MATCHING) + id + " != " + updatedQ.getId() + Messages.get(Messages.MSG_NOT_UPDATING));
 			return null;
 		} else {
 			return questionsMap.put(id, updatedQ);

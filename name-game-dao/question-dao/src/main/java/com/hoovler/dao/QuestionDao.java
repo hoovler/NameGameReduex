@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) ${author} 2018 
+ * Copyright (c) Michael Hoovler <hoovlermichael@gmail.com> 2019
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of 
  * this software and associated documentation files (the "Software"), to deal in the 
@@ -26,8 +26,12 @@ import com.hoovler.dao.models.Question;
 
 public interface QuestionDao {
 	Question getQuestion(Long qId);
+
 	Question addQuestion(Question q);
+
 	Question updateQuestion(Long id, Question updatedQ);
+
 	boolean deleteQuestion(Long qId);
+
 	ArrayList<Question> questionList();
 }

@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) ${author} 2018 
+ * Copyright (c) Michael Hoovler <hoovlermichael@gmail.com> 2019
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of 
  * this software and associated documentation files (the "Software"), to deal in the 
@@ -20,32 +20,32 @@
  */
 package com.hoovler.api.resources;
 
+import java.util.ArrayList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.hoovler.dao.DefaultPlayerDao;
 import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Stats;
+import com.hoovler.utils.impl.ListUtils;
 
 public class Players extends DefaultPlayerDao {
-		private static Logger log = LogManager.getLogger(Players.class.getName());
-		// TODO: Use hibernate to store persistence objects; javax.persistence.EntityManager
-	/**
-	 * Player exists.
+	private static Logger log = LogManager.getLogger(Players.class.getName());
+
+	// TODO: Use hibernate to store persistence objects; javax.persistence.EntityManager
+	/** Player exists.
 	 *
-	 * @param email the email
-	 * @return true, if successful
-	 */
+	 * @param  email the email
+	 * @return       true, if successful */
 	public boolean playerExists(String email) {
 		return super.getPlayer(email) != null;
 	}
 
-	/**
-	 * Retrieve player stats.
+	/** Retrieve player stats.
 	 *
-	 * @param email the email
-	 * @return the stats
-	 */
+	 * @param  email the email
+	 * @return       the stats */
 	public Stats retrievePlayerStats(String email) {
 		if (playerExists(email)) {
 			return super.getPlayer(email).getStats();
@@ -54,12 +54,10 @@ public class Players extends DefaultPlayerDao {
 		}
 	}
 
-	/**
-	 * Adds the player if the player doesn't yet exist.  Otherwise, don't add anything.
+	/** Adds the player if the player doesn't yet exist. Otherwise, don't add anything.
 	 *
-	 * @param email - the player's email
-	 * @return the newly-added Player if player was new; otherwise, return existing player object
-	 */
+	 * @param  email - the player's email
+	 * @return       the newly-added Player if player was new; otherwise, return existing player object */
 	public Player getOrAddPlayer(String email) {
 		if (!playerExists(email)) {
 			log.info("Player not found; Returning a new player object initilized with 'email' set to " + email);
@@ -67,5 +65,17 @@ public class Players extends DefaultPlayerDao {
 		}
 		log.info("Player with 'email'=" + email + " found!");
 		return super.getPlayer(email);
+	}
+	
+	/**
+	 * Player list.
+	 *
+	 * @param start the start
+	 * @param stop the stop
+	 * @return the array list
+	 */
+	public ArrayList<Player> playerList(int start, int velocity){
+		
+		return new ArrayList<>(ListUtils.subset(super.playerList(), start, velocity));
 	}
 }

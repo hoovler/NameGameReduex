@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2019
+ * Copyright (c) Michael Hoovler <hoovlermichael@gmail.com> 2019
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in the
@@ -20,7 +20,11 @@
  */
 package com.hoovler.api.controllers;
 
+import static com.hoovler.api.utils.Message.INFO_ANSWER_PARAMS;
+import static com.hoovler.api.utils.Message.INFO_ASK_PARAMS;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,6 +41,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hoovler.api.models.AnswerArgs;
 import com.hoovler.api.models.AskArgs;
+import com.hoovler.api.persistence.QuestionsAsked;
 import com.hoovler.api.resources.AnswerQuestion;
 import com.hoovler.api.resources.AskQuestion;
 import com.hoovler.api.resources.Players;
@@ -46,12 +51,26 @@ import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.models.Player;
 import com.hoovler.dao.models.Question;
 
-// TODO: Auto-generated Javadoc
+// TODO: Don't allow player to answer question more than once
+// TODO: Update comments
+// TODO: Generate Javadocs
+// TODO: Figure out how to document the API
+
 /** The Class GameController. */
 @RestController
 @RequestMapping(NameGameHelper.API_PREFIX + NameGameHelper.API_VERSION)
 public class GameController {
 	private static Logger log = LogManager.getLogger(GameController.class.getName());
+
+	/*
+	 * cannot store Spring annotation values, or constituent parts, within an external
+	 * properties file, or another constants class; Spring requires that all values within
+	 * annotations must constant, as well as known at runtime initialization: this
+	 * frustrates a developer's desire to refactor their code down into the most concise
+	 * fragments possible...
+	 */
+
+	/* CONSTITUENT COMPONENTS */
 
 	/** The standard URI path separator. */
 	protected static final String pathSep = "/";
@@ -62,60 +81,73 @@ public class GameController {
 	/** The character denoting the end of a URI path variable. */
 	protected static final String pathVarClose = "}";
 
+	/* DEFAULT PARAMETER VALUES */
+
 	/** The default value for missing or empty String parameters. */
 	protected static final String defaultAlpha = "";
 
 	/** The default value for missing or empty numeric parameters, including boolean params. */
 	protected static final String defaultNumeric = "0";
 
-	/** The request parameter name for the player email string value. */
+	/* PARAMETER NAMES */
+
+	/** The request parameter name for the player email string value. <p><em>A parameter name used: <ul><li>in the response body of a question</li><li>in the request body when submitting an answer</li><ul></em></p> */
 	protected static final String emailParam = "email";
 
-	/** The request parameter name for the selected mode integer value. */
+	/** The request parameter name for the selected mode integer value. <p><em>A parameter name used: <ul><li>in the response body of a question</li><ul></em></p> */
 	protected static final String reverseParam = "reverse";
 
-	/** The request parameter name for the matts boolean value. */
+	/** The request parameter name for the <code>matts</code> boolean value. <p>The name of a parameter value passed along with the request for a question. While technically a string on the part of the sender, this value is treated a boolean, and thus may only be values which may be parsed into a boolean.</p> <p>For example:<pre>matts=1 || matts=true || matts=yes</pre><pre>matts=0 || matts=false || matts=no</pre></p> */
 	protected static final String mattsParam = "matts";
 
-	// protected static final String questionIdParam = "question_id";
-
-	/** The Constant answerIdParam. */
+	/** The Constant answerIdParam. <p>A parameter name used: <ul><li>when submitting an answer</li><ul><li>Should be a string value that is unique to the question's chosen option, and must match that option's <code>option_id</code></li></ul><ul></p> */
 	protected static final String answerIdBodyParam = "answer_id";
 
-	/** The Constant questionIdBodyParam. */
+	/** The Constant questionIdBodyParam. <p>A parameter name used: <ul><li>in the response body of a question<ul><li>A unique, hexidecimal ID for the question being asked</li></ul></li><li>in the request body when submitting an answer<ul><li>Must match the <code>question_id</code> received</li><li>Unique to, and may only be submitted for, the player to whom the question was asked.</li></ul></li><ul></p> */
 	protected static final String questionIdBodyParam = "question_id";
+	
+	protected static final String startParam = "start";
+	protected static final String stopParam = "stop";
 
-	/** The Constant askResource. */
+	/* RESOURCE NAMES & BASE PATH VALUES */
+
+	/** The Constant askResource. <p><em>A NameGame API resource...</em></p> */
 	protected static final String askResource = "ask";
 
-	/** The Constant answerResource. */
+	/** The Constant answerResource. <p><em>A NameGame API resource...</em></p> */
 	protected static final String answerResource = "answer";
 
-	/** The Constant questionsResource. */
+	/** The Constant questionsResource. <p><em>A NameGame API resource...</em></p> */
 	protected static final String questionsResource = "questions";
+	protected static final String questionsAskedResource = "questions/asked";
 
-	/** The Constant playersResource. */
+	/** The Constant playersResource. <p><em>A NameGame API resource...</em></p> */
 	protected static final String playersResource = "players";
 
-	/** The Constant askPath. */
+	/* PATH VALUE CONSTRUCTION */
+
+	/** The Constant askPath <p><em>A path derived from a named resource...</em></p> */
 	protected static final String askPath = pathSep + askResource;
 
-	/** The Constant questionsPath. */
+	/** The Constant questionsPath. <p><em>A path derived from a named resource...</em></p> */
 	protected static final String questionsPath = pathSep + questionsResource;
 
-	/** The Constant playersPath. */
+	protected static final String questionsAskedPath = pathSep + questionsAskedResource;
+
+	/** The Constant playersPath. <p><em>A path derived from a named resource...</em></p> */
 	protected static final String playersPath = pathSep + playersResource;
+	
+	protected static final String leaderboardPath = "/leaderboard";
 
-	/** The Constant altAnswerPath. */
-	protected static final String altAnswerPath = pathSep + answerResource;
+	/** The Constant altAnswerPath. <p><em>A path derived from a named resource...</em></p> */
+	protected static final String answerPath = pathSep + answerResource;
 
-	/** * Private controller resources. */
+	/* SPRING CONTROLLER BEAN INITIALIZATION */
 
 	private final DefaultProfileDao profileService;
 	private final Players playerService;
 	private final Questions questionService;
-
-	// ******************** constructors ********************
+	private final QuestionsAsked questionsAskedService;
 
 	/** Instantiates a new game controller.
 	 *
@@ -123,13 +155,15 @@ public class GameController {
 	 * @param playerService   the player service
 	 * @param questionService the question service */
 	@Autowired
-	public GameController(DefaultProfileDao profileService, Players playerService, Questions questionService) {
+	public GameController(DefaultProfileDao profileService, Players playerService, Questions questionService,
+			QuestionsAsked questionsAskedService) {
 		this.profileService = profileService;
 		this.playerService = playerService;
 		this.questionService = questionService;
+		this.questionsAskedService = questionsAskedService;
 	}
 
-	// ******************** standard game endpoints ********************
+	/* STANDARD GAME ENDPOINTS */
 
 	/** Ask.
 	 *
@@ -143,20 +177,23 @@ public class GameController {
 			@RequestParam(value = mattsParam, defaultValue = defaultNumeric) String mattsOnly) {
 		AskArgs askParams = new AskArgs(playerEmail, reverse, mattsOnly);
 
-		log.info("Receiving GET params as request for a new Question object: ");
-		log.info(emailParam + " = " + askParams.getPlayerEmail());
-		log.info(reverseParam + " = " + askParams.getMode());
-		log.info(mattsParam + " = " + askParams.getMattsOnly());
+		log.debug(INFO_ASK_PARAMS.getValue());
+		log.debug(emailParam + " = " + askParams.getPlayerEmail());
+		log.debug(reverseParam + " = " + askParams.getMode());
+		log.debug(mattsParam + " = " + askParams.getMattsOnly());
 
 		// init a new Ask Response
-		return new AskQuestion(askParams, this.profileService, this.playerService, this.questionService);
+		AskQuestion questionAsked = new AskQuestion(askParams, this.profileService, this.playerService,
+				this.questionService);
+		this.questionsAskedService.addQuestionAsked(questionAsked);
+		return questionAsked;
 	}
 
 	/** Answer.
 	 *
 	 * @param  payload the payload
 	 * @return         the answer question */
-	@PostMapping(path = altAnswerPath)
+	@PostMapping(path = answerPath)
 	public AnswerQuestion answer(@RequestBody String payload) {
 		AnswerArgs answerBody = new AnswerArgs();
 
@@ -168,32 +205,55 @@ public class GameController {
 		answerBody.setQuestionId(args.get(questionIdBodyParam).getAsString());
 
 		// log POST values
-		log.info("Receiving POST values in answer to a question: ");
-		log.info(answerIdBodyParam + " = " + answerBody.getAnswerId());
-		log.info(emailParam + " = " + answerBody.getPlayerEmail());
-		log.info(questionIdBodyParam + " = " + answerBody.getQuestionId());
+		log.debug(INFO_ANSWER_PARAMS.getValue());
+		log.debug(answerIdBodyParam + " = " + answerBody.getAnswerId());
+		log.debug(emailParam + " = " + answerBody.getPlayerEmail());
+		log.debug(questionIdBodyParam + " = " + answerBody.getQuestionId());
 
 		return new AnswerQuestion(answerBody, this.playerService, this.questionService);
 	}
+	
+	
+	/**
+	 * A variant of the <code>players</code> endpoint, the Leaderboard endpoint allows players to obtain a list of 
+	 *
+	 * @param start the start
+	 * @param velocity the velocity
+	 * @return the array list
+	 */
+	@RequestMapping(path = leaderboardPath)
+	public ArrayList<Player> leaderboard (
+			@RequestParam(value = startParam, defaultValue = defaultNumeric) int start,
+			@RequestParam(value = stopParam, defaultValue = defaultNumeric) int velocity){
+		return playerService.playerList(start, velocity);
+	}
 
-	// ******************** diagnostic endpoints ********************
+	/* DIAGNOSTIC GAME ENDPOINTS */
 
-	/** Return a list of all Question objects in their full format.
+	/** Return a list of all Question objects in their full format. <p><b>This diagnostic endpoint should be protected from casual players.</b> A security configuration methodology template is provided in the <code>general-utils</code> maven project, within the following classes: <ul><li><code>com.hoovler.utils.impl.SecurityUtils</code></li><li><code>com.hoovler.utils.models.SecurityConfig</code></li></ul>And an example configuration file: <code>src/main/resources/security.config</code></p>
 	 *
 	 * @param  start the starts
 	 * @param  stop  the stop
 	 * @return       the array list */
 	@RequestMapping(path = questionsPath)
-	public ArrayList<Question> questions(@RequestParam(value = reverseParam, defaultValue = defaultNumeric) int start,
-			@RequestParam(value = reverseParam, defaultValue = defaultNumeric) int stop) {
-		return questionService.questionList();
+	public ArrayList<Question> questions(
+			@RequestParam(value = questionIdBodyParam, defaultValue = defaultAlpha) String qId) {
+		return qId == defaultAlpha ? questionService.questionList()
+				: new ArrayList<>(Arrays.asList(questionService.getQuestion(Long.parseLong(qId))));
 	}
 
-	/** Players.
+	/** Return a list of all Player objects, representing the full list of players to whom a question has been asked. <p><b>This diagnostic endpoint should be protected from casual players.</b> A security configuration methodology template is provided in the <code>general-utils</code> maven project, within the following classes: <ul><li><code>com.hoovler.utils.impl.SecurityUtils</code></li><li><code>com.hoovler.utils.models.SecurityConfig</code></li></ul>And an example configuration file: <code>src/main/resources/security.config</code></p>
 	 *
 	 * @return the array list */
 	@RequestMapping(path = playersPath)
 	public ArrayList<Player> players() {
 		return playerService.playerList();
+	}
+
+	@RequestMapping(path = questionsAskedPath)
+	public ArrayList<Question> questionsAsked(
+			@RequestParam(value = questionIdBodyParam, defaultValue = defaultNumeric) int start,
+			@RequestParam(value = reverseParam, defaultValue = defaultNumeric) int stop) {
+		return questionService.questionList();
 	}
 }

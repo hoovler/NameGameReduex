@@ -1,21 +1,21 @@
-/*
- * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
+/* 
+ * Copyright (c) Michael Hoovler <hoovlermichael@gmail.com> 2019
  * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in the
- * Software without restriction, including without limitation the rights to use, copy,
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
+ * this software and associated documentation files (the "Software"), to deal in the 
+ * Software without restriction, including without limitation the rights to use, copy, 
+ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
+ * and to permit persons to whom the Software is furnished to do so, subject to the 
  * following conditions:
  * 
- * The above copyright notice and this permission notice shall be included in all
+ * The above copyright notice and this permission notice shall be included in all 
  * copies or substantial portions of the Software.
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.hoovler.dao;
@@ -34,27 +34,6 @@ import com.hoovler.dao.models.Question;
 public class DefaultQuestionDao implements QuestionDao {
 	/** <p> Static member: log </p> <p> TODO: add description </p> . */
 	private static Logger log = LogManager.getLogger(DefaultQuestionDao.class.getName());
-
-	/** <p> <h3>Temporal</h3> </p> <p> <b><u>Purpose:</u></b> TODO: add purpose... </p> <p> <b><u>Information:</u></b> TODO: add info... </p> */
-	public enum Temporal {
-		/** <p> Member variable: BEFORE </p> <p> TODO: add description </p> . */
-		BEFORE,
-
-		/** <p> Member variable: AFTER </p> <p> TODO: add description </p> . */
-		AFTER;
-	}
-
-	/** <p> <h3>SortBy</h3> </p> <p> <b><u>Purpose:</u></b> TODO: add purpose... </p> <p> <b><u>Information:</u></b> TODO: add info... </p> */
-	public enum SortBy {
-		/** <p> Member variable: ID </p> <p> TODO: add description </p> */
-		ID,
-
-		/** <p> Member variable: CREATED </p> <p> TODO: add description </p> */
-		CREATED,
-
-		/** <p> Member variable: ASKED </p> <p> TODO: add description </p> . */
-		ASKED
-	}
 
 	/** <p> Member variable: questionMap </p> <p> TODO: add description </p> */
 	private Map<Long, Question> questionMap;
@@ -137,31 +116,5 @@ public class DefaultQuestionDao implements QuestionDao {
 		ArrayList<Question> all = questionList();
 		all.sort(Comparator.comparing(Question::getCreated));
 		return all;
-	}
-
-	/** Gets the Questions, sorted by the attribute given in the SortBy Enum.
-	 *
-	 * @param  method - a <code>SortBy</code> enumerated value, which corresponds to the attribute on
-	 *                which to sort the list.
-	 *                </p>
-	 * 
-	 * @return        <b>ArrayList&lt;Question&gt; questions</b>
-	 *                <p>
-	 *                The list of Question objects sorted by the value indicated in the SortBy (method)
-	 *                enum.
-	 *                </p>
-	 */
-	public ArrayList<Question> getSorted(SortBy method) {
-		ArrayList<Question> all = questionList();
-
-		switch (method) {
-		case ID:
-			all.sort(Comparator.comparing(Question::getId));
-			return all;
-		case CREATED:
-		default:
-			all.sort(Comparator.comparing(Question::getCreated));
-			return all;
-		}
 	}
 }
