@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
+ * Copyright (c) Michael Hoovler <hoovlermichael@gmail.com> 2019
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in the
@@ -21,8 +21,6 @@
 package com.hoovler.dao.models;
 
 import java.util.Date;
-
-import com.hoovler.dao.resources.ScoreBy;
 
 // TODO: Auto-generated Javadoc
 /** <p> <h3>Player</h3> </p> <p> <b><u>Purpose:</u></b> TODO: add purpose... </p> <p> <b><u>Information:</u></b> TODO: add info... </p> */
@@ -63,8 +61,7 @@ public class Player {
 		this.stats = stats;
 	}
 
-	/**
-	 * <p>
+	/** <p>
 	 * Update all player statistics with a minimal set of arguments.
 	 * </p>
 	 * 
@@ -91,18 +88,23 @@ public class Player {
 			this.stats.incrementCorrect();
 		}
 		this.stats.updateTimes(askedTime, answerTime);
+		
+		// update score
+		int numberCorrect=this.stats.getNumberCorrect();
+		int numberAnswered=this.stats.getNumberAnswered();
+		int multiplier=100;
+		
+		// calculated by a simple metrics
+		if (numberAnswered == 0 || numberCorrect == 0) {
+			this.stats.setScore(0.0);
+		} else {
+			double score = (double) numberCorrect / numberAnswered * multiplier;
+			this.stats.setScore(score);
+		}
 	}
-
-	/** Update score.
-	 *
-	 * @param  scoreBy    the score by
-	 * @param  multiplier the multiplier
-	 * @return            the double
-	 * 
-	 * @see
-	 * 					com.hoovler.dao.models.Stats#setScore(ScoreBy, int) */
-	public Double updateScore(ScoreBy scoreBy, int multiplier) {
-		return this.stats.setScore(scoreBy, multiplier);
+	
+	public double scoreFromPlayerStats() {
+		return this.stats.getScore();
 	}
 
 	/** Update score.
@@ -114,7 +116,7 @@ public class Player {
 
 	/** Update stats.
 	 *
-	 * @param askedTime         the asked time
+	 * @param askedTime         the time the question was asked.
 	 * @param incrementAskCount the increment ask count */
 	public void updateStats(Date askedTime, boolean incrementAskCount) {
 		this.stats.setLastAskedTime(askedTime);
@@ -126,6 +128,17 @@ public class Player {
 
 	/** Instantiates a new player. */
 	public Player() {
+		this.stats = new Stats();
+	}
+	
+	/**
+	 * Instantiates a new player.
+	 *
+	 * @param email the email
+	 */
+	public Player(String email) {
+		this.email = email;
+		this.stats = new Stats();
 	}
 
 	/** Instantiates a new player.

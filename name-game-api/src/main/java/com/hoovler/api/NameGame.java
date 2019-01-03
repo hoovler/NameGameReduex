@@ -28,9 +28,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.hoovler.api.persistence.QuestionsAsked;
 import com.hoovler.api.resources.Players;
 import com.hoovler.api.resources.Questions;
+import com.hoovler.api.resources.QuestionsAsked;
 import com.hoovler.dao.DefaultProfileDao;
 
 /** The Class NameGame. */

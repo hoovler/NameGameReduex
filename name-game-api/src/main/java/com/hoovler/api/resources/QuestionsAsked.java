@@ -18,15 +18,14 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.persistence;
+package com.hoovler.api.resources;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.apache.commons.lang3.StringUtils;
+import com.hoovler.dao.AskQuestionDao;
 
-import com.hoovler.api.resources.AskQuestion;
-
+/** The Class QuestionsAsked. */
 public class QuestionsAsked implements AskQuestionDao {
 
 	private HashMap<String, AskQuestion> questionsAskedMap;
@@ -48,8 +47,16 @@ public class QuestionsAsked implements AskQuestionDao {
 	 */
 	@Override
 	public AskQuestion addQuestionAsked(AskQuestion questionAsked) {
-		return questionAsked == null || StringUtils.isBlank(questionAsked.getQuestionId()) ? null
-				: questionsAskedMap.put(questionAsked.getQuestionId(), questionAsked);
+		return questionsAskedMap.put(questionAsked.getQuestionId(), questionAsked);
+	}
+
+	/** Adds the question asked.
+	 *
+	 * @param  email         the email
+	 * @param  questionAsked the question asked
+	 * @return               the ask question */
+	public AskQuestion addQuestionAsked(String email, AskQuestion questionAsked) {
+		return questionsAskedMap.put(email, questionAsked);
 	}
 
 	/*
@@ -62,9 +69,13 @@ public class QuestionsAsked implements AskQuestionDao {
 		return !questionsAskedMap.containsKey(questionId) ? null : questionsAskedMap.put(questionId, questionAsked);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.hoovler.api.persistence.AskQuestionDao#questionAsked(java.lang.String)
+	 */
 	@Override
 	public boolean questionAsked(String questionId) {
-		// TODO Auto-generated method stub
 		return questionsAskedMap.containsKey(questionId);
 	}
 
@@ -86,5 +97,19 @@ public class QuestionsAsked implements AskQuestionDao {
 	@Override
 	public ArrayList<AskQuestion> questionsAsked() {
 		return new ArrayList<>(questionsAskedMap.values());
+	}
+	
+
+	/** Instantiates a new questions asked.
+	 *
+	 * @param initQ the init Q */
+	public QuestionsAsked(AskQuestion initQ) {
+		this.questionsAskedMap = new HashMap<>();
+		this.questionsAskedMap.put(initQ.getQuestionId(), initQ);
+	}
+
+	/** Instantiates a new questions asked. */
+	public QuestionsAsked() {
+		this.questionsAskedMap = new HashMap<>();
 	}
 }

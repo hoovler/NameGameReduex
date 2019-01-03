@@ -1,21 +1,21 @@
-/* 
+/*
  * Copyright (c) Michael Hoovler <hoovlermichael@gmail.com> 2019
  * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of 
- * this software and associated documentation files (the "Software"), to deal in the 
- * Software without restriction, including without limitation the rights to use, copy, 
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
- * and to permit persons to whom the Software is furnished to do so, subject to the 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in the
+ * Software without restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the
  * following conditions:
  * 
- * The above copyright notice and this permission notice shall be included in all 
+ * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.hoovler.api.utils;
@@ -51,17 +51,17 @@ public class QuestionsHelper extends NameGameHelper {
 	 * @param  q       the q
 	 * @return         the question target */
 	public static String getQuestionTarget(boolean reverse, Question q) {
-		return reverse ? getReverseTarget(q.getTarget()).getOptionValue()
-				: getNormalTarget(q.getTarget()).getOptionValue();
+		return reverse ? getReverseTarget(q.getTarget())
+				: getNormalTarget(q.getTarget());
 	}
 
 	/** Gets a normal option (or target), where question.options = List<imageUrl>
 	 *
 	 * @param  object the object
 	 * @return        the normal option */
-	public static QuestionOption getNormalTarget(Object object) {
+	public static String getNormalTarget(Object object) {
 		Subject subject = Subject.class.cast(object);
-		return new QuestionOption(subject.getId(), subject.getImageUrl());
+		return subject.getImageUrl();
 	}
 
 	/** Gets a list of normal options, where question.options = List<imageUrl>
@@ -70,11 +70,11 @@ public class QuestionsHelper extends NameGameHelper {
 	 * @return          the normal options */
 	public static ArrayList<QuestionOption> getNormalOptions(ArrayList<Object> subjects) {
 		ArrayList<QuestionOption> formattedOptions = new ArrayList<>();
-		log.debug("getNormalOptions(ArrayList<Object> subjects)");
+		log.info("getNormalOptions(ArrayList<Object> subjects)");
 		for (Object object : subjects) {
 			Subject subject = Subject.class.cast(object);
 			QuestionOption option = new QuestionOption(subject.getId(), subject.getName());
-			log.debug("    Adding new AskOption: optionId = " + option.getOptionId() + ", optionValue"
+			log.info("    Adding new AskOption: optionId = " + option.getOptionId() + ", optionValue"
 					+ option.getOptionValue());
 			formattedOptions.add(option);
 		}
@@ -85,9 +85,9 @@ public class QuestionsHelper extends NameGameHelper {
 	 *
 	 * @param  object the object
 	 * @return        the reverse option */
-	public static QuestionOption getReverseTarget(Object object) {
+	public static String getReverseTarget(Object object) {
 		Subject subject = Subject.class.cast(object);
-		return new QuestionOption(subject.getId(), subject.getName());
+		return subject.getName();
 	}
 
 	/** Gets a list of reverse options, where question.options = List<name>
@@ -96,11 +96,11 @@ public class QuestionsHelper extends NameGameHelper {
 	 * @return              the reverse options */
 	public static ArrayList<QuestionOption> getReverseOptions(ArrayList<Object> optionsFromQ) {
 		ArrayList<QuestionOption> formattedOptions = new ArrayList<>();
-		log.debug("getReverseOptions(ArrayList<Object> subjects)");
+		log.info("getReverseOptions(ArrayList<Object> subjects)");
 		for (Object object : optionsFromQ) {
 			Subject subject = Subject.class.cast(object);
 			QuestionOption option = new QuestionOption(subject.getId(), subject.getImageUrl());
-			log.debug("    Adding new AskOption: optionId = " + option.getOptionId() + ", optionValue"
+			log.info("    Adding new AskOption: optionId = " + option.getOptionId() + ", optionValue"
 					+ option.getOptionValue());
 			formattedOptions.add(option);
 		}
@@ -156,8 +156,7 @@ public class QuestionsHelper extends NameGameHelper {
 	 * @param  numSubjects the num subjects
 	 * @param  namePrefix  the name prefix
 	 * @return             the subjects */
-	protected static ArrayList<Subject> getSubjects(ArrayList<Profile> from, int numSubjects,
-			String namePrefix) {
+	protected static ArrayList<Subject> getSubjects(ArrayList<Profile> from, int numSubjects, String namePrefix) {
 		ArrayList<Subject> subjects = new ArrayList<>();
 
 		for (int i = 0; i < numSubjects; i++) {
@@ -172,8 +171,8 @@ public class QuestionsHelper extends NameGameHelper {
 			}
 
 			// determined to match criteria, profile will be added as a subject
-			subjects.add(new Subject(candidate.getId(),
-					candidate.getFirstName() + " " + candidate.getLastName(), candidate.getHeadshot().getUrl()));
+			subjects.add(new Subject(candidate.getId(), candidate.getFirstName() + " " + candidate.getLastName(),
+					candidate.getHeadshot().getUrl()));
 
 			// remove candidate to eliminate duplicates
 			from.remove(index);
@@ -189,8 +188,7 @@ public class QuestionsHelper extends NameGameHelper {
 	protected static Subject getTarget(ArrayList<Subject> from) {
 		if (!from.isEmpty()) {
 			int index = new Random().nextInt(from.size());
-			return new Subject(from.get(index).getId(), from.get(index).getName(),
-					from.get(index).getImageUrl());
+			return new Subject(from.get(index).getId(), from.get(index).getName(), from.get(index).getImageUrl());
 		} else {
 			log.error("Unable to extract target from an empty list of subjects.");
 			return null;

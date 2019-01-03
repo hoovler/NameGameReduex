@@ -24,8 +24,8 @@ import static com.hoovler.api.utils.Message.INFO_ANSWER_PARAMS;
 import static com.hoovler.api.utils.Message.INFO_ASK_PARAMS;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +41,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hoovler.api.models.AnswerArgs;
 import com.hoovler.api.models.AskArgs;
-import com.hoovler.api.persistence.QuestionsAsked;
 import com.hoovler.api.resources.AnswerQuestion;
 import com.hoovler.api.resources.AskQuestion;
 import com.hoovler.api.resources.Players;
 import com.hoovler.api.resources.Questions;
+import com.hoovler.api.resources.QuestionsAsked;
 import com.hoovler.api.utils.NameGameHelper;
 import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.models.Player;
@@ -89,6 +89,7 @@ public class GameController {
 	/** The default value for missing or empty numeric parameters, including boolean params. */
 	protected static final String defaultNumeric = "0";
 
+	protected static final String defaultBoolean = "false";
 	/* PARAMETER NAMES */
 
 	/** The request parameter name for the player email string value. <p><em>A parameter name used: <ul><li>in the response body of a question</li><li>in the request body when submitting an answer</li><ul></em></p> */
@@ -105,7 +106,7 @@ public class GameController {
 
 	/** The Constant questionIdBodyParam. <p>A parameter name used: <ul><li>in the response body of a question<ul><li>A unique, hexidecimal ID for the question being asked</li></ul></li><li>in the request body when submitting an answer<ul><li>Must match the <code>question_id</code> received</li><li>Unique to, and may only be submitted for, the player to whom the question was asked.</li></ul></li><ul></p> */
 	protected static final String questionIdBodyParam = "question_id";
-	
+
 	protected static final String startParam = "start";
 	protected static final String stopParam = "stop";
 
@@ -136,7 +137,7 @@ public class GameController {
 
 	/** The Constant playersPath. <p><em>A path derived from a named resource...</em></p> */
 	protected static final String playersPath = pathSep + playersResource;
-	
+
 	protected static final String leaderboardPath = "/leaderboard";
 
 	/** The Constant altAnswerPath. <p><em>A path derived from a named resource...</em></p> */
@@ -173,14 +174,14 @@ public class GameController {
 	 * @return             the ask question */
 	@GetMapping(path = askPath)
 	public AskQuestion ask(@RequestParam(value = emailParam, defaultValue = defaultAlpha) String playerEmail,
-			@RequestParam(value = reverseParam, defaultValue = defaultNumeric) String reverse,
-			@RequestParam(value = mattsParam, defaultValue = defaultNumeric) String mattsOnly) {
+			@RequestParam(value = reverseParam, defaultValue = defaultBoolean) String reverse,
+			@RequestParam(value = mattsParam, defaultValue = defaultBoolean) String mattsOnly) {
 		AskArgs askParams = new AskArgs(playerEmail, reverse, mattsOnly);
 
-		log.debug(INFO_ASK_PARAMS.getValue());
-		log.debug(emailParam + " = " + askParams.getPlayerEmail());
-		log.debug(reverseParam + " = " + askParams.getMode());
-		log.debug(mattsParam + " = " + askParams.getMattsOnly());
+		log.info(INFO_ASK_PARAMS.getValue());
+		log.info(emailParam + " = " + askParams.getPlayerEmail());
+		log.info(reverseParam + " = " + askParams.getReverse() + ", bool=" + askParams.isReverse());
+		log.info(mattsParam + " = " + askParams.getMattsOnly() + ", bool=" + askParams.isMattsOnly());
 
 		// init a new Ask Response
 		AskQuestion questionAsked = new AskQuestion(askParams, this.profileService, this.playerService,
@@ -205,26 +206,51 @@ public class GameController {
 		answerBody.setQuestionId(args.get(questionIdBodyParam).getAsString());
 
 		// log POST values
-		log.debug(INFO_ANSWER_PARAMS.getValue());
-		log.debug(answerIdBodyParam + " = " + answerBody.getAnswerId());
-		log.debug(emailParam + " = " + answerBody.getPlayerEmail());
-		log.debug(questionIdBodyParam + " = " + answerBody.getQuestionId());
+		log.info(INFO_ANSWER_PARAMS.getValue());
+		log.info(answerIdBodyParam + " = " + answerBody.getAnswerId());
+		log.info(emailParam + " = " + answerBody.getPlayerEmail());
+		log.info(questionIdBodyParam + " = " + answerBody.getQuestionId());
 
-		return new AnswerQuestion(answerBody, this.playerService, this.questionService);
+		AskQuestion questionAsked;
+		AnswerQuestion answeredQ;
+
+		if (this.questionsAskedService.questionAsked(answerBody.getQuestionId())) {
+			questionAsked = this.questionsAskedService.getQuestionAsked(answerBody.getQuestionId());
+			if (questionAsked.isAnswered()) {
+				answeredQ = new AnswerQuestion("This question has already been answered.");
+			} else {
+				answeredQ = new AnswerQuestion(answerBody, this.playerService, this.questionService);
+				questionAsked.answered(answeredQ.getResult());
+			}
+		} else {
+			answeredQ = new AnswerQuestion("The question with the given question_id does not exist: question_id="
+					+ answerBody.getQuestionId());
+		}
+
+		return answeredQ;
 	}
-	
-	
-	/**
-	 * A variant of the <code>players</code> endpoint, the Leaderboard endpoint allows players to obtain a list of 
-	 *
-	 * @param start the start
-	 * @param velocity the velocity
-	 * @return the array list
-	 */
+
+	/** A variant of the <code>players</code> endpoint, the Leaderboard endpoint allows players to obtain a list of players in descending rank.
+	 * <p><u>Parameter: <b>int start</b></u></p>
+	 * <p>The <code>start</code> parameter <em>(default=0)</em> is the literal starting index of the list returned. This value may be positive, 0, or negative.</p>
+	 * <p>If negative, then the <code>startIndex</code> is presumed to be <code>|start|</code> number of players from the <em>end</em> of the list of players, and is calculated as <code>startIndex = players.size() - Math.abs(start)</code>.</p>
+	 * <p><u>Parameter: <b>int velocity</b></u></p>
+	 * <p>The value of <code>velocity</code> is interpreted as a non-scalar value containing both a <em>magnitude</em> and <em>direction</em>.</p>
+	 * <p><em>magnitude</em> is calculated as <code>Math.abs(velocity)</code>, and determines the length of the returned list.
+	 * <p><em>direction</em> is calculated as <code>Integer.signum(velocity)</code>. A value of -1 is interpreted as LEFT, +1 as RIGHT, and 0 as NONE.
+	 * <p><u><b>Effect of Parameters</b></u></p>
+	 * <p>Think of the entire list as being a chain of player objects that is curled into a ring; where the last player is brought back around to connect with the first. If the magnitude (total number of subset elements) is greater than the length of the entire original list, then an iterator grabbing list elements for the subset simply returns to the first element after adding the last. There is no limit to the number of loops / full lists, so use <code>velocity</code> wisely.
+	 * <p>The derived <code>velocity</code>.<em>direction</em> determines whether to iterate forward or backwards from the <code>startIndex</code>, while <code>velocity</code>.<em>magnitude</em> determines <em>how far</em> to move in that direction. The subset will continue building - even after the last or first element is reached - until the subset size reaches the value of <code>magnitude</code>.</p>
+	 * <p>See the underlying utility function, <code>com.hoovler.utils.impl.ListUtils.subset()</code> for more information on how the subset is derived.
+	 * 
+	 * @author          Michael Hoovler
+	 * @param  start    the start
+	 * @param  velocity An integer from which the non-scalar <code>velocity</code> is derived.
+	 * @return          the array list
+	 * @see             com.hoovler.utils.impl.ListUtils#subset(java.util.List, int, int) */
 	@RequestMapping(path = leaderboardPath)
-	public ArrayList<Player> leaderboard (
-			@RequestParam(value = startParam, defaultValue = defaultNumeric) int start,
-			@RequestParam(value = stopParam, defaultValue = defaultNumeric) int velocity){
+	public ArrayList<Player> leaderboard(@RequestParam(value = startParam, defaultValue = defaultNumeric) int start,
+			@RequestParam(value = stopParam, defaultValue = defaultNumeric) int velocity) {
 		return playerService.playerList(start, velocity);
 	}
 
@@ -237,9 +263,22 @@ public class GameController {
 	 * @return       the array list */
 	@RequestMapping(path = questionsPath)
 	public ArrayList<Question> questions(
-			@RequestParam(value = questionIdBodyParam, defaultValue = defaultAlpha) String qId) {
-		return qId == defaultAlpha ? questionService.questionList()
-				: new ArrayList<>(Arrays.asList(questionService.getQuestion(Long.parseLong(qId))));
+			@RequestParam(value = questionIdBodyParam, defaultValue = defaultNumeric) String qId) {
+
+		if (StringUtils.equalsIgnoreCase(qId, defaultNumeric)) {
+			// return list of all questions
+			return questionService.questionList();
+		} else if (!StringUtils.isNumeric(qId)) {
+			// return empty list
+			return new ArrayList<>();
+		} else {
+			// return list with the desired question
+			ArrayList<Question> qList = new ArrayList<>();
+			Question q = questionService.getQuestion(Long.parseLong(qId));
+			qList.add(q);
+			return qList;
+		}
+
 	}
 
 	/** Return a list of all Player objects, representing the full list of players to whom a question has been asked. <p><b>This diagnostic endpoint should be protected from casual players.</b> A security configuration methodology template is provided in the <code>general-utils</code> maven project, within the following classes: <ul><li><code>com.hoovler.utils.impl.SecurityUtils</code></li><li><code>com.hoovler.utils.models.SecurityConfig</code></li></ul>And an example configuration file: <code>src/main/resources/security.config</code></p>
