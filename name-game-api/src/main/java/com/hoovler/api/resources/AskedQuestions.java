@@ -26,7 +26,7 @@ import java.util.HashMap;
 import com.hoovler.dao.AskQuestionDao;
 
 /** The Class QuestionsAsked. */
-public class QuestionsAsked implements AskQuestionDao {
+public class AskedQuestions implements AskQuestionDao {
 
 	private HashMap<String, AskQuestion> questionsAskedMap;
 
@@ -103,13 +103,13 @@ public class QuestionsAsked implements AskQuestionDao {
 	/** Instantiates a new questions asked.
 	 *
 	 * @param initQ the init Q */
-	public QuestionsAsked(AskQuestion initQ) {
+	public AskedQuestions(AskQuestion initQ) {
 		this.questionsAskedMap = new HashMap<>();
 		this.questionsAskedMap.put(initQ.getQuestionId(), initQ);
 	}
 
 	/** Instantiates a new questions asked. */
-	public QuestionsAsked() {
+	public AskedQuestions() {
 		this.questionsAskedMap = new HashMap<>();
 	}
 }

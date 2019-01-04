@@ -45,7 +45,7 @@ import com.hoovler.api.resources.AnswerQuestion;
 import com.hoovler.api.resources.AskQuestion;
 import com.hoovler.api.resources.Players;
 import com.hoovler.api.resources.Questions;
-import com.hoovler.api.resources.QuestionsAsked;
+import com.hoovler.api.resources.AskedQuestions;
 import com.hoovler.api.utils.NameGameHelper;
 import com.hoovler.dao.DefaultProfileDao;
 import com.hoovler.dao.models.Player;
@@ -148,7 +148,7 @@ public class GameController {
 	private final DefaultProfileDao profileService;
 	private final Players playerService;
 	private final Questions questionService;
-	private final QuestionsAsked questionsAskedService;
+	private final AskedQuestions questionsAskedService;
 
 	/** Instantiates a new game controller.
 	 *
@@ -157,7 +157,7 @@ public class GameController {
 	 * @param questionService the question service */
 	@Autowired
 	public GameController(DefaultProfileDao profileService, Players playerService, Questions questionService,
-			QuestionsAsked questionsAskedService) {
+			AskedQuestions questionsAskedService) {
 		this.profileService = profileService;
 		this.playerService = playerService;
 		this.questionService = questionService;

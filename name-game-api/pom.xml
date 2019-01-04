@@ -32,7 +32,7 @@
 		<!-- Related local projects -->
 		<dependency>
 			<groupId>com.hoovler.dao</groupId>
-			<artifactId>profile-dao</artifactId>
+			<artifactId>general-dao</artifactId>
 			<version>${v.dao}</version>
 		</dependency>
 		<dependency>

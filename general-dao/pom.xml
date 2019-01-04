@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.hoovler.dao</groupId>
+	<artifactId>general-dao</artifactId>
+	<version>1.0.0</version>
+	<name>GeneralDao</name>
+	<description>A project to host basic DAO objects with default implementations</description>
+
+	<properties>
+		<!-- default value overrides -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<!-- local lib versions -->
+		<v.com.hoovler.utils>1.0.0</v.com.hoovler.utils>
+
+		<!-- external library versions -->
+		<v.org.apache.logging.log4j>2.11.1</v.org.apache.logging.log4j>
+		<v.org.apache.commons>3.8.1</v.org.apache.commons>
+		<v.commons.validator>1.6</v.commons.validator>
+		<v.com.google.code.gson>2.8.5</v.com.google.code.gson>
+		<v.org.junit.jupiter>5.3.2</v.org.junit.jupiter>
+	</properties>
+
+	<dependencies>
+		<!-- com.hoovler.util.general-utils is not in an online Maven repository 
+			At least, it isn't yet. As for now, this dependency can be added to your 
+			local .m2 stash by executing:
+				> cd ../GeneralUtils 
+				> mvn package install 
+			Alternatively, you can simply run the project as a Maven build from your
+			IDE - the default build target is 'clean package install'-->
+		<dependency>
+			<groupId>com.hoovler.util</groupId>
+			<artifactId>general-utils</artifactId>
+			<version>${v.com.hoovler.utils}</version>
+		</dependency>
+		
+		<!-- Universal dependencies -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${v.org.apache.commons}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${v.org.apache.logging.log4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${v.org.apache.logging.log4j}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>${v.commons.validator}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${v.com.google.code.gson}</version><!--$NO-MVN-MAN-VER$ -->
+		</dependency>
+		<!-- JUnit Testing -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${v.org.junit.jupiter}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${v.org.junit.jupiter}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>${v.org.junit.jupiter}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<defaultGoal>clean package install</defaultGoal>
+		<directory>${basedir}/target</directory>
+		<finalName>${artifactId}-${version}</finalName>
+	</build>
+</project>

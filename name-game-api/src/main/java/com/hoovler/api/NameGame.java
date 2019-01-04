@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.hoovler.api.resources.Players;
 import com.hoovler.api.resources.Questions;
-import com.hoovler.api.resources.QuestionsAsked;
+import com.hoovler.api.resources.AskedQuestions;
 import com.hoovler.dao.DefaultProfileDao;
 
 /** The Class NameGame. */
@@ -68,8 +68,8 @@ public class NameGame {
 	 * @return the questions asked to players through the response body. <p>Not to be confused with <code>Questions</code>, which stores the list of raw questions</p>
 	 */
 	@Bean
-	protected QuestionsAsked questionsAskedService() {
-		return new QuestionsAsked();
+	protected AskedQuestions questionsAskedService() {
+		return new AskedQuestions();
 	}
 
 	/** The main method.
