@@ -22,15 +22,15 @@ package com.hoovler.api.models;
 
 import org.apache.commons.lang3.StringUtils;
 
-// TODO: Auto-generated Javadoc
+import com.hoovler.utils.impl.BoolUtils;
+
+
 /** The Class AskArgs. */
 public class AskArgs {
 	
-	private static final String[] TRUE_BOOL = new String[] {"1", "yes", "true", "y", "t"};
-	
 	private String playerEmail;
-	private String reverse;
-	private String mattsOnly;
+	private boolean reverse;
+	private boolean mattsOnly;
 
 	/** Getters.
 	 *
@@ -39,17 +39,17 @@ public class AskArgs {
 		return playerEmail;
 	}
 
-	/** Gets AskArgs.mode
+	/** Gets AskArgs.reverse
 	 *
-	 * @return the mode */
-	public String getReverse() {
+	 * @return the reverse */
+	public boolean isReverse() {
 		return reverse;
 	}
 
 	/** Gets AskArgs.mattsOnly
 	 *
 	 * @return the matts only */
-	public String getMattsOnly() {
+	public boolean isMattsOnly() {
 		return mattsOnly;
 	}
 
@@ -60,25 +60,25 @@ public class AskArgs {
 		this.playerEmail = playerEmail;
 	}
 
-	/** Sets AskArgs.mode
+	/** Sets AskArgs.reverse
 	 *
-	 * @param mode the new mode */
+	 * @param reverse the new reverse */
 	public void setReverse(String reverse) {
-		this.reverse = reverse;
+		this.reverse = BoolUtils.parseBool(reverse);
 	}
 	
 	/** Sets AskArgs.mattsOnly
 	 *
 	 * @param mattsOnly the new matts only */
 	public void setMattsOnly(String mattsOnly) {
-		this.mattsOnly = mattsOnly;
+		this.mattsOnly = BoolUtils.parseBool(mattsOnly);
 	}
 
 	/** Instantiates a new ask args. */
 	public AskArgs() {
 		this.playerEmail = StringUtils.EMPTY;
-		this.reverse = StringUtils.EMPTY;
-		this.mattsOnly = StringUtils.EMPTY;
+		this.reverse = false;
+		this.mattsOnly = false;
 	}
 
 	/** Instantiates a new ask args.
@@ -86,44 +86,28 @@ public class AskArgs {
 	 * @param playerEmail the player email */
 	public AskArgs(String playerEmail) {
 		this.playerEmail = playerEmail;
-		this.reverse = StringUtils.EMPTY;
-		this.mattsOnly = StringUtils.EMPTY;
+		this.reverse = false;
+		this.mattsOnly = false;
 	}
 
 	/** Instantiates a new ask args.
 	 *
 	 * @param playerEmail the player email
-	 * @param mode        the mode */
-	public AskArgs(String playerEmail, String mode) {
+	 * @param reverse        the reverse */
+	public AskArgs(String playerEmail, String reverse) {
 		this.playerEmail = playerEmail;
-		this.reverse = mode;
-		this.mattsOnly = StringUtils.EMPTY;
+		this.reverse = BoolUtils.parseBool(reverse);
+		this.mattsOnly = false;
 	}
 
 	/** Instantiates a new ask args.
 	 *
 	 * @param playerEmail the player email
-	 * @param mode        the mode
+	 * @param reverse        the reverse
 	 * @param mattsOnly   the matts only */
-	public AskArgs(String playerEmail, String mode, String mattsOnly) {
+	public AskArgs(String playerEmail, String reverse, String mattsOnly) {
 		this.playerEmail = playerEmail;
-		this.reverse = mode;
-		this.mattsOnly = mattsOnly;
+		this.reverse = BoolUtils.parseBool(reverse);
+		this.mattsOnly = BoolUtils.parseBool(mattsOnly);
 	}
-
-	/** Grab the boolean value of <code>reverse</code>
-	 *
-	 * @return The value of <code>reverse</code> parsed into a boolean */
-	public boolean isReverse() {
-		return Boolean.parseBoolean(this.reverse);
-	}
-
-	/** Grab the boolean value of <code>mattsOnly</code>
-	 *
-	 * @return The value of <code>mattsOnly</code> parsed into a boolean */
-	public boolean isMattsOnly() {
-		return Boolean.parseBoolean(this.mattsOnly);
-	}
-	
-	
 }

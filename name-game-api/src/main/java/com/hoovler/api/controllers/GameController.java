@@ -180,8 +180,8 @@ public class GameController {
 
 		log.info(INFO_ASK_PARAMS.getValue());
 		log.info(emailParam + " = " + askParams.getPlayerEmail());
-		log.info(reverseParam + " = " + askParams.getReverse() + ", bool=" + askParams.isReverse());
-		log.info(mattsParam + " = " + askParams.getMattsOnly() + ", bool=" + askParams.isMattsOnly());
+		log.info(reverseParam + " = " + askParams.isReverse() + " | " + reverse);
+		log.info(mattsParam + " = " + askParams.isMattsOnly() + " | " + mattsOnly);
 
 		// init a new Ask Response
 		AskQuestion questionAsked = new AskQuestion(askParams, this.profileService, this.playerService,

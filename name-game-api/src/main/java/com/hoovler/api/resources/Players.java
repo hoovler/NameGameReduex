@@ -34,9 +34,7 @@ import com.hoovler.dao.models.Stats;
 import com.hoovler.utils.impl.ListUtils;
 
 // TODO: Auto-generated Javadoc
-/**
- * The Class Players.
- */
+/** The Class Players. */
 public class Players extends DefaultPlayerDao {
 	private static Logger log = LogManager.getLogger(Players.class.getName());
 
@@ -61,51 +59,44 @@ public class Players extends DefaultPlayerDao {
 		}
 	}
 
-	/**
-	 *  Adds the player if the player doesn't yet exist. Otherwise, don't add anything.
+	/** Adds the player if the player doesn't yet exist. Otherwise, don't add anything.
 	 *
-	 * @param email the email
-	 * @return       the newly-added Player if player was new; otherwise, return existing player object
-	 */
+	 * @param  email the email
+	 * @return       the newly-added Player if player was new; otherwise, return existing player object */
 	public Player getOrAddPlayer(String email) {
 		if (!playerExists(email)) {
 			log.info("Player not found; Returning a new player object initilized with 'email' set to " + email);
-			Stats stats = new Stats();
-			Player p = new Player(email);
 			return super.addPlayer(new Player(email, new Stats()));
 		}
 		log.info("Player with 'email'=" + email + " found!");
 		return super.getPlayer(email);
 	}
 
-	/**
-	 *  Player list.
+	/** Retrieve the subset of the playerlist, sorted by rank (score), and to the specifications of the endpoint params
+	 * <p>In this case, having <code>start</code> and <code>velocity</code> at 0 is unlikely the users' intention. As such, default param values for BOTH will result in the entire list.</p>
 	 *
-	 * @param start the start
-	 * @param velocity the velocity
-	 * @return       the array list
-	 */
+	 * @param  start    the start
+	 * @param  velocity the velocity
+	 * @return          the array list */
 	public ArrayList<Player> playerList(int start, int velocity) {
-
-		return new ArrayList<>(ListUtils.subset(super.playerList(), start, velocity));
+		if (start == 0 && velocity == 0) {
+			return orderByScore();
+		}
+		return orderByScore(start, velocity);
 	}
 
-	/**
-	 * Order by score.
+	/** Order by score.
 	 *
-	 * @return the array list
-	 */
+	 * @return the array list */
 	public ArrayList<Player> orderByScore() {
 		return orderByScore(0, playerList().size());
 	}
-	
-	/**
-	 * Order by score.
+
+	/** Order by score.
 	 *
-	 * @param start the start
-	 * @param velocity the velocity
-	 * @return the array list
-	 */
+	 * @param  start    the start
+	 * @param  velocity the velocity
+	 * @return          the array list */
 	public ArrayList<Player> orderByScore(int start, int velocity) {
 		List<Player> ranked = playerList().stream().sorted(Comparator.comparingDouble(Player::scoreFromPlayerStats))
 				.collect(Collectors.toList());
