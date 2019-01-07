@@ -1,0 +1,16 @@
+com.hoovler.api
+com.hoovler.api.controllers
+com.hoovler.api.models
+com.hoovler.api.utils
+com.hoovler.dao.generic
+com.hoovler.dao.impl
+com.hoovler.dao.models
+com.hoovler.dao.resources
+com.hoovler.generics
+com.hoovler.utils.enums
+com.hoovler.utils.globals
+com.hoovler.utils.impl
+com.hoovler.utils.models
+test.hoovler.api.controllers
+test.hoovler.api.utils
+test.hoovler.util.impl
