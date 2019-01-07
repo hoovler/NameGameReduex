@@ -249,7 +249,7 @@ public class FullQuestions implements QuestionDao {
 	 *
 	 * @param  listArgs the list args
 	 * @return          the array list */
-	public ArrayList<Question> endpointHandler(String idVal, String startVal, String stopVal, String velVal) {
+	public ArrayList<Question> endpointGET(String idVal, String startVal, String stopVal, String velVal) {
 
 		// com.hoovler.utils.impl.BoolUtils has a more robust check for numeric values than StringUtils...
 		long id = BoolUtils.isNumeric(idVal) ? Long.parseLong(idVal) : 0;

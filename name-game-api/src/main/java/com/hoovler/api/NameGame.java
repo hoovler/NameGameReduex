@@ -43,7 +43,7 @@ public class NameGame {
 	 * @return the default profile dao */
 	@Bean
 	protected DefaultProfileDao profileService() {
-		return new DefaultProfileDao();
+		return new DefaultProfileDao(true);
 	}
 
 	/** Player service.

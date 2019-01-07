@@ -20,8 +20,8 @@
  */
 package com.hoovler.api.models;
 
-// TODO: Auto-generated Javadoc
-/** A generic class to serve as the parent object for a response model of an API's, single-object returning endpoint. */
+/** A generic class to serve as the parent object for a response model of an API's, single-object returning endpoint. 
+ * @author <a href="https://github.com/hoovler">github.com/hoovler</a>*/
 public class ObjectResponseModel {
 
 	/** A placeholder for any message that should be sent with the reponse. */

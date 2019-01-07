@@ -132,7 +132,7 @@ class GameControllerTests {
 
 	/** Mock-up application initialization */
 	private static void mockNameGameApp() {
-		profileService = new DefaultProfileDao();
+		profileService = new DefaultProfileDao(true);
 		playerService = new Players();
 		fullQuestionService = new FullQuestions();
 		gameQuestionService = new GameQuestions();

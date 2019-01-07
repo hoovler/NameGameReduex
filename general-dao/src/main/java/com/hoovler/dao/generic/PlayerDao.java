@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) ${author} 2018 
+ * Copyright (c) Michael Hoovler <hoovlermichael@gmail.com> 2019
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of 
  * this software and associated documentation files (the "Software"), to deal in the 
@@ -24,6 +24,10 @@ import java.util.List;
 
 import com.hoovler.dao.models.Player;
 
+/**
+ * The Interface PlayerDao.
+ * @author Michael Hoovler &lt;hoovlermichael@gmail.com&gt;
+ */
 public interface PlayerDao {
 		/**
 	 * Gets the player.
@@ -32,17 +36,40 @@ public interface PlayerDao {
 	 * @return the player
 	 */
 	Player getPlayer(String email);
-		Player addPlayer(Player player);
+		
 		/**
-	 * @param email
-	 * @param player
-	 * @return
-	 * <ul>		
-	 * <li>the original <code>Player</code> object that was changed if a <code>Player</code> object with the associated <code>email</code> is found.</li>  
-	 * <li><code>NULL</code> otherwise</li>
-	 * </ul>
-	 */
+		 * Adds the player.
+		 *
+		 * @param player the player
+		 * @return the player
+		 */
+		Player addPlayer(Player player);
+		
+		/**
+		 * Update player.
+		 * 
+		 * @author <a href="https://github.com/hoovler">github.com/hoovler</a>
+		 * @param email the email
+		 * @param player the player
+		 * @return <ul>		
+		 * <li>the original <code>Player</code> object that was changed if a <code>Player</code> object with the associated <code>email</code> is found.</li>  
+		 * <li><code>NULL</code> otherwise</li>
+		 * </ul>
+		 */
 	Player updatePlayer(String email, Player player);
+		
+		/**
+		 * Delete player.
+		 *
+		 * @param email the email
+		 * @return true, if successful
+		 */
 		boolean deletePlayer(String email);
+		
+		/**
+		 * Player list.
+		 *
+		 * @return the list
+		 */
 		List<Player> playerList();
 }

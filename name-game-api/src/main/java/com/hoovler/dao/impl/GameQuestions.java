@@ -138,7 +138,7 @@ public class GameQuestions implements QuestionParedDao {
 	 *
 	 * @param  requestBody the request body
 	 * @return             the ask response body */
-	public AskResponseBody addFromEndpoint(String requestBody) {
+	public AskResponseBody endpointPOST(String requestBody) {
 		AskResponseBody body = new AskResponseBody();
 		body.parseJson(requestBody);
 		addQuestionAsked(body.getQuestionId(), body);
@@ -390,7 +390,7 @@ public class GameQuestions implements QuestionParedDao {
 	 * @param  stopVal  the stop val
 	 * @param  velVal   the vel val
 	 * @return          the array list */
-	public ArrayList<AskResponseBody> endpointHandler(String idVal, String startVal, String stopVal, String velVal) {
+	public ArrayList<AskResponseBody> endpointGET(String idVal, String startVal, String stopVal, String velVal) {
 		// com.hoovler.utils.impl.BoolUtils has a more robust check for numeric values than StringUtils...
 		int start = BoolUtils.isNumeric(startVal) ? Integer.parseInt(startVal) : 0;
 		int stop = BoolUtils.isNumeric(stopVal) ? Integer.parseInt(stopVal) : 0;

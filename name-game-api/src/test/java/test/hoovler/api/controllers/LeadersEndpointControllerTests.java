@@ -130,7 +130,7 @@ class LeadersEndpointControllerTests {
 
 	/** Mock-up application initialization */
 	private static void mockNameGameApp() {
-		profileService = new DefaultProfileDao();
+		profileService = new DefaultProfileDao(true);
 		playerService = new Players();
 		fullQuestionService = new FullQuestions();
 		gameQuestionService = new GameQuestions();
@@ -208,8 +208,10 @@ class LeadersEndpointControllerTests {
 
 		for (int i = 0; i < 5; i++) {
 			for (String email : emails) {
+				log.info("generating question question #" + i + " for " + email);
 				askResponse = generateTestQuestion(controller, email, valBoolFalse1, valBoolFalse1);
 
+				log.info("got question; determining answer....");
 				// get correct answer information
 				String answerId = correctAnswerId(askResponse, email);
 				String questionId = askResponse.getQuestionId();

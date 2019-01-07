@@ -25,61 +25,16 @@ import org.apache.commons.lang3.StringUtils;
 import com.hoovler.dao.models.Player;
 
 // TODO: Auto-generated Javadoc
-/** <p>
- * <h3>Answer</h3>
- * <p>
- * <b><u>Purpose</u></b>
- * </p>
- * This class represents the object presented when the API's POST verb is invoked.
- * <p>
- * <b><u>Information</u></b><br />
- * The <code>Answer</code> object is comprised of the following member variables, which are
- * transposed into the JSON result:
- * <ul>
- * <li><code>String result</code></li>
- * <li><code>String playerEmail</code></li>
- * <li><code>Stat stat</code></li>
- * </ul>
- * <p>
- * <b>METHOD = POST</b>
- * <p><b>Request URI:</b></p>
- * <pre>http://localhost:8080/namegame/v2.0.0/&lt;question_id&gt;</pre>
- * <p><b>Request body:</b></p>
- * <pre>
- * {
- * "answer_id": "&lt;option_id&gt",
- * "email": "&lt;email&gt";
- * }
- * </pre>
- * : /email=[<em>playerEmail</em>]&answer_id=[<em>answerId</em>]</li><li></li></ul>
- * /email=[<b>playerEmail</b>]&answer_id=[<b>answerId</b>]
- * </p>
- * The variables from the above URI are ultimately sent here, where the answer is evaluated and the
- * response formulated.
- * <p>
- * <b><u>Examples</u></b>
- * </p>
- * 
- * <pre>
- * GET:
- * </pre>
- * 
- * <pre>
- * <b><em>POST</em></b>
- * <ul><li><b>URI = </b>http://localhost:8080/namegame/v2.0.0/<b>12345678987654321</b>
- * </pre> */
-public class AnswerResponseBody {
+/** The response model for the {@code /answer} endpoint. 
+ * @author <a href="https://github.com/hoovler">github.com/hoovler</a> */
+public class AnswerResponseBody extends ObjectResponseModel {
 
 	private boolean correct;
 	private Player player;
-	private String message;
 
-	
-	/**
-	 * Checks if is correct.
+	/** Checks if is correct.
 	 *
-	 * @return true, if is correct
-	 */
+	 * @return true, if is correct */
 	public boolean isCorrect() {
 		return correct;
 	}
@@ -89,13 +44,6 @@ public class AnswerResponseBody {
 	 * @return the player */
 	public Player getPlayer() {
 		return player;
-	}
-
-	/** Gets AnswerQuestion.message
-	 *
-	 * @return the message */
-	public String getMessage() {
-		return this.message;
 	}
 
 	/** Sets AnswerQuestion.correct
@@ -110,13 +58,6 @@ public class AnswerResponseBody {
 	 * @param player the new player */
 	public void setPlayer(Player player) {
 		this.player = player;
-	}
-
-	/** Sets AnswerQuestion.message
-	 *
-	 * @param message the new message */
-	public void setMessage(String message) {
-		this.message = message;
 	}
 
 	/** Instantiates a new answer question. */
@@ -138,7 +79,7 @@ public class AnswerResponseBody {
 	/** Instantiates a new answer question.
 	 *
 	 * @param message the message
-	 * @param player  the player */
+	 * @param player the player */
 	public AnswerResponseBody(String message, Player player) {
 		this.correct = false;
 		this.player = player;
@@ -147,8 +88,8 @@ public class AnswerResponseBody {
 
 	/** Instantiates a new answer question.
 	 *
-	 * @param message   the message
-	 * @param player    the player
+	 * @param message the message
+	 * @param player the player
 	 * @param isCorrect the is correct */
 	public AnswerResponseBody(String message, Player player, boolean isCorrect) {
 		this.correct = isCorrect;

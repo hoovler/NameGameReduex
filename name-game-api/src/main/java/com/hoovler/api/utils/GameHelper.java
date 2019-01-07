@@ -32,7 +32,8 @@ import com.google.gson.JsonParser;
 import com.hoovler.utils.globals.Const;
 import com.hoovler.utils.impl.SecurityUtils;
 
-/** <p> <h3>GameUtils</h3> <p> <b><u>Purpose</u></b> </p> This Class ... </p> <p> <b><u>Information</u></b><br /> The <code>GameUtils</code> object is... </p> <p> <b><u>Examples</u></b> </p> An example: <pre> some code </pre> Another example: <pre> some more code; </pre> */
+/** The singleton class which provides static global constants and static utility methods specific to the NameGameRedeux API 
+ * @author Michael Hoovler &lt;hoovlermichael@gmail.com&gt;*/
 public class GameHelper {
 	private static Logger log = LogManager.getLogger(GameHelper.class.getName());
 

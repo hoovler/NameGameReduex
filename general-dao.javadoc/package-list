@@ -1,0 +1,5 @@
+com.hoovler.api.models
+com.hoovler.dao.generic
+com.hoovler.dao.impl
+com.hoovler.dao.models
+com.hoovler.dao.resources
