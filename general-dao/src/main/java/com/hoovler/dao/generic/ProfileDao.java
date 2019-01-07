@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) ${author} 2018 
+ * Copyright (c) Michael Hoovler <hoovlermichael@gmail.com> 2019
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of 
  * this software and associated documentation files (the "Software"), to deal in the 
@@ -26,55 +26,55 @@ import com.hoovler.dao.models.Profile;
 
 /**
  * <p><h3>ProfileDao</h3>
- * <p><b><u>Purpose</u></b></p>
- * This interface provides a basic outline for operations performed on a collection of <code>Profile</code> objects.</p>
- * <p><b><u>Examples</u></b></p>
- * Instantiation using the <code>DefaultProfileDao</code> implementation:
+ * <p><b><u>Purpose</u></b>
+ * This interface provides a basic outline for operations performed on a collection of {@code Profile} objects.
+ * <p><b><u>Examples</u></b>
+ * Instantiation using the {@code DefaultProfileDao} implementation:
  * <pre>ProfileDao profileDao = new DefaultProfileDao();</pre>
- * Using a custom URI data source for the <code>DefaultProfileDao</code> implementation:
+ * Using a custom URI data source for the {@code DefaultProfileDao} implementation:
  * <pre>
- * String dataSource = "http://your.custom.domain/api/profiles";
+ * String dataSource = "http://your.custom.domain/apirofiles";
  * ProfileDao profileDao = new DefaultProfileDao(dataSource);
  * </pre>
  */
 public interface ProfileDao {
 		/**
-	 * Gets a <code>Profile</code> object.
+	 * Gets a {@code Profile} object.
 	 *
-	 * @param id the id of the <code>Profile</code> object. 
-	 * @return the corresponding <code>Profile</code> object.
+	 * @param id the id of the {@code Profile} object. 
+	 * @return the corresponding {@code Profile} object.
 	 */
 	Profile getProfile(String id);
 		/**
-	 * Adds a <code>Profile</code> object to the <code>Profile</code> object collection.
+	 * Adds a {@code Profile</code> object to the <code>Profile} object collection.
 	 *
-	 * @param profile the <code>Profile</code> object to add to the collection.
-	 * @return the <code>Profile</code> object added.
+	 * @param profile the {@code Profile} object to add to the collection.
+	 * @return the {@code Profile} object added.
 	 */
 	Profile addProfile(Profile profile);
 		/**
-	 * Update a <code>Profile</code> object within the <code>Profile</code> object collection.
+	 * Update a {@code Profile</code> object within the <code>Profile} object collection.
 	 *
-	 * @param id the id of the <code>Profile</code> object to update.
-	 * @param profile the <code>Profile</code> object with changed attribute values.
+	 * @param id the id of the {@code Profile} object to update.
+	 * @param profile the {@code Profile} object with changed attribute values.
 	 * @return 
 	 * <ul>		
-	 * <li>the original <code>Profile</code> object that was changed if a <code>Profile</code> object with the associated <code>id</code> is found.</li>  
-	 * <li><code>NULL</code> otherwise</li>
+	 * <li>the original {@code Profile</code> object that was changed if a {@code Profile} object with the associated {@code id} is found.</li>  
+	 * <li>{@code NULL} otherwise</li>
 	 * </ul>
 	 */
 	Profile updateProfile(String id, Profile profile);
 		/**
-	 * Delete a <code>Profile</code> object from the <code>Profile</code> object collection.
+	 * Delete a {@code Profile</code> object from the <code>Profile} object collection.
 	 *
-	 * @param id the id of the <code>Profile</code> object to remove from the <code>Profile</code> object collection.
-	 * @return true, if the <code>Profile</code> object was successfully removed from the <code>Profile</code> object collection.
+	 * @param id the id of the {@code Profile</code> object to remove from the <code>Profile} object collection.
+	 * @return true, if the {@code Profile</code> object was successfully removed from the <code>Profile} object collection.
 	 */
 	boolean deleteProfile(String id);
 		/**
-	 * Gets the entire <code>Profile</code> object collection.
+	 * Gets the entire {@code Profile} object collection.
 	 *
-	 * @return the list of <code>Profile</code> objects in the <code>Profile</code> object collection.
+	 * @return the list of {@code Profile</code> objects in the <code>Profile} object collection.
 	 */
 	ArrayList<Profile> profileList();
 }

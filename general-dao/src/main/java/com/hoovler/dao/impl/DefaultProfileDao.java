@@ -1,21 +1,21 @@
-/* 
+/*
  * Copyright (c) Michael Hoovler <hoovlermichael@gmail.com> 2019
  * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of 
- * this software and associated documentation files (the "Software"), to deal in the 
- * Software without restriction, including without limitation the rights to use, copy, 
- * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
- * and to permit persons to whom the Software is furnished to do so, subject to the 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in the
+ * Software without restriction, including without limitation the rights to use, copy,
+ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the
  * following conditions:
  * 
- * The above copyright notice and this permission notice shall be included in all 
+ * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
- * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.hoovler.dao.impl;
@@ -31,60 +31,39 @@ import com.hoovler.dao.generic.ProfileDao;
 import com.hoovler.dao.models.Profile;
 import com.hoovler.dao.resources.ProfileDaoHelper;
 
-/**
- * <p>
- * <h3>DefaultProfileDao</h3>
- * <p>
- * <b><u>Purpose</u></b>
- * </p>
- * This Class is the default implementation of the <code>ProfileDao</code> interface.
- * </p>
- * <p>
- * <b><u>Examples</u></b>
- * </p>
- * Instantiate a new DAO object using the default data source:
- * 
- * <pre>
- * ProfileDao profileDao = new DefaultProfileDao();
- * </pre>
- * 
- * Instantiate a new DAO object using a custom URI data source:
- * 
- * <pre>
- * String dataSource = "http://your.custom.domain/api/profiles";
- * ProfileDao profileDao = new DefaultProfileDao(dataSource);
- * </pre>
+/** The default implementation of the <code>ProfileDao</code> interface.
+ * <p><b>Examples</b>
+ * <p>Instantiate a new, empty DAO object:<pre>ProfileDao profileDao = new DefaultProfileDao();<p>ProfileDao profileDao = new DefaultProfileDao(false);</pre>
+ * <p>Instantiate a new DAO object auto-populated with the default data source:<pre>ProfileDao profileDao = new DefaultProfileDao(true);</pre>
+ * <p>Instantiate a new DAO object using a custom URI data source:<pre>String dataSource = "http://your.custom.domain/api/profiles";<p>ProfileDao profileDao = new DefaultProfileDao(dataSource);</pre>
  * 
  * @see com.hoovler.dao.ProfileDao() */
 public class DefaultProfileDao implements ProfileDao {
 	private static Logger log = LogManager.getLogger(DefaultProfileDao.class.getName());
 
-	/** <p> TODO: add desc... </p> */
 	private HashMap<String, Profile> profileMap = new HashMap<>();
 
-	/** Instantiates a new <code>DefaultProfileDao</code> object. For the
-	 * data source, this unparameterized constructor uses the following logic:
-	 * <ol>
-	 * <li><b>It first checks for the URL in the value of:</b><br/>
-	 * <code><i>/resources/profile_dao.properties</i> <br/> > json.url.default</code>
-	 * <li><b>If unavailable, it then uses the default, hard-coded value of:</b><br/>
-	 * <code>"https://www.willowtreeapps.com/api/v1.0/profiles"</code><br/>
-	 * <b>which is found in:</b><br/>
-	 * <code>com.hoovler.dao.DEFAULT_SOURCE</code>
-	 * </ol>
-	 * 
-	 * For more control over the data source, use the following constructor instead:
-	 * 
-	 * <pre>
-	 * DefaultProfileDao profileDao = new DefaultProfileDao(jsonUrl)
-	 * </pre>
-	 */
+	/** Instantiates a new {@code DefaultProfileDao} object. */
 	public DefaultProfileDao() {
-		// generate all profiles from source
-		this.profileMap = initProfileMap(null);
+		this.profileMap = new HashMap<>();
 	}
 
-	/** Instantiates a new <code>DefaultProfileDao</code> object.
+	/** Instantiates a new {@code DefaultProfileDao} object based on the {@code autoPopulate} boolean value.
+	 * 
+	 * <p>If {@code autoPopulate} is true, this constructor will:
+	 * <ol><li>First checks for the URL in the value of the {@code json.url.default} within {@code /resources/profile_dao.properties}<li>If unavailable, it the used the hard-coded value of {@code https://www.willowtreeapps.com/api/v1.0/profiles}</ol>
+	 * <p>If {@code autoPopulate} is false, this acts like the default constructor.
+	 * <p> To manually set a data source URL, use the following constructor instead: <pre>DefaultProfileDao profileDao = new DefaultProfileDao(jsonUrl)</pre> */
+	public DefaultProfileDao(boolean autoPopulate) {
+		if (autoPopulate) {
+			this.profileMap = initProfileMap(null);
+		} else {
+			// generate all profiles from source
+			this.profileMap = new HashMap<>();
+		}
+	}
+
+	/** Instantiates a new {@code DefaultProfileDao} object.
 	 *
 	 * @param jsonUrl the URL of the site / resource containing the JSON array of Profile objects. */
 	public DefaultProfileDao(String jsonUrl) {

@@ -20,26 +20,26 @@
  */
 package com.hoovler.api;
 
-import static com.hoovler.api.utils.Message.INFO_APP_INIT;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.hoovler.api.resources.Players;
-import com.hoovler.api.resources.Questions;
-import com.hoovler.api.resources.AskedQuestions;
-import com.hoovler.dao.DefaultProfileDao;
+import com.hoovler.api.utils.Message;
+import com.hoovler.dao.impl.DefaultProfileDao;
+import com.hoovler.dao.impl.FullQuestions;
+import com.hoovler.dao.impl.GameQuestions;
+import com.hoovler.dao.impl.Players;
 
-/** The Class NameGame. */
+/** The Class NameGame.
+ *  @author Michael Hoovler */
 @SpringBootApplication
 public class NameGame {
 	private static Logger log = LogManager.getLogger(NameGame.class.getName());
 
 	/** Profile service.
-	 *
+	 * @author Michael Hoovler
 	 * @return the default profile dao */
 	@Bean
 	protected DefaultProfileDao profileService() {
@@ -47,7 +47,7 @@ public class NameGame {
 	}
 
 	/** Player service.
-	 *
+	 * @author Michael Hoovler
 	 * @return the players */
 	@Bean
 	protected Players playerService() {
@@ -55,28 +55,28 @@ public class NameGame {
 	}
 
 	/** Question service.
-	 *
+	 * @author Michael Hoovler
 	 * @return the questions */
 	@Bean
-	protected Questions questionService() {
-		return new Questions();
+	protected FullQuestions questionService() {
+		return new FullQuestions();
 	}
 	
 	/**
 	 * Questions asked service.
-	 *
+	 * @author Michael Hoovler
 	 * @return the questions asked to players through the response body. <p>Not to be confused with <code>Questions</code>, which stores the list of raw questions</p>
 	 */
 	@Bean
-	protected AskedQuestions questionsAskedService() {
-		return new AskedQuestions();
+	protected GameQuestions questionsAskedService() {
+		return new GameQuestions();
 	}
 
 	/** The main method.
-	 *
+	 * @author Michael Hoovler
 	 * @param args the arguments */
 	public static void main(String[] args) {
-		log.info(INFO_APP_INIT.getValue());
+		log.info(Message.INFO_APP_INIT.s());
 		SpringApplication.run(NameGame.class, args);
 	}
 }

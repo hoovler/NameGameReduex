@@ -24,8 +24,8 @@
 		<v.org.springframework>5.1.3.RELEASE</v.org.springframework>
 
 		<!-- Local DAO versions -->
-		<v.dao>1.0.0</v.dao>
-		<v.util>1.0.0</v.util>
+		<v.com.hoovler.dao>1.0.0</v.com.hoovler.dao>
+		<v.com.hoovler.util>1.0.0</v.com.hoovler.util>
 	</properties>
 
 	<dependencies>
@@ -33,22 +33,13 @@
 		<dependency>
 			<groupId>com.hoovler.dao</groupId>
 			<artifactId>general-dao</artifactId>
-			<version>${v.dao}</version>
+			<version>${v.com.hoovler.dao}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.hoovler.dao</groupId>
-			<artifactId>player-dao</artifactId>
-			<version>${v.dao}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.hoovler.dao</groupId>
-			<artifactId>question-dao</artifactId>
-			<version>${v.dao}</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.hoovler.util</groupId>
 			<artifactId>general-utils</artifactId>
-			<version>${v.util}</version>
+			<version>${v.com.hoovler.util}</version>
 		</dependency>
 
 		<!-- Logging -->

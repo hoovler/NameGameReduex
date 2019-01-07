@@ -18,34 +18,19 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.hoovler.api.utils;
+package com.hoovler.dao.resources;
 
 import java.util.ResourceBundle;
 
-// TODO: Auto-generated Javadoc
-/** Enum Messages
- * 
- * <p>This class acts as a quick-access utility to /resources/messages.properties. More specifically, it's an API that allows other classes to access the values within that properties file's name/value pairs by invoking the property's name. */
+/** The Class Messages. */
 public enum Message {
+	NONE;
 
-	/** The info app init. */
-	INFO_APP_INIT,
-	/** The info msg set. */
-	INFO_ASK_PARAMS, INFO_ANSWER_PARAMS,
-
-	MSG_ID_BLANK, MSG_ID_NOT_FOUND, MSG_IDS_NON_MATCHING, MSG_NOT_UPDATING, MSG_ADD_QUESTION,
-
-	MSG_Q_ALREADY_ANSWERED, MSG_Q_NOT_EXISTS, MSG_Q_NOT_ASKED, MSG_CORRECT_ANSWER, MSG_INCORRECT_ANSWER,
-
-	MSG_INVALID_ARG, MSG_NOT_IMPL, MSG_INVALID_ANSWER_BODY, MSG_ENCOURAGE,
-
-	WARN_JSON_PARSE, WARN_JSON_SYNTAX, WARN_JSON_TYPE_UNEXPECTED, WARN_JSON_ERROR, WARN_JSON_SUFFIX;
-
+	// *************************************
 	private String value;
 
-	private String bundleName = GameHelper.MSG_RESOURCE_NAME; // $NON-NLS-1$
+	private String bundleName = "messages"; // $NON-NLS-1$
 	private ResourceBundle messageBundle;
-	
 
 	/** Gets Messages.value
 	 *
@@ -60,17 +45,9 @@ public enum Message {
 
 	/** Inits the. */
 	private void init() {
-		try {
-
-			if (this.messageBundle == null) {
-				this.messageBundle = ResourceBundle.getBundle(bundleName);
-			}
-			this.value = messageBundle.getString(this.toString());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			this.value = GameHelper.WRN_MISSING_RESOURCE + GameHelper.MSG_RESOURCE_NAME;
+		if (this.messageBundle == null) {
+			this.messageBundle = ResourceBundle.getBundle(bundleName);
 		}
+		this.value = messageBundle.getString(this.toString());
 	}
-
 }

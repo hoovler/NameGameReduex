@@ -28,12 +28,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+// TODO: Auto-generated Javadoc
 /** PrimitiveUtils provides utilities for primitive types - and their non-primitive wrappers (such as int & Integer) - which are not otherwise provided in the wrapper classes. */
 public class BoolUtils {
 	private static Logger log = LogManager.getLogger(BoolUtils.class.getName());
 
+	/** The known types. */
 	protected static ArrayList<String> knownTypes;
-	
+
 	private static final String tBool = "boolean";
 	private static final String tShort = "short";
 	private static final String tInt = "integer";
@@ -44,7 +46,7 @@ public class BoolUtils {
 	private static final String tChar = "character";
 	private static final String tString = "string";
 
-	/** Any value at or below this point is interpreted as FALSE, while any value above it is TRUE */
+	/** Any value at or below this point is interpreted as FALSE, while any value above it is TRUE. */
 	public static final int MAX_FALSE_BOOL = 0;
 
 	/** Parses the boolean.
@@ -61,16 +63,21 @@ public class BoolUtils {
 
 		return isTrue(value);
 	}
-	
+
+	/** Parses the int.
+	 *
+	 * @param         <T> the generic type
+	 * @param  object the object
+	 * @return        the integer */
 	public static <T> Integer parseInt(T object) {
 		if (isCommonType(object) && isNumeric(object)) {
 			String classType = object.getClass().getSimpleName().toLowerCase();
-			
+
 			switch (classType) {
 			case tBool:
 				return (Boolean) object ? 1 : 0;
 			case tShort:
-				
+
 			case tInt:
 			case tDoub:
 			case tLong:
@@ -84,19 +91,29 @@ public class BoolUtils {
 		}
 		return null;
 	}
-	
+
+	/** Parses the double.
+	 *
+	 * @param         <T> the generic type
+	 * @param  object the object
+	 * @return        the double */
 	public static <T> Double parseDouble(T object) {
 		if (isCommonType(object) && isNumeric(object)) {
 			return 1.0;
 		}
 		return null;
 	}
-	
+
+	/** Parses the long.
+	 *
+	 * @param         <T> the generic type
+	 * @param  object the object
+	 * @return        the long */
 	public static <T> Long parseLong(T object) {
 		if (isCommonType(object) && isNumeric(object)) {
 			return Long.parseLong("1");
 		}
-		
+
 		return null;
 	}
 
@@ -130,37 +147,51 @@ public class BoolUtils {
 			case tChar:
 				Character cVal = (Character) value;
 				cVal = Character.toLowerCase(cVal);
-				if(isNumeric(cVal)) {
+				if (isNumeric(cVal)) {
 					return parseInt(tChar) > 0;
 				}
 				return cVal.equals('t') || cVal.equals('y') || cVal.equals('k') || cVal.equals('+');
 			case tString:
 				String strVal = (String) value;
+				if (StringUtils.isBlank(strVal)) return false;
 				if (StringUtils.isNumeric(strVal)) {
 					return isTrue(Integer.parseInt(strVal));
 				} else {
+					if (StringUtils.equals(strVal, "+")) return true;
+					if (StringUtils.equals(strVal, "-")) return false;
 					String unsigned = StringUtils.removeStart(StringUtils.removeStart(strVal, "+"), "-");
 					String checkDouble;
 					if (StringUtils.isNumericSpace(unsigned)) {
 						return isTrue(Integer.parseInt(strVal));
-					}  else {
+					} else {
 						checkDouble = StringUtils.remove(unsigned, '.');
 						if (StringUtils.isNumericSpace(checkDouble)) {
-							return isTrue(Double.parseDouble(strVal));	
+							return isTrue(Double.parseDouble(strVal));
 						}
 					}
 				}
 				strVal = StringUtils.deleteWhitespace(strVal.toLowerCase());
-				return StringUtils.equalsAnyIgnoreCase(strVal, "1", "t", "true", "y", "yes", "ya", "sure", "ok",
-						"affirmative");
+				/*
+				 * parallel vectors:
+				 * (of course, all values other than those the return vector below are considered false...)
+				 * 
+				 * "1", "t", "true", "y", "yes", "+", "up", "positive", "on", "all", "ya", "ok"
+				 * "0", "f", "false", "n", "no", "unaffirmative", "-", "down", "negative", "off", "none", "naw", "not ok"
+				 * 
+				 * and speaking colloquially, for science:
+				 * "sure", "!"
+				 * 
+				 * (of course, all values other than those the vector below are considered false...)
+				 */
+				return StringUtils.equalsAnyIgnoreCase(strVal, "1", "t", "true", "y", "yes", "+", "up",
+						"positive", "on", "all", "ya", "ok");
 
 			default:
 				return false;
-			} // end case
+			} // end switch
 		} // end if
 		return false;
 	}
-	
 
 	/** Checks if is number.
 	 *
@@ -170,10 +201,10 @@ public class BoolUtils {
 	private static <T> boolean isNumber(T value) {
 		if (isCommonType(value)) {
 			String classType = value.getClass().getSimpleName().toLowerCase();
-			
+
 			int minNum = '0';
 			int maxNum = '9';
-			
+
 			switch (classType) {
 			case tBool:
 			case tShort:
@@ -200,7 +231,7 @@ public class BoolUtils {
 		} // end if
 		return false;
 	}
-	
+
 	/** Checks if is numeric.
 	 *
 	 * @param        <T> the generic type
@@ -212,7 +243,7 @@ public class BoolUtils {
 		log.info("Checking numeric...");
 		log.info("... type = " + type);
 		log.info("... value = " + value.toString());
-		
+
 		return isNumber(value);
 	}
 
@@ -224,7 +255,7 @@ public class BoolUtils {
 	public static <T> boolean isCommonType(T value) {
 		return boolable().contains(value.getClass().getSimpleName());
 	}
-	
+
 	/** Get a string list of types which are easily cast to a boolean.
 	 *
 	 * @return An <code>ArrayList&lt;String&gt;</code> of simple class names for types which can be easily parsed into a boolean value */
@@ -243,5 +274,8 @@ public class BoolUtils {
 		boolable.add(BigDecimal.class.getSimpleName());
 
 		return boolable;
+	}
+
+	private BoolUtils() {
 	}
 }

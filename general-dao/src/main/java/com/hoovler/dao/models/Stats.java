@@ -30,7 +30,7 @@ public class Stats {
 	private int numberAsked;
 	private int numberAnswered;
 	private int numberCorrect;
-	private double ratioCorrect;
+	//private double ratioCorrect;
 	private ArrayList<Long> responseTimes;
 	private Duration averageResponseTime;
 	private Date lastAskedTime;
@@ -97,13 +97,6 @@ public class Stats {
 		return this.responseTimes;
 	}
 
-	/** Gets Stats.percentCorrect
-	 *
-	 * @return the percent correct */
-	public Double getPercentCorrect() {
-		return this.ratioCorrect;
-	}
-
 	/** Gets Stats.averageResponseTime
 	 *
 	 * @return the average response time */
@@ -139,7 +132,6 @@ public class Stats {
 		this.numberAsked = 0;
 		this.numberAnswered = 0;
 		this.numberCorrect = 0;
-		this.ratioCorrect = 0;
 		this.responseTimes = new ArrayList<>();
 		this.averageResponseTime = Duration.ZERO;
 		this.lastAskedTime = new Date();
@@ -162,12 +154,6 @@ public class Stats {
 	/** Increment correct. */
 	public void incrementCorrect() {
 		numberCorrect++;
-		updateCorrectPercent();
-	}
-
-	/** Update correct percent. */
-	public void updateCorrectPercent() {
-		this.ratioCorrect = numberAsked / (double) (numberAnswered - numberCorrect);
 	}
 
 	/** Adds a duration to the list of previous answer durations. Can be called directly

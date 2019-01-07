@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Michael Hoovler (hoovlermichael@gmail.com) 2018
+ * Copyright (c) Michael Hoovler <hoovlermichael@gmail.com> 2019
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in the
@@ -20,6 +20,7 @@
  */
 package com.hoovler.api.models;
 
+// TODO: Auto-generated Javadoc
 /** <p><h3>AnswerArgs</h3>
  * <p><b><u>Purpose</u></b></p>
  * To provide a template for the <code>@RequestBody</code> annotation's <code>HttpMessageConverter</code>
@@ -34,41 +35,80 @@ public class AnswerArgs {
 	private String email;
 	private String question_id;
 
+	/** Gets AnswerArgs.answerId
+	 *
+	 * @return the answer id */
 	public String getAnswerId() {
 		return this.answer_id;
 	}
 
+	/** Gets AnswerArgs.playerEmail
+	 *
+	 * @return the player email */
 	public String getPlayerEmail() {
 		return this.email;
 	}
 
+	/** Gets AnswerArgs.questionId
+	 *
+	 * @return the question id */
 	public String getQuestionId() {
 		return question_id;
 	}
 
+	/** Sets AnswerArgs.answerId
+	 *
+	 * @param answerId the new answer id */
 	public void setAnswerId(String answerId) {
 		this.answer_id = answerId;
 	}
 
+	/** Sets AnswerArgs.playerEmail
+	 *
+	 * @param playerEmail the new player email */
 	public void setPlayerEmail(String playerEmail) {
 		this.email = playerEmail;
 	}
 
+	/** Sets AnswerArgs.questionId
+	 *
+	 * @param questionId the new question id */
 	public void setQuestionId(String questionId) {
 		this.question_id = questionId;
 	}
 
+	/** Instantiates a new answer args. */
 	public AnswerArgs() {
 	}
 
+	/** Instantiates a new answer args.
+	 *
+	 * @param answerId    the answer id
+	 * @param playerEmail the player email */
 	public AnswerArgs(String answerId, String playerEmail) {
 		this.answer_id = answerId;
 		this.email = playerEmail;
 	}
 
+	/** Instantiates a new answer args.
+	 *
+	 * @param answerId    the answer id
+	 * @param playerEmail the player email
+	 * @param questionId  the question id */
 	public AnswerArgs(String answerId, String playerEmail, String questionId) {
 		this.answer_id = answerId;
 		this.email = playerEmail;
 		this.question_id = questionId;
 	}
+
+	/**
+	 * A compliment to the 'toString()' function inherited from Object.
+	 *
+	 * @return the object formatted as a parsable JSON string.
+	 */
+	public String toJson() {
+		return "{'answer_id': '" + answer_id + "', 'email': '" + email + "', 'question_id': '" + question_id + "'}";
+	}
+	
+	
 }

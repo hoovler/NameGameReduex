@@ -97,6 +97,8 @@ public class Player {
 		// calculated by a simple metrics
 		if (numberAnswered == 0 || numberCorrect == 0) {
 			this.stats.setScore(0.0);
+		} else if (numberAnswered == numberCorrect) {
+			this.stats.setScore(100);
 		} else {
 			double score = (double) numberCorrect / numberAnswered * multiplier;
 			this.stats.setScore(score);

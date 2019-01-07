@@ -29,11 +29,11 @@ import org.apache.logging.log4j.Logger;
 
 import com.hoovler.api.models.QuestionOption;
 import com.hoovler.api.models.Subject;
-import com.hoovler.dao.DefaultProfileDao;
+import com.hoovler.dao.impl.DefaultProfileDao;
 import com.hoovler.dao.models.Profile;
 import com.hoovler.dao.models.Question;
 
-public class QuestionsHelper extends NameGameHelper {
+public class QuestionsHelper extends GameHelper {
 	private static Logger log = LogManager.getLogger(QuestionsHelper.class.getName());
 
 	/** Ask response.
@@ -126,14 +126,14 @@ public class QuestionsHelper extends NameGameHelper {
 
 		// use a random index (0 : Data.numOptions-1) to select the 'target' from the
 		// list of 'options'
-		int index = new Random().nextInt(NameGameHelper.NUM_OPTIONS);
+		int index = new Random().nextInt(GameHelper.NUM_OPTIONS);
 		ArrayList<Object> optionObjects = new ArrayList<>();
 
 		// since Question.options is a list of Object types, rather than Subject types,
 		// we must
 		// loop through the list of Subjects and convert them to Objects
 		int itr = 0;
-		for (Subject option : getSubjects(questionObjects, NameGameHelper.NUM_OPTIONS, namePrefix)) {
+		for (Subject option : getSubjects(questionObjects, GameHelper.NUM_OPTIONS, namePrefix)) {
 			optionObjects.add(option);
 
 			// set random option as the matching target
