@@ -131,9 +131,9 @@ _**Response**_
 			</table>
 		</td>
 	</tr>
-</table>
-
-_Response Body_
+	<tr>
+		<td><i>Response Body</i></td>
+		<td>
 ```json
 {
     "message": null,
@@ -168,6 +168,9 @@ _Response Body_
     "questionId": "7b7b656d61696c7d7d36343435373337303037363639353032313638"
 }
 ```
+		</td>
+	</tr>
+</table>
 
 _**Request**_
 
@@ -207,9 +210,9 @@ _**Response**_
 			</table>
 		</td>
 	</tr>
-</table>
-
-_Response Body_
+	<tr>
+		<td><i>Response Body</i></td>
+		<td>
 ```json
 {
     "message": null,
@@ -244,7 +247,9 @@ _Response Body_
     "questionId": "7b7b656d61696c7d7d36343435373337303037363639353032313638"
 }
 ```
-
+		</td>
+	</tr>
+</table>
 
 _**Request**_
 
@@ -284,9 +289,9 @@ _**Response**_
 				<tr><td>Date</td><td>Tue, 08 Jan 2019 17:06:35 GMT</td></tr>
 			</table>
 		</td>
-	</tr>
-</table>
-
+	<tr>
+		<td><i>Response Body</i></td>
+		<td>
 _Response Body_
 ```json
 {
@@ -322,3 +327,101 @@ _Response Body_
     "questionId": "7b7b656d61696c7d7d36343435373337303037363639353032313638"
 }
 ```
+		</td>
+	</tr>
+</table>
+
+***
+
+### /answer
+
+This is the other critical endpoint, wherein players submit their answers via request body content with a **POST** method.  The response body contains a JSON object with a boolean indicating whether the asnwer was correct, the `Player` object with updated stats, and a message that gives more information - if necessary.
+
+The request body must be well-formatted JSON, and must contain the following JSON objects:
+
+|Param Name|Type|Description|Default|Required?|
+|---|-----|----|-----|
+|email|String|The email of the player to whom the question was asked.|NA|***Yes***|
+|answer_id|String|The `answer_id` is the `option_id` the player selects from the list of options received from the `/ask` endpoint.|NA|***Yes***|
+|question_id|Alphnumeric hexadecimal [String]|This is the `question_id` recieved from the call to the `/ask` endpoint.  This value will only work when passed with the `email` to whom the question was originally asked.|NA|***Yes***|
+
+* **POST** `http://localhost:8080/namegame/v2.0.0/answer`
+
+#### Examples
+
+_**Request**_
+
+<table>
+	<tr>
+		<td><i>Request URI</i></td>
+		<td>http://localhost:8080/namegame/v2.0.0/answer</td>
+	</tr>
+	<tr>
+		<td><i>Request Body</i></td>
+		<td>
+```json
+{
+    "answer_id": "2hf3dZwYT2GwSGUWUmkWUU",
+    "email": "foo@bar.com",
+    "question_id": "7b7b656d61696c7d7d36343435373337303037363639353032313638"
+}
+```
+		</td>
+	</tr>
+	<tr>
+		<td><i>Method</i></td>
+		<td>POST</td>
+	</tr>
+</table>
+
+_**Response**_
+
+<table>
+	<tr>
+		<td><i>Response Headers</i></td>
+		<td>
+			<table>
+				<tr><th>Key</th><th>Value</th></tr>
+				<tr><td>Status</td><td>200 OK</td></tr>
+				<tr><td>Content-Type</td><td>application/json;charset=UTF-8</td></tr>
+				<tr><td>Transfer-Encoding</td><td>chunked</td></tr>
+				<tr><td>Date</td><td>Tue, 08 Jan 2019 16:27:47 GMT</td></tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td><i>Response Body</i></td>
+		<td>
+```json
+{
+    "message": "Awesome job!  The answer wasn't 42, afterall!",
+    "correct": true,
+    "player": {
+        "email": "foo@bar.com",
+        "stats": {
+            "numberAsked": 3,
+            "numberAnswered": 7,
+            "numberCorrect": 1,
+            "averageResponseTime": "PT42S",
+            "lastAskedTime": "2019-01-08T16:26:49.627+0000",
+            "lastAnswerTime": "2019-01-08T16:27:47.296+0000",
+            "score": 14.285714285714285,
+            "answerTimes": [
+                37,
+                39,
+                40,
+                41,
+                41,
+                43,
+                57
+            ]
+        }
+    }
+}
+```
+		</td>
+	</tr>
+</table>
+
+***
+
