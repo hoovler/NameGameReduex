@@ -78,6 +78,49 @@ Finally, to run the project, just execute the **.jar** file built from the previ
 
 ## API Usage
 
+This API has several endpoints, some of which have discrete URI parameter patterns that are allow.  The endpoints are subdivided into the categories of STANDARD, DIAGNOSTIC, and ADMINISTRATIVE, based on the level of authorization that should be implemented around access to these endpoints.
+
+The STANDARD endpoints are those which meet the primary requirements given for this application, and which limit access to the backend DAO repositories so an acceptable level for end-user usage.
+
+`/ask`
+* **GET** `http://localhost:8080/namegame/v2.0.0/ask?email={{email}}`
+* **GET** `http://localhost:8080/namegame/v2.0.0/ask?email={{email}}&reverse={{doReverse}}`
+* **GET** `http://localhost:8080/namegame/v2.0.0/ask?email={{email}}&reverse={{doReverse?}}&matts={{getMattsOnly?}}`
+
+`/answer`
+* **POST** `http://localhost:8080/namegame/v2.0.0/answer`
+
+`/leaders`
+* **GET** `http://localhost:8080/namegame/v2.0.0/leaders`
+* **GET** `http://localhost:8080/namegame/v2.0.0/leaders?start={{startIndex}}&stop={{startIndex}}`
+* **GET** `http://localhost:8080/namegame/v2.0.0/leaders?start={{startIndex}}&velocity={{velocity}}`
+
+DIAGNOSTIC endpoints are those which would, if exposed, allow an end-user access to more information than STANDARD `/ask` endpoint provides, and thus allow them to pad their score; however, access to the back-end DAO objects is still restricted to a READ-ONLY level.  Their purpose is to provide developers more access to the aforementioned information to include additional and future features in a consuming client.
+
+`/questions`
+* **GET** `http://localhost:8080/namegame/v2.0.0/questions`
+* **GET** `http://localhost:8080/namegame/v2.0.0/questions?id={{id}}`
+* **GET** `http://localhost:8080/namegame/v2.0.0/questions?start={{startIndex}}&stop={{stopIndex}}`
+* **GET** `http://localhost:8080/namegame/v2.0.0/questions?start={{startIndex}}&velocity={{velocity}}`
+
+`/questions/pared`
+* **GET** `http://localhost:8080/namegame/v2.0.0/questions/pared`
+* **GET** `http://localhost:8080/namegame/v2.0.0/questions/pared?id={{id}}`
+* **GET** `http://localhost:8080/namegame/v2.0.0/questions/pared?start={{startIndex}}&stop={{stopIndex}}`
+* **GET** `http://localhost:8080/namegame/v2.0.0/questions/pared?start={{startIndex}}&velocity={{velocity}}`
+
+ADMINISTRATIVE endpoints are the TS//SCI of this application.  Exposure to end-users could result in catastrophic damage to operation of the application, and even end up requiring an application restart to reset the back-end DAO objects to their empty state.  These exist for the same reaon as DIAGNOSTIC endpoints, but require a greater level of care when implementing the client that may consume them.  Note that these are simply different REST methods being invoked on the previous endpoints (`/players` runs against the same DAO repository as `/leaders`).
+
+`/players`
+* **POST** `http://localhost:8080/namegame/v2.0.0/players`
+* **PUT** `http://localhost:8080/namegame/v2.0.0/players`
+* **DELETE** `http://localhost:8080/namegame/v2.0.0/players?email={{email}}`
+
+`/questions/pared` [Not fully implemented]
+* **POST** `http://localhost:8080/namegame/v2.0.0/questions/pared`
+* **PUT** `http://localhost:8080/namegame/v2.0.0/questions/pared`
+* **DELETE** `http://localhost:8080/namegame/v2.0.0/questions/pared?id={{id}}`
+
 ### /ask
 
 This is one of two critical endpoints for this API.  The `/ask` endpoint is capable of receiving the following parameters:
@@ -96,13 +139,15 @@ This is one of two critical endpoints for this API.  The `/ask` endpoint is capa
 
 _**Request**_
 
+Generate a new question for player 'foo@bar.com'  wherein the player is presented with one image and six names.
+
 <table>
 	<tr>
 		<td><i>Request URI</i></td>
 		<td>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com</td>
 	</tr>
 	<tr>
-		<td><i>Request Headers</i></td>
+		<td colspan="2" align="center"><b>Request Headers</b></td>
 		<td>
 			<tr><th>Key</th><th>Value</th></tr>
 			<tr><td>email</td><td>foo@bar.com</td></tr>
@@ -118,15 +163,13 @@ _**Response**_
 
 <table>
 	<tr>
-		<td><i>Response Headers</i></td>
+		<td colspan="2" align="center"><b>Response Headers</b></td>
 		<td>
-			<table>
 				<tr><th>Key</th><th>Value</th></tr>
 				<tr><td>Status</td><td>200 OK</td></tr>
 				<tr><td>Content-Type</td><td>application/json;charset=UTF-8</td></tr>
 				<tr><td>Transfer-Encoding</td><td>chunked</td></tr>
 				<tr><td>Date</td><td>Tue, 08 Jan 2019 17:06:35 GMT</td></tr>
-			</table>
 		</td>
 	</tr>
 	<tr>
@@ -172,19 +215,19 @@ _**Response**_
 
 _**Request**_
 
+Generate a new question for player 'foo@bar.com' wherein the player is presented with one name and six images.
+
 <table>
 	<tr>
 		<td><i>Request URI</i></td>
 		<td>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes</td>
 	</tr>
 	<tr>
-		<td><i>Request Headers</i></td>
+		<td colspan="2" align="center"><b>Request Headers</b></td>
 		<td>
-			<table>
 				<tr><th>Key</th><th>Value</th></tr>
 				<tr><td>email</td><td>foo@bar.com</td></tr>
 				<tr><td>reverse</td><td>yes</td></tr>
-			</table>
 		</td>
 	</tr>
 	<tr>
@@ -197,15 +240,13 @@ _**Response**_
 
 <table>
 	<tr>
-		<td><i>Response Headers</i></td>
+		<td colspan="2" align="center"><b>Response Headers</b></td>
 		<td>
-			<table>
-				<tr><th>Key</th><th>Value</th></tr>
-				<tr><td>Status</td><td>200 OK</td></tr>
-				<tr><td>Content-Type</td><td>application/json;charset=UTF-8</td></tr>
-				<tr><td>Transfer-Encoding</td><td>chunked</td></tr>
-				<tr><td>Date</td><td>Tue, 08 Jan 2019 17:06:35 GMT</td></tr>
-			</table>
+			<tr><th>Key</th><th>Value</th></tr>
+			<tr><td>Status</td><td>200 OK</td></tr>
+			<tr><td>Content-Type</td><td>application/json;charset=UTF-8</td></tr>
+			<tr><td>Transfer-Encoding</td><td>chunked</td></tr>
+			<tr><td>Date</td><td>Tue, 08 Jan 2019 17:06:35 GMT</td></tr>
 		</td>
 	</tr>
 	<tr>
@@ -251,20 +292,20 @@ _**Response**_
 
 _**Request**_
 
+Generate a new question for player 'foo@bar.com' wherein the player is presented with one name of someone who's name starts with 'Mat', and six images of people who's names start with 'Mat'.
+
 <table>
 	<tr>
 		<td><i>Request URI</i></td>
 		<td>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes&matts=yes</td>
 	</tr>
 	<tr>
-		<td><i>Request Headers</i></td>
+		<td colspan="2" align="center"><b>Request Headers</b></td>
 		<td>
-			<table>
-				<tr><th>Key</th><th>Value</th></tr>
-				<tr><td>email</td><td>foo@bar.com</td></tr>
-				<tr><td>reverse</td><td>yes</td></tr>
-				<tr><td>matts</td><td>yes</td></tr>
-			</table>
+			<tr><th>Key</th><th>Value</th></tr>
+			<tr><td>email</td><td>foo@bar.com</td></tr>
+			<tr><td>reverse</td><td>yes</td></tr>
+			<tr><td>matts</td><td>yes</td></tr>
 		</td>
 	</tr>
 	<tr>
@@ -277,15 +318,13 @@ _**Response**_
 
 <table>
 	<tr>
-		<td><i>Response Headers</i></td>
+		<td colspan="2" align="center"><b>Response Headers</b></td>
 		<td>
-			<table>
-				<tr><th>Key</th><th>Value</th></tr>
-				<tr><td>Status</td><td>200 OK</td></tr>
-				<tr><td>Content-Type</td><td>application/json;charset=UTF-8</td></tr>
-				<tr><td>Transfer-Encoding</td><td>chunked</td></tr>
-				<tr><td>Date</td><td>Tue, 08 Jan 2019 17:06:35 GMT</td></tr>
-			</table>
+			<tr><th>Key</th><th>Value</th></tr>
+			<tr><td>Status</td><td>200 OK</td></tr>
+			<tr><td>Content-Type</td><td>application/json;charset=UTF-8</td></tr>
+			<tr><td>Transfer-Encoding</td><td>chunked</td></tr>
+			<tr><td>Date</td><td>Tue, 08 Jan 2019 17:06:35 GMT</td></tr>
 		</td>
 	<tr>
 		<td><i>Response Body</i></td>
@@ -348,6 +387,8 @@ The request body must be well-formatted JSON, and must contain the following JSO
 #### Examples
 
 _**Request**_
+
+POST the answer to the question I was asked, using the email I used to generate the question, the ID of the question, and the ID of the `option` which I believe matches the `target`.
 
 <table>
 	<tr>
@@ -423,3 +464,18 @@ _**Response**_
 
 ***
 
+### /leaders
+
+This endpoint presents a list of players that have been sorted in order of descending rank.  The player with the highest score is listed first, the second highest next, and so on...
+
+The parameterized URI allows a developer to limit the number of objects returned, and even gives a front-end developer the option to reverse the list.  The usage of these parameters warrants some detailed information:
+
+
+
+The request body must be well-formatted JSON, and must contain the following JSON objects:
+
+|Param Name|Type|Description|Default|Required?|
+|---|-----|----|-----|
+|start|Integer|This is the 0-based starting index of the returned subset of leaders.|null|*No*|
+|stop|Integer|This is the 0-based stopping index of the returned subset of leaders.|null|*No* when `start=null || (start!=null && velocity!=null)`, ***Yes*** otherwise.|
+|velocity|Integer|velocity the integer value indicating whether go left (`velocity < 0`) or right (`velocity > 0`) from the `start` index, and by how many (`Math.abs(velocity)`) elements |null|*No* when `start=null || (start!=null && stop!=null)`, ***Yes*** otherwise.|
