@@ -134,7 +134,7 @@ _**Response**_
 	<tr>
 		<td><i>Response Body</i></td>
 		<td>
-```json
+<pre>
 {
     "message": null,
     "answered": false,
@@ -167,7 +167,7 @@ _**Response**_
     ],
     "questionId": "7b7b656d61696c7d7d36343435373337303037363639353032313638"
 }
-```
+</pre>
 		</td>
 	</tr>
 </table>
@@ -213,7 +213,7 @@ _**Response**_
 	<tr>
 		<td><i>Response Body</i></td>
 		<td>
-```json
+<pre>
 {
     "message": null,
     "answered": false,
@@ -246,7 +246,7 @@ _**Response**_
     ],
     "questionId": "7b7b656d61696c7d7d36343435373337303037363639353032313638"
 }
-```
+</pre>
 		</td>
 	</tr>
 </table>
@@ -293,7 +293,7 @@ _**Response**_
 		<td><i>Response Body</i></td>
 		<td>
 _Response Body_
-```json
+<pre>
 {
     "message": null,
     "answered": false,
@@ -326,7 +326,7 @@ _Response Body_
     ],
     "questionId": "7b7b656d61696c7d7d36343435373337303037363639353032313638"
 }
-```
+</pre>
 		</td>
 	</tr>
 </table>
@@ -359,13 +359,13 @@ _**Request**_
 	<tr>
 		<td><i>Request Body</i></td>
 		<td>
-```json
+<pre>
 {
     "answer_id": "2hf3dZwYT2GwSGUWUmkWUU",
     "email": "foo@bar.com",
     "question_id": "7b7b656d61696c7d7d36343435373337303037363639353032313638"
 }
-```
+</pre>
 		</td>
 	</tr>
 	<tr>
@@ -392,7 +392,7 @@ _**Response**_
 	<tr>
 		<td><i>Response Body</i></td>
 		<td>
-```json
+<pre>
 {
     "message": "Awesome job!  The answer wasn't 42, afterall!",
     "correct": true,
@@ -418,7 +418,7 @@ _**Response**_
         }
     }
 }
-```
+</pre>
 		</td>
 	</tr>
 </table>
