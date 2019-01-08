@@ -137,34 +137,27 @@ This is one of two critical endpoints for this API.  The `/ask` endpoint is capa
 
 #### Examples
 
-_**Request**_
-
-Generate a new question for player 'foo@bar.com'  wherein the player is presented with one image and six names.
+1. Generate a new question for player 'foo@bar.com'  wherein the player is presented with one image and six names.
 
 <table width="100%">
 	<tr>
-		<td><b>Request URI</b></td>
+		<td><i>Request URI</i></td>
 		<td>
 			<code>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com</code>
 		</td>
 	</tr>
 	<tr>
-		<td><b>Request Headers</b></td>
+		<td><i>Request Headers</i></td>
 		<td>
 			<code>email=foo@bar.com</code>
 		</td>
 	</tr>
 	<tr>
-		<td><b>Method</b></td>
+		<td><i>Method</i></td>
 		<td>
 			<code>GET</code>
 		</td>
 	</tr>
-</table>
-
-_**Response**_
-
-<table width="100%">
 	<tr>
 		<td><b>Response Headers</b></td>
 		<td>
@@ -215,33 +208,26 @@ Date=Tue, 08 Jan 2019 17:06:35 GMT</pre>
 	</tr>
 </table>
 
-_**Request**_
-
-Generate a new question for player 'foo@bar.com' wherein the player is presented with one name and six images.
+2. Generate a new question for player 'foo@bar.com' wherein the player is presented with one name and six images.
 
 <table width="100%">
 	<tr>
-		<td><b>Request URI</b></td>
+		<td><i>Request URI</i></td>
 		<td>
 			<code>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes</code>
 		</td>
 	</tr>
 	<tr>
-		<td><b>Request Headers</b></td>
+		<td><i>Request Headers</i></td>
 		<td>
 <pre>email=foo@bar.com
 reverse=yes</pre>
 		</td>
 	</tr>
 	<tr>
-		<td><b>Method</b></td>
+		<td><i>Method</i></td>
 		<td><code>GET</code></td>
 	</tr>
-</table>
-
-_**Response**_
-
-<table  width="100%">
 	<tr>
 		<td><b>Response Headers</b></td>
 		<td>	
@@ -292,19 +278,17 @@ Date=Tue, 08 Jan 2019 17:06:35 GMT</pre>
 	</tr>
 </table>
 
-_**Request**_
-
-Generate a new question for player 'foo@bar.com' wherein the player is presented with one name of someone who's name starts with 'Mat', and six images of people who's names start with 'Mat'.
+3. Generate a new question for player 'foo@bar.com' wherein the player is presented with one name of someone who's name starts with 'Mat', and six images of people who's names start with 'Mat'.
 
 <table width="100%">
 	<tr>
-		<td><b>Request URI</b></td>
+		<td><i>Request URI</i></td>
 		<td>
 		 <code>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes&matts=yes</code>
 		</td>
 	</tr>
 	<tr>
-		<td><b>Request Headers</b></td>
+		<td><i>Request Headers</i></td>
 		<td>
 <pre>email=foo@bar.com
 reverse=yes
@@ -312,14 +296,9 @@ matts=yes</pre>
 		</td>			
 	</tr>
 	<tr>
-		<td><b>Method</b></td>
+		<td><i>Method</i></td>
 		<td><code>GET</code></td>
 	</tr>
-</table>
-
-_**Response**_
-
-<table width="100%">
 	<tr>
 		<td><b>Response Headers</b></td>
 		<td>
@@ -388,19 +367,17 @@ The request body must be well-formatted JSON, and must contain the following JSO
 
 #### Examples
 
-_**Request**_
-
-POST the answer to the question I was asked, using the email I used to generate the question, the ID of the question, and the ID of the `option` which I believe matches the `target`.
+1. POST the answer to the question I was asked, using the email I used to generate the question, the ID of the question, and the ID of the `option` which I believe matches the `target`.
 
 <table width="100%">
 	<tr>
-		<td><b>Request URI</b></td>
+		<td><i>Request URI</i></td>
 		<td>
 			<code>http://localhost:8080/namegame/v2.0.0/answer</code>
 		</td>		
 	</tr>
 	<tr>
-		<td><b>Request Body</b></td>
+		<td><i>Request Body</i></td>
 		<td>
 <pre>{
     "answer_id": "2hf3dZwYT2GwSGUWUmkWUU",
@@ -410,16 +387,11 @@ POST the answer to the question I was asked, using the email I used to generate 
 		</td>
 	</tr>
 	<tr>
-		<td><b>Method</b></td>
+		<td><i>Method</i></td>
 		<td>
 			<pre>POST</pre>
 		</td>
 	</tr>
-</table>
-
-_**Response**_
-
-<table width="100%">
 	<tr>
 		<td><b>Response Headers</b></td>
 		<td>
