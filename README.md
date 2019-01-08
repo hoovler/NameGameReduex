@@ -143,19 +143,22 @@ Generate a new question for player 'foo@bar.com'  wherein the player is presente
 
 <table>
 	<tr>
-		<td><i>Request URI</i></td>
-		<td>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com</td>
-	</tr>
-	<tr>
-		<td colspan="2" align="center"><b>Request Headers</b></td>
+		<td><b>Request URI</b></td>
 		<td>
-			<tr><th>Key</th><th>Value</th></tr>
-			<tr><td>email</td><td>foo@bar.com</td></tr>
+			<pre>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com</pre>
 		</td>
 	</tr>
 	<tr>
-		<td><i>Method</i></td>
-		<td>GET</td>
+		<td><b>Request Headers</b></td>
+		<td>
+			<pre>email=foo@bar.com</pre>
+		</td>
+	</tr>
+	<tr>
+		<td><b>Method</b></td>
+		<td>
+			<pre>GET</pre>
+		</td>
 	</tr>
 </table>
 
@@ -163,17 +166,16 @@ _**Response**_
 
 <table>
 	<tr>
-		<td colspan="2" align="center"><b>Response Headers</b></td>
+		<td><b>Response Headers</b></td>
 		<td>
-				<tr><th>Key</th><th>Value</th></tr>
-				<tr><td>Status</td><td>200 OK</td></tr>
-				<tr><td>Content-Type</td><td>application/json;charset=UTF-8</td></tr>
-				<tr><td>Transfer-Encoding</td><td>chunked</td></tr>
-				<tr><td>Date</td><td>Tue, 08 Jan 2019 17:06:35 GMT</td></tr>
+<pre>Status=200 OK
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Tue, 08 Jan 2019 17:06:35 GMT</pre>
 		</td>
 	</tr>
 	<tr>
-		<td><i>Response Body</i></td>
+		<td><b>Response Body</b></td>
 		<td>
 <pre>
 {
@@ -219,20 +221,21 @@ Generate a new question for player 'foo@bar.com' wherein the player is presented
 
 <table>
 	<tr>
-		<td><i>Request URI</i></td>
-		<td>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes</td>
-	</tr>
-	<tr>
-		<td colspan="2" align="center"><b>Request Headers</b></td>
+		<td><b>Request URI</b></td>
 		<td>
-				<tr><th>Key</th><th>Value</th></tr>
-				<tr><td>email</td><td>foo@bar.com</td></tr>
-				<tr><td>reverse</td><td>yes</td></tr>
+			<pre>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes</pre>
 		</td>
 	</tr>
 	<tr>
-		<td><i>Method</i></td>
-		<td>GET</td>
+		<td><b>Request Headers</b></td>
+		<td>
+<pre>email=foo@bar.com
+reverse=yes</pre>
+		</td>
+	</tr>
+	<tr>
+		<td><b>Method</b></td>
+			<pre>GET</pre>
 	</tr>
 </table>
 
@@ -240,17 +243,16 @@ _**Response**_
 
 <table>
 	<tr>
-		<td colspan="2" align="center"><b>Response Headers</b></td>
-		<td>
-			<tr><th>Key</th><th>Value</th></tr>
-			<tr><td>Status</td><td>200 OK</td></tr>
-			<tr><td>Content-Type</td><td>application/json;charset=UTF-8</td></tr>
-			<tr><td>Transfer-Encoding</td><td>chunked</td></tr>
-			<tr><td>Date</td><td>Tue, 08 Jan 2019 17:06:35 GMT</td></tr>
+		<td><b>Response Headers</b></td>
+		<td>	
+<pre>Status=200 OK
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Tue, 08 Jan 2019 17:06:35 GMT</pre>
 		</td>
 	</tr>
 	<tr>
-		<td><i>Response Body</i></td>
+		<td><b>Response Body</b></td>
 		<td>
 <pre>
 {
@@ -296,21 +298,22 @@ Generate a new question for player 'foo@bar.com' wherein the player is presented
 
 <table>
 	<tr>
-		<td><i>Request URI</i></td>
-		<td>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes&matts=yes</td>
+		<td><b>Request URI</b></td>
+		<td>
+		 <pre>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes&matts=yes</pre>
+		</td>
 	</tr>
 	<tr>
 		<td colspan="2" align="center"><b>Request Headers</b></td>
 		<td>
-			<tr><th>Key</th><th>Value</th></tr>
-			<tr><td>email</td><td>foo@bar.com</td></tr>
-			<tr><td>reverse</td><td>yes</td></tr>
-			<tr><td>matts</td><td>yes</td></tr>
-		</td>
+<pre>email=foo@bar.com
+reverse=yes
+matts=yes</pre>
+		</td>			
 	</tr>
 	<tr>
-		<td><i>Method</i></td>
-		<td>GET</td>
+		<td><b>Method</b></td>
+			<pre>GET</pre>
 	</tr>
 </table>
 
@@ -318,18 +321,16 @@ _**Response**_
 
 <table>
 	<tr>
-		<td colspan="2" align="center"><b>Response Headers</b></td>
+		<td><b>Response Headers</b></td>
 		<td>
-			<tr><th>Key</th><th>Value</th></tr>
-			<tr><td>Status</td><td>200 OK</td></tr>
-			<tr><td>Content-Type</td><td>application/json;charset=UTF-8</td></tr>
-			<tr><td>Transfer-Encoding</td><td>chunked</td></tr>
-			<tr><td>Date</td><td>Tue, 08 Jan 2019 17:06:35 GMT</td></tr>
+<pre>Status=200 OK
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Tue, 08 Jan 2019 17:06:35 GMT</pre>
 		</td>
 	<tr>
-		<td><i>Response Body</i></td>
+		<td><b>Response Body</b></td>
 		<td>
-_Response Body_
 <pre>
 {
     "message": null,
@@ -392,24 +393,26 @@ POST the answer to the question I was asked, using the email I used to generate 
 
 <table>
 	<tr>
-		<td><i>Request URI</i></td>
-		<td>http://localhost:8080/namegame/v2.0.0/answer</td>
+		<td><b>Request URI</b></td>
+		<td>
+			<pre>http://localhost:8080/namegame/v2.0.0/answer</pre>
+		</td>		
 	</tr>
 	<tr>
-		<td><i>Request Body</i></td>
+		<td><b>Request Body</b></td>
 		<td>
-<pre>
-{
+<pre>{
     "answer_id": "2hf3dZwYT2GwSGUWUmkWUU",
     "email": "foo@bar.com",
     "question_id": "7b7b656d61696c7d7d36343435373337303037363639353032313638"
-}
-</pre>
+}</pre>
 		</td>
 	</tr>
 	<tr>
-		<td><i>Method</i></td>
-		<td>POST</td>
+		<td><b>Method</b></td>
+		<td>
+			<pre>POST</pre>
+		</td>
 	</tr>
 </table>
 
@@ -417,19 +420,19 @@ _**Response**_
 
 <table>
 	<tr>
-		<td><i>Response Headers</i></td>
+		<td><b>Response Headers</b></td>
 		<td>
-			<table>
-				<tr><th>Key</th><th>Value</th></tr>
-				<tr><td>Status</td><td>200 OK</td></tr>
-				<tr><td>Content-Type</td><td>application/json;charset=UTF-8</td></tr>
-				<tr><td>Transfer-Encoding</td><td>chunked</td></tr>
-				<tr><td>Date</td><td>Tue, 08 Jan 2019 16:27:47 GMT</td></tr>
-			</table>
+		<td>
+			<pre>
+Status=200 OK
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Tue, 08 Jan 2019 17:06:35 GMT
+			</pre>
 		</td>
 	</tr>
 	<tr>
-		<td><i>Response Body</i></td>
+		<td><b>Response Body</b></td>
 		<td>
 <pre>
 {
@@ -466,13 +469,7 @@ _**Response**_
 
 ### /leaders
 
-This endpoint presents a list of players that have been sorted in order of descending rank.  The player with the highest score is listed first, the second highest next, and so on...
-
-The parameterized URI allows a developer to limit the number of objects returned, and even gives a front-end developer the option to reverse the list.  The usage of these parameters warrants some detailed information:
-
-
-
-The request body must be well-formatted JSON, and must contain the following JSON objects:
+This endpoint presents a list of players that have been sorted in order of descending rank.  The player with the highest score is listed first, the second highest next, and so on... The parameterized URI allows a developer to limit the number of objects returned, and even gives a front-end developer the option to reverse the list.
 
 |Param Name|Type|Description|Default|Required?|
 |---|-----|----|-----|
