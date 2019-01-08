@@ -141,30 +141,30 @@ _**Request**_
 
 Generate a new question for player 'foo@bar.com'  wherein the player is presented with one image and six names.
 
-<table>
+<table width="100%">
 	<tr>
 		<td><b>Request URI</b></td>
 		<td>
-			<pre>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com</pre>
+			<code>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com</code>
 		</td>
 	</tr>
 	<tr>
 		<td><b>Request Headers</b></td>
 		<td>
-			<pre>email=foo@bar.com</pre>
+			<code>email=foo@bar.com</code>
 		</td>
 	</tr>
 	<tr>
 		<td><b>Method</b></td>
 		<td>
-			<pre>GET</pre>
+			<code>GET</code>
 		</td>
 	</tr>
 </table>
 
 _**Response**_
 
-<table>
+<table width="100%">
 	<tr>
 		<td><b>Response Headers</b></td>
 		<td>
@@ -219,11 +219,11 @@ _**Request**_
 
 Generate a new question for player 'foo@bar.com' wherein the player is presented with one name and six images.
 
-<table>
+<table width="100%">
 	<tr>
 		<td><b>Request URI</b></td>
 		<td>
-			<pre>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes</pre>
+			<code>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes</code>
 		</td>
 	</tr>
 	<tr>
@@ -235,13 +235,13 @@ reverse=yes</pre>
 	</tr>
 	<tr>
 		<td><b>Method</b></td>
-			<pre>GET</pre>
+		<td><code>GET</code></td>
 	</tr>
 </table>
 
 _**Response**_
 
-<table>
+<table  width="100%">
 	<tr>
 		<td><b>Response Headers</b></td>
 		<td>	
@@ -296,15 +296,15 @@ _**Request**_
 
 Generate a new question for player 'foo@bar.com' wherein the player is presented with one name of someone who's name starts with 'Mat', and six images of people who's names start with 'Mat'.
 
-<table>
+<table width="100%">
 	<tr>
 		<td><b>Request URI</b></td>
 		<td>
-		 <pre>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes&matts=yes</pre>
+		 <code>http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com&reverse=yes&matts=yes</code>
 		</td>
 	</tr>
 	<tr>
-		<td colspan="2" align="center"><b>Request Headers</b></td>
+		<td><b>Request Headers</b></td>
 		<td>
 <pre>email=foo@bar.com
 reverse=yes
@@ -313,13 +313,13 @@ matts=yes</pre>
 	</tr>
 	<tr>
 		<td><b>Method</b></td>
-			<pre>GET</pre>
+		<td><code>GET</code></td>
 	</tr>
 </table>
 
 _**Response**_
 
-<table>
+<table width="100%">
 	<tr>
 		<td><b>Response Headers</b></td>
 		<td>
@@ -327,6 +327,7 @@ _**Response**_
 Content-Type=application/json;charset=UTF-8
 Transfer-Encoding=chunked
 Date=Tue, 08 Jan 2019 17:06:35 GMT</pre>
+	</tr>
 		</td>
 	<tr>
 		<td><b>Response Body</b></td>
@@ -391,11 +392,11 @@ _**Request**_
 
 POST the answer to the question I was asked, using the email I used to generate the question, the ID of the question, and the ID of the `option` which I believe matches the `target`.
 
-<table>
+<table width="100%">
 	<tr>
 		<td><b>Request URI</b></td>
 		<td>
-			<pre>http://localhost:8080/namegame/v2.0.0/answer</pre>
+			<code>http://localhost:8080/namegame/v2.0.0/answer</code>
 		</td>		
 	</tr>
 	<tr>
@@ -418,10 +419,9 @@ POST the answer to the question I was asked, using the email I used to generate 
 
 _**Response**_
 
-<table>
+<table width="100%">
 	<tr>
 		<td><b>Response Headers</b></td>
-		<td>
 		<td>
 			<pre>
 Status=200 OK
