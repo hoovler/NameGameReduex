@@ -104,10 +104,8 @@ _**Request**_
 	<tr>
 		<td><i>Request Headers</i></td>
 		<td>
-			<table>
-				<tr><th>Key</th><th>Value</th></tr>
-				<tr><td>email</td><td>foo@bar.com</td></tr>
-			</table>
+			<tr><th>Key</th><th>Value</th></tr>
+			<tr><td>email</td><td>foo@bar.com</td></tr>
 		</td>
 	</tr>
 	<tr>
