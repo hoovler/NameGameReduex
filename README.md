@@ -24,14 +24,6 @@ While this submission contains all project JavaDocs can be found in */NameGameRe
 
 The rationale for this is to make it easier to continue collaborative development on individual projects amongst different teams.
 
-### Testing
-
-All functionality presented within `name-game-api` is tested within that project, in */src/test/java/test/hoovler/api/controllers.GameControllerTests.java* and *LeadersEndpointControllerTest.java*.  The package resolves to `test.hoovler.api.controllers.*;`
-
-Each primary endpoint is thoroughly tested with expected values, unexpected values, and bad values, and each test is run as part of a standard Maven build.
-
-The other projects also contain testing classes, but the functionality isn't as thoroughly or completely tested.  This is due to the accelerated timeframe within which the project was developed; however, given a normal circumstance, **each method built would have at least one complimentary unit test -- and likely several.** There are plenty of IDE tooling options available to automate the generation of those tests as much as possible.
-.
 ## Development
 
 This project was developed using [Java 1.8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) in the [Spring Boot Framework](https://spring.io/projects/spring-boot).
@@ -40,6 +32,14 @@ This project was developed using [Java 1.8](https://www.oracle.com/technetwork/j
     * **IDE and GUI apps**: Windows 10
 	* **git, mvn, other CLI tools:** [Ubuntu 18.04 LTS](http://releases.ubuntu.com/18.04/) [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/faq)
 * **Testing:** [Postman](https://www.getpostman.com/)
+
+### Testing
+
+All functionality presented within `name-game-api` is tested within that project, in */src/test/java/test/hoovler/api/controllers.GameControllerTests.java* and *LeadersEndpointControllerTest.java*.  The package resolves to `test.hoovler.api.controllers.*;`
+
+Each primary endpoint is thoroughly tested with expected values, unexpected values, and bad values, and each test is run as part of a standard Maven build.
+
+The other projects also contain testing classes, but the functionality isn't as thoroughly or completely tested.  This is due to the accelerated timeframe within which the project was developed; however, given a normal circumstance, **each method built would have at least one complimentary unit test -- and likely several.** There are plenty of IDE tooling options available to automate the generation of those tests as much as possible.
 
 ## Build and Run
 
@@ -107,31 +107,31 @@ _**Response Body**_
 {
     "message": null,
     "answered": false,
-    "target": "http://images.ctfassets.net/3cttzl4i3k1h/1AF68BASOkOsEk60O4iaq0/20f68d7bf7941a924840611221ea4a15/headshot_margo_bulka.jpg",
+    "target": "https://www.history.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cg_faces:center%2Cq_auto:good%2Cw_768/MTU3ODc5MDgxMzI4MTI1MjU3/james_k_polk.jpg",
     "options": [
         {
             "optionId": "4aSoSNPp5e6yAmgIqAGoIy",
-            "optionValue": "Margo Bulka"
+            "optionValue": "George Washington"
         },
         {
             "optionId": "1RcXIywcByigaCeWK6UKqO",
-            "optionValue": "WillowTree Staff"
+            "optionValue": "Randy Quaid"
         },
         {
             "optionId": "406rycFMu40YkMEQ8iW6s6",
-            "optionValue": "Abby Cook"
+            "optionValue": "James K. Polk"
         },
         {
             "optionId": "3VoELOt5hY8wKwO2M68e4i",
-            "optionValue": "Larry Banner"
+            "optionValue": "Willie Nelson"
         },
         {
             "optionId": "6CrM4BdoJ2yUmeaOAYsCA2",
-            "optionValue": "Rebekkah Brown"
+            "optionValue": "Chuck Berry"
         },
         {
             "optionId": "2hf3dZwYT2GwSGUWUmkWUU",
-            "optionValue": "Jeremy Loy"
+            "optionValue": "Weadabaybee Itsaboy"
         }
     ],
     "questionId": "7b7b656d61696c7d7d36343435373337303037363639353032313638"
