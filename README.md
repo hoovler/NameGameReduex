@@ -18,9 +18,9 @@ The **NameGameReduex** project is actually comprised of three distinct Maven pro
 
 While this submission contains all project JavaDocs can be found in */NameGameReduex/javadoc/* for easier evaluation, each project also has it's own internal *javadoc* folder, containing the same information as that within consolidated JavaDoc folder:
 
-* /NameGameReduex/general-dao/javadoc/
-* /NameGameReduex/general-utils/javadoc/
-* /NameGameReduex/name-game-api/javadoc/
+* */NameGameReduex/general-dao/javadoc/*
+* */NameGameReduex/general-utils/javadoc/*
+* */NameGameReduex/name-game-api/javadoc/*
 
 The rationale for this is to make it easier to continue collaborative development on individual projects amongst different teams.
 
@@ -78,3 +78,62 @@ Finally, to run the project, just execute the **.jar** file built from the previ
 
 ## API Usage
 
+### /ask
+
+This is one of two critical endpoints for this API.  The `/ask` endpoint is capable of receiving the following parameters:
+
+|Param Name|Type|Description|Default|Required?|
+|---|-----|----|-----|
+|email|String|The email of the player to whom the question is attributed.|NA|***Yes***|
+|reverse|Boolean|A normal, non-reverse question presents one face and six names.  This parameter reverses that, and shows one name and six faces!|`false`|*No*|
+|matts|Boolean|If true, the question will draw profiles from the pool of employees named 'Matt'; in other words, first names starting with the regex `[m|M][a|A][t|T]`|*No*|
+
+* **GET** `http://localhost:8080/namegame/v2.0.0/ask?email={{email}}`
+* **GET** `http://localhost:8080/namegame/v2.0.0/ask?email={{email}}&reverse={{doReverse}}`
+* **GET** `http://localhost:8080/namegame/v2.0.0/ask?email={{email}}&reverse={{doReverse?}}&matts={{getMattsOnly?}}`
+
+#### Examples
+
+_Request Headers_
+|Key|Value|
+|---|-----|
+|email|foo@bar.com|
+
+_Request URI_
+`http://localhost:8080/namegame/v2.0.0/ask?email=foo@bar.com`
+
+_**Response Body**_
+```json
+{
+    "message": null,
+    "answered": false,
+    "target": "http://images.ctfassets.net/3cttzl4i3k1h/1AF68BASOkOsEk60O4iaq0/20f68d7bf7941a924840611221ea4a15/headshot_margo_bulka.jpg",
+    "options": [
+        {
+            "optionId": "4aSoSNPp5e6yAmgIqAGoIy",
+            "optionValue": "Margo Bulka"
+        },
+        {
+            "optionId": "1RcXIywcByigaCeWK6UKqO",
+            "optionValue": "WillowTree Staff"
+        },
+        {
+            "optionId": "406rycFMu40YkMEQ8iW6s6",
+            "optionValue": "Abby Cook"
+        },
+        {
+            "optionId": "3VoELOt5hY8wKwO2M68e4i",
+            "optionValue": "Larry Banner"
+        },
+        {
+            "optionId": "6CrM4BdoJ2yUmeaOAYsCA2",
+            "optionValue": "Rebekkah Brown"
+        },
+        {
+            "optionId": "2hf3dZwYT2GwSGUWUmkWUU",
+            "optionValue": "Jeremy Loy"
+        }
+    ],
+    "questionId": "7b7b656d61696c7d7d36343435373337303037363639353032313638"
+}
+```

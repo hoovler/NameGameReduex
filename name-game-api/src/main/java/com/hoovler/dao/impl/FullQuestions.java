@@ -258,7 +258,7 @@ public class FullQuestions implements QuestionDao {
 		int velocity = BoolUtils.isNumeric(velVal) ? Integer.parseInt(velVal) : 0;
 
 		// looking for only one question?
-		if (id != 0) {
+		if (id == 0) {
 			// return the list, or a subset thereof
 			if (start == 0 && stop == 0 && velocity == 0) {
 				// return whole list

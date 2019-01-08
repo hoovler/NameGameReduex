@@ -15,6 +15,7 @@
 
 		<!-- external library versions -->
 		<v.org.apache.logging.log4j>2.11.1</v.org.apache.logging.log4j>
+		<v.org.springframework.boot>2.9.2</v.org.springframework.boot>
 		<v.org.apache.commons>3.8.1</v.org.apache.commons>
 		<v.commons.validator>1.6</v.commons.validator>
 		<v.org.junit.jupiter>5.3.2</v.org.junit.jupiter>

@@ -64,6 +64,7 @@ import com.hoovler.dao.models.Question;
  * <li>{@code start} and {@code start}: Both values must be positive integers. If {@code stop > returnList.size()}, then {@code stop} is recast as {@code returnList.size() - 1}
  * <li>{@code start} and {@code velocity}: Either value may be a positive or a negative integer. If {@code Math.abs(velocity) > returnList.size() && velocity < 0}, then {@code returnList()} will contain the full list in reverse, and as many repeating full reverse lists / elements in reverse as necessary to meet the absolute value (magnitude) of {@code velocity}. If the direction is positive ({@code velocity < 0}, the the returned list will be in the forward direction.
  * <li>{@code start} and {@code stop} and {@code velocity}: only the value of {@code start} and {@code stop} are used. */
+
 @RestController
 @RequestMapping(GameHelper.API_PREFIX + GameHelper.API_VERSION)
 public class GameController {
@@ -182,10 +183,10 @@ public class GameController {
 	 * @return the array list */
 	@RequestMapping(path = GameHelper.ENDPOINT_QUESTIONS_FULL)
 	public ArrayList<Question> questions(
-			@RequestParam(value = GameHelper.BODY_QUESTION_ID, defaultValue = GameHelper.VAL_DEFAULT_NUM) String qId,
-			@RequestParam(value = GameHelper.PARAM_START, defaultValue = GameHelper.VAL_DEFAULT_NUM) String start,
-			@RequestParam(value = GameHelper.PARAM_STOP, defaultValue = GameHelper.VAL_DEFAULT_NUM) String stop,
-			@RequestParam(value = GameHelper.PARAM_VELOCITY, defaultValue = GameHelper.VAL_DEFAULT_NUM) String velocity) {
+			@RequestParam(value = GameHelper.BODY_QUESTION_ID, defaultValue = GameHelper.VAL_DEFAULT_ALPHA) String qId,
+			@RequestParam(value = GameHelper.PARAM_START, defaultValue = GameHelper.VAL_DEFAULT_ALPHA) String start,
+			@RequestParam(value = GameHelper.PARAM_STOP, defaultValue = GameHelper.VAL_DEFAULT_ALPHA) String stop,
+			@RequestParam(value = GameHelper.PARAM_VELOCITY, defaultValue = GameHelper.VAL_DEFAULT_ALPHA) String velocity) {
 		return fullQuestions.endpointGET(qId, start, stop, velocity);
 
 	}
@@ -264,9 +265,9 @@ public class GameController {
 	@RequestMapping(path = GameHelper.ENDPOINT_QUESTIONS_PARED)
 	public ArrayList<AskResponseBody> questionsAsked(
 			@RequestParam(value = GameHelper.BODY_QUESTION_ID, defaultValue = GameHelper.VAL_DEFAULT_ALPHA) String qId,
-			@RequestParam(value = GameHelper.PARAM_START, defaultValue = GameHelper.VAL_DEFAULT_NUM) String start,
-			@RequestParam(value = GameHelper.PARAM_STOP, defaultValue = GameHelper.VAL_DEFAULT_NUM) String stop,
-			@RequestParam(value = GameHelper.PARAM_VELOCITY, defaultValue = GameHelper.VAL_DEFAULT_NUM) String velocity) {
+			@RequestParam(value = GameHelper.PARAM_START, defaultValue = GameHelper.VAL_DEFAULT_ALPHA) String start,
+			@RequestParam(value = GameHelper.PARAM_STOP, defaultValue = GameHelper.VAL_DEFAULT_ALPHA) String stop,
+			@RequestParam(value = GameHelper.PARAM_VELOCITY, defaultValue = GameHelper.VAL_DEFAULT_ALPHA) String velocity) {
 		return gameQuestions.endpointGET(qId, start, stop, velocity);
 	}
 

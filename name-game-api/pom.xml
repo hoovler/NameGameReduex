@@ -14,6 +14,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 
 		<!-- external library versions -->
+		<v.io.springfox>2.9.2</v.io.springfox>
 		<v.org.apache.logging.log4j>2.11.1</v.org.apache.logging.log4j>
 		<v.org.apache.commons>3.8.1</v.org.apache.commons>
 		<v.commons.validator>1.6</v.commons.validator>
@@ -35,11 +36,25 @@
 			<artifactId>general-dao</artifactId>
 			<version>${v.com.hoovler.dao}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.hoovler.util</groupId>
 			<artifactId>general-utils</artifactId>
 			<version>${v.com.hoovler.util}</version>
+		</dependency>
+
+		<!-- Auto-documentation -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${v.org.springframework.boot}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.restdocs</groupId>
+			<artifactId>spring-restdocs-mockmvc</artifactId>
+			<version>${v.org.springframework.restdocs}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Logging -->
