@@ -357,11 +357,36 @@ This is the other critical endpoint, wherein players submit their answers via re
 
 The request body must be well-formatted JSON, and must contain the following JSON objects:
 
-|Param Name|Type|Description|Default|Required?|
-|---|-----|----|-----|
-|email|String|The email of the player to whom the question was asked.|NA|***Yes***|
-|answer_id|String|The `answer_id` is the `option_id` the player selects from the list of options received from the `/ask` endpoint.|NA|***Yes***|
-|question_id|Alphnumeric hexadecimal [String]|This is the `question_id` recieved from the call to the `/ask` endpoint.  This value will only work when passed with the `email` to whom the question was originally asked.|NA|***Yes***|
+<table width="100%">
+	<tr>
+		<th>Param Name</th>
+		<th>Type</th>
+		<th>Default</th>
+		<th>Required?</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>email</td>
+		<td>String</td>
+		<td><code>StringUtils.EMPTY_STRING</code></td>
+		<td><b><em>Yes</em></b></td>
+		<td>The email of the player to whom the question was asked.</td>
+	</tr>
+		<tr>
+		<td>answer_id</td>
+		<td>String</td>
+		<td><code>"0"</code></td>
+		<td><em>No</em></td>
+		<td>The <code>option_id</code> the player selects from the list of options received from the <code>/ask</code> endpoint.</td>
+	</tr>
+		<tr>
+		<td>question_id</td>
+		<td>String (alphanumeric hex)</td>
+		<td><code>"0"</code></td>
+		<td><em>No</em></td>
+		<td>This is the <code>question_id</code> recieved from the call to the <code>/ask</code> endpoint.  This value will only work when passed with the <code>email</code> to whom the question was originally asked.</td>
+	</tr>
+</table>
 
 * **POST** `http://localhost:8080/namegame/v2.0.0/answer`
 
@@ -443,8 +468,368 @@ Date=Tue, 08 Jan 2019 17:06:35 GMT
 
 This endpoint presents a list of players that have been sorted in order of descending rank.  The player with the highest score is listed first, the second highest next, and so on... The parameterized URI allows a developer to limit the number of objects returned, and even gives a front-end developer the option to reverse the list.
 
-|Param Name|Type|Description|Default|Required?|
-|---|-----|----|-----|
-|start|Integer|This is the 0-based starting index of the returned subset of leaders.|null|*No*|
-|stop|Integer|This is the 0-based stopping index of the returned subset of leaders.|null|*No* when `start=null || (start!=null && velocity!=null)`, ***Yes*** otherwise.|
-|velocity|Integer|velocity the integer value indicating whether go left (`velocity < 0`) or right (`velocity > 0`) from the `start` index, and by how many (`Math.abs(velocity)`) elements |null|*No* when `start=null || (start!=null && stop!=null)`, ***Yes*** otherwise.|
+<table width="100%">
+	<tr>
+		<th>Param Name</th>
+		<th>Type</th>
+		<th>Default</th>
+		<th>Required?</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>start</td>
+		<td>Integer</td>
+		<td><code>null</code></td>
+		<td><em>No</em></td>
+		<td>This is the 0-based starting index of the returned subset of leaders.</td>
+	</tr>
+		<tr>
+		<td>stop</td>
+		<td>Integer</td>
+		<td><code>null</code></td>
+		<td><em>No</em>, but only when <code>start=null || (start!=null && velocity!=null)</code></td>
+		<td>This is the 0-based stopping index of the returned subset of leaders.</td>
+	</tr>
+		<tr>
+		<td>velocity</td>
+		<td>Integer</td>
+		<td><code>null</code></td>
+		<td><em>No</em>, but only when <code>start=null || (start!=null && stop!=null)</code></td>
+		<td>the integer value indicating whether go left (<code>velocity < 0</code>) or right (<code>velocity > 0</code>) from the <code>start</code> index, and by how many (<code>Math.abs(velocity)</code>) elements.</td>
+	</tr>
+</table>
+
+
+#### Examples
+
+1. Return all players, sorted by descending rank.
+
+<table width="100%">
+	<tr>
+		<td><i>Request URI</i></td>
+		<td>
+			<code>http://localhost:8080/namegame/v2.0.0/leaders</code>
+		</td>
+	</tr>
+	<tr>
+		<td><i>Method</i></td>
+		<td>
+			<code>GET</code>
+		</td>
+	</tr>
+	<tr>
+		<td><b>Response Headers</b></td>
+		<td>
+<pre>Status=200 OK
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Tue, 08 Jan 2019 17:06:35 GMT</pre>
+		</td>
+	</tr>
+	<tr>
+		<td><b>Response Body</b></td>
+		<td>
+<pre>
+[
+    {
+        "email": "foo@bar.com",
+        "stats": {
+            "numberAsked": 14,
+            "numberAnswered": 2,
+            "numberCorrect": 2,
+            "averageResponseTime": "PT28S",
+            "lastAskedTime": "2019-01-09T18:06:02.015+0000",
+            "lastAnswerTime": "2019-01-09T18:06:18.958+0000",
+            "score": 100,
+            "answerTimes": [
+                40,
+                16
+            ]
+        }
+    },
+    {
+        "email": "rab@oof.com",
+        "stats": {
+            "numberAsked": 1,
+            "numberAnswered": 7,
+            "numberCorrect": 1,
+            "averageResponseTime": "PT26S",
+            "lastAskedTime": "2019-01-09T18:06:36.857+0000",
+            "lastAnswerTime": "2019-01-09T18:07:19.279+0000",
+            "score": 14.285714285714285,
+            "answerTimes": [
+                21,
+                23,
+                23,
+                25,
+                26,
+                26,
+                42
+            ]
+        }
+    },
+    {
+        "email": "rab@foo.bar",
+        "stats": {
+            "numberAsked": 1,
+            "numberAnswered": 0,
+            "numberCorrect": 0,
+            "averageResponseTime": "PT0S",
+            "lastAskedTime": "2019-01-09T18:04:18.469+0000",
+            "lastAnswerTime": "1970-01-01T00:00:00.000+0000",
+            "score": 0,
+            "answerTimes": []
+        }
+    },
+    {
+        "email": "bar@foo.com",
+        "stats": {
+            "numberAsked": 1,
+            "numberAnswered": 0,
+            "numberCorrect": 0,
+            "averageResponseTime": "PT0S",
+            "lastAskedTime": "2019-01-09T18:04:07.081+0000",
+            "lastAnswerTime": "1970-01-01T00:00:00.000+0000",
+            "score": 0,
+            "answerTimes": []
+        }
+    }
+]
+</pre>
+		</td>
+	</tr>
+</table>
+
+2. Get the third-place player.
+
+<table width="100%">
+	<tr>
+		<td><i>Request URI</i></td>
+		<td>
+			<code>http://localhost:8080/namegame/v2.0.0/leaders?start=1&stop=2</code>
+		</td>
+	</tr>
+	<tr>
+		<td><i>Request Headers</i></td>
+		<td>
+<pre>start=1
+stop=2</pre>
+		</td>
+	</tr>
+	<tr>
+		<td><i>Method</i></td>
+		<td><code>GET</code></td>
+	</tr>
+	<tr>
+		<td><b>Response Headers</b></td>
+		<td>	
+<pre>Status=200 OK
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Tue, 08 Jan 2019 17:06:35 GMT</pre>
+		</td>
+	</tr>
+	<tr>
+		<td><b>Response Body</b></td>
+		<td>
+<pre>
+[
+    {
+        "email": "rab@oof.com",
+        "stats": {
+            "numberAsked": 1,
+            "numberAnswered": 7,
+            "numberCorrect": 1,
+            "averageResponseTime": "PT26S",
+            "lastAskedTime": "2019-01-09T18:06:36.857+0000",
+            "lastAnswerTime": "2019-01-09T18:07:19.279+0000",
+            "score": 14.285714285714285,
+            "answerTimes": [
+                21,
+                23,
+                23,
+                25,
+                26,
+                26,
+                42
+            ]
+        }
+    }
+]
+</pre>
+		</td>
+	</tr>
+</table>
+
+3. Return the list of players, sorted by <em>ascending</em> rank; in other words, reverse the leaderboard.
+
+<table width="100%">
+	<tr>
+		<td><i>Request URI</i></td>
+		<td>
+		 <code>http://localhost:8080/namegame/v2.0.0/leaders?start=0&velocity=-5</code>
+		</td>
+	</tr>
+	<tr>
+		<td><i>Request Headers</i></td>
+		<td>
+<pre>start=0
+velocity=-5</pre>
+		</td>			
+	</tr>
+	<tr>
+		<td><i>Method</i></td>
+		<td><code>GET</code></td>
+	</tr>
+	<tr>
+		<td><b>Response Headers</b></td>
+		<td>
+<pre>Status=200 OK
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Tue, 08 Jan 2019 17:06:35 GMT</pre>
+	</tr>
+		</td>
+	<tr>
+		<td><b>Response Body</b></td>
+		<td>
+<pre>
+[
+    {
+        "email": "foo@bar.com",
+        "stats": {
+            "numberAsked": 14,
+            "numberAnswered": 2,
+            "numberCorrect": 2,
+            "averageResponseTime": "PT28S",
+            "lastAskedTime": "2019-01-09T18:06:02.015+0000",
+            "lastAnswerTime": "2019-01-09T18:06:18.958+0000",
+            "score": 100,
+            "answerTimes": [
+                40,
+                16
+            ]
+        }
+    },
+    {
+        "email": "bar@foo.com",
+        "stats": {
+            "numberAsked": 1,
+            "numberAnswered": 0,
+            "numberCorrect": 0,
+            "averageResponseTime": "PT0S",
+            "lastAskedTime": "2019-01-09T18:04:07.081+0000",
+            "lastAnswerTime": "1970-01-01T00:00:00.000+0000",
+            "score": 0,
+            "answerTimes": []
+        }
+    },
+    {
+        "email": "rab@foo.bar",
+        "stats": {
+            "numberAsked": 1,
+            "numberAnswered": 0,
+            "numberCorrect": 0,
+            "averageResponseTime": "PT0S",
+            "lastAskedTime": "2019-01-09T18:04:18.469+0000",
+            "lastAnswerTime": "1970-01-01T00:00:00.000+0000",
+            "score": 0,
+            "answerTimes": []
+        }
+    },
+    {
+        "email": "rab@oof.com",
+        "stats": {
+            "numberAsked": 1,
+            "numberAnswered": 7,
+            "numberCorrect": 1,
+            "averageResponseTime": "PT26S",
+            "lastAskedTime": "2019-01-09T18:06:36.857+0000",
+            "lastAnswerTime": "2019-01-09T18:07:19.279+0000",
+            "score": 14.285714285714285,
+            "answerTimes": [
+                21,
+                23,
+                23,
+                25,
+                26,
+                26,
+                42
+            ]
+        }
+    },
+    {
+        "email": "foo@bar.com",
+        "stats": {
+            "numberAsked": 14,
+            "numberAnswered": 2,
+            "numberCorrect": 2,
+            "averageResponseTime": "PT28S",
+            "lastAskedTime": "2019-01-09T18:06:02.015+0000",
+            "lastAnswerTime": "2019-01-09T18:06:18.958+0000",
+            "score": 100,
+            "answerTimes": [
+                40,
+                16
+            ]
+        }
+    }
+]
+</pre>
+		</td>
+	</tr>
+</table>
+
+
+3. Return the last-ranked player.
+
+<table width="100%">
+	<tr>
+		<td><i>Request URI</i></td>
+		<td>
+		 <code>http://localhost:8080/namegame/v2.0.0/leaders?start=-1&velocity=0</code>
+		</td>
+	</tr>
+	<tr>
+		<td><i>Request Headers</i></td>
+		<td>
+<pre>start=-1
+velocity=0</pre>
+		</td>			
+	</tr>
+	<tr>
+		<td><i>Method</i></td>
+		<td><code>GET</code></td>
+	</tr>
+	<tr>
+		<td><b>Response Headers</b></td>
+		<td>
+<pre>Status=200 OK
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Tue, 08 Jan 2019 17:06:35 GMT</pre>
+	</tr>
+		</td>
+	<tr>
+		<td><b>Response Body</b></td>
+		<td>
+<pre>
+[
+    {
+        "email": "bar@foo.com",
+        "stats": {
+            "numberAsked": 1,
+            "numberAnswered": 0,
+            "numberCorrect": 0,
+            "averageResponseTime": "PT0S",
+            "lastAskedTime": "2019-01-09T18:04:07.081+0000",
+            "lastAnswerTime": "1970-01-01T00:00:00.000+0000",
+            "score": 0,
+            "answerTimes": []
+        }
+    }
+]
+</pre>
+		</td>
+	</tr>
+</table>
