@@ -1,7 +1,7 @@
 # The Name Game<sup>2</sup>
 ### A Glorious Reduex of <em>GtKY! (Getting to Know You)</em> API
 
-## Structure
+This began as a project challenge for an employment opportunity wherein I had to design any kind of API that could be used in **The Name Game**.  After the original response was submitted, I decided to carry it through to its logical completion.  It is now a (putting the *fun* in) mostly-functiona, server-side set of RESTful API endpoints, which may be used for mobile app development, or really any front-end context in which a REST API is useful.
 
 ### Projects
 The **NameGameReduex** project is actually comprised of three distinct Maven projects:
