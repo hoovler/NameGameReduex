@@ -17,7 +17,7 @@
 		<v.com.hoovler.utils>1.0.0</v.com.hoovler.utils>
 
 		<!-- external library versions -->
-		<v.org.apache.logging.log4j>2.11.1</v.org.apache.logging.log4j>
+		<v.org.apache.logging.log4j>2.15.0</v.org.apache.logging.log4j>
 		<v.org.apache.commons>3.8.1</v.org.apache.commons>
 		<v.commons.validator>1.6</v.commons.validator>
 		<v.com.google.code.gson>2.8.5</v.com.google.code.gson>
