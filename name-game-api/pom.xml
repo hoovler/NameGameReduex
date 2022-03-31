@@ -21,7 +21,7 @@
 		<v.com.google.code.gson>2.8.5</v.com.google.code.gson>
 		<v.org.junit.jupiter>5.3.2</v.org.junit.jupiter>
 		<v.org.springframework.restdocs>2.0.3.RELEASE</v.org.springframework.restdocs>
-		<v.org.springframework.boot>2.1.1.RELEASE</v.org.springframework.boot>
+		<v.org.springframework.boot>2.5.12</v.org.springframework.boot>
 		<v.org.springframework>5.2.4.RELEASE</v.org.springframework>
 
 		<!-- Local DAO versions -->
